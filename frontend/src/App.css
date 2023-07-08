@@ -1,17 +1,9 @@
-button {
-    @apply bg-primary text-base-100;
-}
 input[type="text"], input[type="password"], input[type="email"] {
-    @apply focus:outline-none focus:ring-1 focus:ring-primary my-1;
+    @apply focus:outline-none focus:ring-1 my-1;
 }
 textarea {
     resize: none;
     width: 100%;
-}
-#wrap {
-    /* @apply bg-gray-500; */
-    width: 100%;
-    height: 100%;
 }
 #content {
     display: flex;
@@ -36,12 +28,8 @@ textarea {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
 }
-#home-page, #account-page {
+#home-page {
     width: 100%;
-}
-#account-page {
-    background-image: url('./img/background/wallpaperflare.com_wallpaper8.jpg');
-    @apply text-base-100;
 }
 #account-page > .content {
     margin: 0 auto;

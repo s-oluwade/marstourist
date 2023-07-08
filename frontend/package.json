@@ -21,6 +21,7 @@
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/axios": "^0.14.0",
     "@types/node": "^20.2.5",
     "@types/react": "^18.0.28",

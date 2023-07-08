@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { GlobalContext } from "../components/GlobalContext";
+import { GlobalContext } from "../../components/GlobalContext";
 import { useContext, useEffect } from "react";
-import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 
 export default function AccountSettingsSubPage() {
     const { modalResponse, setModalResponse, setShowDeleteModal } = useContext(GlobalContext);
-
     const message="Are you sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone.";
 
     useEffect(() => {

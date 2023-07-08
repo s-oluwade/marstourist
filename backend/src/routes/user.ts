@@ -1,0 +1,33 @@
+import express from "express";
+import * as UserController from "../controllers/user";
+import { requiresAdminAuth } from "../middleware/adminAuth";
+const multer = require("multer");
+const photosMiddleware = multer({dest:'uploads'});
+
+const router = express.Router();
+
+router.get("/allUsers", requiresAdminAuth, UserController.getUsers);
+
+router.get("/", UserController.getUser);
+
+router.post("/register", UserController.register);
+
+router.post("/login", UserController.login);
+
+router.post("/logout", UserController.logout);
+
+router.get("/cart", UserController.getCart);
+
+router.put("/cart/add", UserController.addToCart);
+
+router.put("/cart/remove", UserController.removeFromCart);
+
+router.put("/", UserController.updateUserCredentials);
+
+router.put("/profile", UserController.updateUserProfile);
+
+router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
+
+router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
+
+export default router;

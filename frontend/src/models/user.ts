@@ -3,4 +3,8 @@ export interface User {
     fullname: string;
     username?: string;
     email: string;
+    credit: number;
+    photo: string;
+    bio: string;
+    location: string;
 }

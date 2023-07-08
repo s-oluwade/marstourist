@@ -1,13 +1,18 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
-import userRoutes from "./routes/users";
+import userRoutes from "./routes/user";
+import adminRoutes from "./routes/admin";
 import dataRoutes from "./routes/data";
+import productRoutes from "./routes/products";
+import postRoutes from "./routes/posts";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import GunsModel from "./models/guns";
+import session from "express-session";
+import env from "./util/validateEnv";
+import MongoStore from "connect-mongo";
 const cookieParser = require('cookie-parser');
 const Crawler = require('crawler');
-
 const app = express();
 
 app.use(morgan("dev"));
@@ -18,6 +23,19 @@ const cors = require('cors');
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:5173',
+}));
+
+app.use(session({
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: MongoStore.create({
+        mongoUrl: env.MONGO_CONNECTION_STRING
+    }),
 }));
 
 app.get('/load-weapons', (req, response) => {
@@ -69,8 +87,12 @@ app.get('/load-weapons', (req, response) => {
     c.queue('https://www.lootlemon.com/db/borderlands-3/weapons');
 })
 
-app.use("/api/users", userRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/data", dataRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/posts", postRoutes);
+// app.use("/api/purchases", requiresUserAuth, purchaseRoutes); // TODO
 app.use("/uploads", express.static(__dirname + "/../uploads"));
 app.use("/images", express.static(__dirname + "/img"));
 

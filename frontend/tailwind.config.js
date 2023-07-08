@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -6,13 +7,6 @@ export default {
     ],
     theme: {
         extend: {
-            colors: {
-                // primary: 'var(--primary)',
-                // onNeutralBg: 'var(--onNeutralBg)',
-                // neutralBg: 'var(--neutralBg)',
-                // onPrimaryBg: 'var(--onPrimaryBg)',
-                // primaryBg: 'var(--primaryBg)',
-            },
             spacing: {
                 '26': '6.5rem',
             },
@@ -22,19 +16,48 @@ export default {
                 'open-sans-condensed': 'Open Sans Condensed',
                 'roboto': 'Roboto',
                 'roboto-slab': 'Roboto Slab',
-                'montserrat': 'Montserrat', // fav 
+                'montserrat': 'Montserrat',
                 'raleway': 'Raleway',
                 'rubik': 'Rubik',
             },
         },
     },
     plugins: [
-        // eslint-disable-next-line no-undef
         require('@headlessui/tailwindcss'),
-        // eslint-disable-next-line no-undef
         require('daisyui'),
+        require('@tailwindcss/aspect-ratio'),
     ],
     daisyui: {
-        themes: ["light", "dark", "cupcake"],
+        themes: [
+            "light",
+            "dark",
+            "cupcake",
+            "bumblebee",
+            "emerald",
+            "corporate",
+            "synthwave",
+            "retro",
+            "cyberpunk",
+            "valentine",
+            "halloween",
+            "garden",
+            "forest",
+            "aqua",
+            "lofi",
+            "pastel",
+            "fantasy",
+            "wireframe",
+            "black",
+            "luxury",
+            "dracula",
+            "cmyk",
+            "autumn",
+            "business",
+            "acid",
+            "lemonade",
+            "night",
+            "coffee",
+            "winter",
+          ],
     },
 }
