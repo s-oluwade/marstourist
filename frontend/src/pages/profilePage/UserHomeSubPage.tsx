@@ -3,18 +3,22 @@ import { useContext, useState } from "react";
 import { GlobalContext } from "../../components/Providers/GlobalContext";
 import { UserContext } from "../../components/Providers/UserContext";
 import { ReceivedPost } from "../../models/post";
+import { AuthContext } from "../../components/Providers/AuthContext";
 
 const UserHomeSubPage = () => {
     const [content, setContent] = useState("");
     const [topic, setTopic] = useState("mars");
     const [idOfPostToDelete, setIdOfPostToDelete] = useState("");
-    const { locations, postAvatars, postNames } = useContext(GlobalContext);
+    const { locations, postAvatars, postNames, allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts } = useContext(UserContext);
+    const { user } = useContext(AuthContext);
 
     async function deletePost() {
         const { data } = await axios.delete<ReceivedPost>("/posts/" + idOfPostToDelete);
         const updated = userPosts.filter((each) => each._id !== data._id);
+        const updatedAll = allPosts.filter((each) => each._id !== data._id);
         setUserPosts(updated);
+        setAllPosts(updatedAll);
     }
 
     async function submitPost(e: React.MouseEvent<HTMLButtonElement>) {
@@ -25,8 +29,10 @@ const UserHomeSubPage = () => {
             { headers: { "Content-Type": "application/json" } }
         );
         userPosts.unshift(data);
+        allPosts.unshift(data);
         setContent("");
         setUserPosts([...userPosts]);
+        setAllPosts([...allPosts]);
     }
 
     function getWhen(createdAt: string) {
@@ -38,7 +44,6 @@ const UserHomeSubPage = () => {
             difference = Math.trunc(Math.abs(now.getTime() - then.getTime()) / (1000 * 60));
             if (difference < 1) {
                 difference = Math.trunc(Math.abs(now.getTime() - then.getTime()) / 1000);
-
                 if (difference < 10) {
                     return "Just now";
                 }
@@ -82,8 +87,39 @@ const UserHomeSubPage = () => {
         }
     }
 
-    function likePost(id: string) {
-        // 
+    async function likePost(id: string) {
+        const { data } = await axios.put<ReceivedPost | null>("/posts/like/" + id);
+
+        if (data) {
+            const postsUpdate = userPosts.filter((each) => each._id !== data._id);
+            const allPostsUpdate = allPosts.filter((each) => each._id !== data._id);
+            postsUpdate.push(data);
+            allPostsUpdate.push(data);
+            postsUpdate.sort((a, b) =>
+                new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
+                    ? 1
+                    : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+                        ? -1
+                        : 0
+            );
+            allPostsUpdate.sort((a, b) =>
+                new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
+                    ? 1
+                    : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+                        ? -1
+                        : 0
+            );
+            setUserPosts([...postsUpdate]);
+            setAllPosts([...allPostsUpdate]);
+        }
+    }
+
+    function isLikedPost(post: ReceivedPost) {
+        if (user) {
+            return post.likes.includes(user._id);
+        }
+
+        return false;
     }
 
     return (
@@ -93,7 +129,6 @@ const UserHomeSubPage = () => {
                 <form method="dialog" className="modal-box py-8 gap-2 flex flex-col items-center">
                     <button onClick={() => setIdOfPostToDelete("")} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     <h3 className="font-bold text-lg">Are you sure?</h3>
-                    {/* <p className="py-4">Are you sure?</p> */}
                     <div className="modal-action gap-6">
                         <button onClick={deletePost} className="btn btn-wide">Yes</button>
                         <button onClick={() => setIdOfPostToDelete("")} className="btn">Cancel</button>
@@ -158,11 +193,11 @@ const UserHomeSubPage = () => {
                             <div className="flex items-center space-x-3">
                                 <div className="avatar">
                                     <div className="w-8 rounded-full">
-                                        <img src={`http://localhost:4000/${getPicture(post.owner)}`} />
+                                        <img src={user?.photo ? `http://localhost:4000/${getPicture(post.owner)}` : 'http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png'} />
                                     </div>
                                 </div>
                                 {/* https://i.pravatar.cc/32 */}
-                                <div className="text-md font-medium text-neutral">{getName(post.owner)}</div>
+                                <div className="text-md font-normal text-neutral">{getName(post.owner)}</div>
                             </div>
                             <div className="flex space-x-2 items-center">
                                 {!!post.topic && (
@@ -182,8 +217,8 @@ const UserHomeSubPage = () => {
                             <div className="text-sm text-neutral-600">
                                 <p>{post.content}</p>
                             </div>
-                            <div onClick={()=>likePost(post._id)} className="text-slate-500 flex items-end">
-                                <div className="flex cursor-pointer gap-1 items-center transition hover:text-slate-600">
+                            <div onClick={() => likePost(post._id)} className={`flex items-end ${isLikedPost(post) ? "text-accent" : "text-slate-700"}`}>
+                                <div className="flex cursor-pointer gap-1 items-center transition hover:text-accent">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
                                     </svg>

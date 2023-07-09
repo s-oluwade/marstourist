@@ -15,4 +15,6 @@ router.post("/", PostsController.createPost);
 
 router.delete("/:postId", PostsController.deletePost);
 
+router.put("/like/:postId", PostsController.likePost);
+
 export default router;

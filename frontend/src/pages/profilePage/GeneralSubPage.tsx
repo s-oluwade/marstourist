@@ -38,10 +38,8 @@ export default function GeneralSubPage() {
         data.append('photos', files[0]);
         axios.put<User>('/user/uploadPhoto', data, {
             headers: { 'Content-Type': 'multipart/form-data' },
-        }).then(response => {
-            const user = response.data;
-            setUser(user);
-            hideUploader();
+        }).then(() => {
+            window.location.reload();
         })
     }
     function showUploader(ev: React.MouseEvent<HTMLButtonElement>) {

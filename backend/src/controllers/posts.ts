@@ -101,3 +101,36 @@ export const deletePost: RequestHandler = async (req, res, next) => {
         })
     }
 }
+
+export const likePost: RequestHandler = async (req, res, next) => {
+    const postId = req.params.postId;
+    const { token } = req.cookies;
+
+    if (token) {
+        jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
+            if (err) throw err;
+            
+            try {
+                let post = await PostModel.findById(postId).exec();
+
+                if (post) {
+                    if (post.likes.includes(decodedUser.id)) {
+                        post.likes = post.likes.filter(id => id.toString() !== decodedUser.id);
+                    }
+                    else {
+                        post.likes.push(decodedUser.id);
+                    }
+
+                    res.json(await post.save());
+                }
+                else {
+                    res.json(null);
+                }
+                
+            } catch (error) {
+                console.error(error);
+                res.json(null);
+            }
+        })
+    }
+}

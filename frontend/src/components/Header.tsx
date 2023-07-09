@@ -73,9 +73,7 @@ const Header = () => {
                                 <li><Link to="/store">Store</Link></li>
                             </ul>
                             <div className="badge">
-                                {user.credit &&
-                                    <span className="font-semibold font-chilanka">Credit: &nbsp;{user.credit} mrs</span>
-                                }
+                                <span className="font-semibold font-chilanka">Credit: &nbsp;{user.credit ? user.credit : 0} mrs</span>
                             </div>
                             <Link id="cart-btn" to="/cart">
                                 <label tabIndex={0} className="btn btn-ghost btn-circle">

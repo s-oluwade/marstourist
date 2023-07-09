@@ -13,16 +13,6 @@ const StorePage = () => {
     const [openedProduct, setOpenedProduct] = useState<ProductWithId | null>(null);
 
     useEffect(() => {
-        // fetch("https://fakestoreapi.com/products")
-        //     .then((res) => res.json())
-        //     .then((json) => console.log(json));
-
-        //     fetch('https://dummyjson.com/products')
-        //         .then(res => res.json())
-        //         .then(function (data) {
-        //             const products = data.products;
-        //             products.map((product: { id: any; }) => delete product.id);
-        //         });
         async function add() {
             const { data } = await axios.get<ProductWithId[]>("/products");
             setProducts(data);
@@ -58,37 +48,43 @@ const StorePage = () => {
     }
 
     return (
-        <div className="flex flex-col w-full items-center gap-5 mt-10">
+        <div className="flex flex-col w-full items-center gap-5 mt-2">
             <div>
-                <select onChange={filterProducts} name="category" defaultValue="all" className="select w-full max-w-xs">
+                <select onChange={filterProducts} name="category" defaultValue="all" className="select font-normal">
                     <option key="0" value="all">ALL</option>
                     {!!categories.length && categories.map((category, index) => (
                         <option key={index} value={category}>{category.toUpperCase()}</option>
                     ))}
                 </select>
             </div>
-            <div className="bg-white">
-                <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                    <h2 className="sr-only">Products</h2>
+            <div className="mx-auto mt-8">
+                <h2 className="sr-only">Products</h2>
 
-                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                        {filteredProducts.map((product, index) => (
-                            <a key={index} onClick={() => { setOpenedProduct(product); setShowProductQuickview(true); }} className="group cursor-pointer">
-                                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                                    <img
-                                        src={product.images[0]}
-                                        alt={product.title}
-                                        className="h-full w-full object-cover object-center group-hover:opacity-75"
-                                    />
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {filteredProducts.map((product, index) => (
+                        <div key={index} onClick={() => { setOpenedProduct(product); setShowProductQuickview(true); }}
+                            className="w-80 card card-compact bg-base-100 shadow-sm cursor-pointer transition-shadow hover:shadow-md">
+                            <figure><img src={product.images[0]} alt="Shoes"
+                                className="h-48 object-cover"
+                            /></figure>
+                            <div className="card-body">
+                                <h2 className="card-title font-normal">{product.title}</h2>
+                                <p>If a dog chews shoes whose shoes does he choose?</p>
+                                <div className="card-actions justify-between items-center my-2">
+                                    <div className="badge badge-outline">${product.price}</div>
+                                    <button className="btn btn-outline btn-accent btn-xs">
+                                        Add to cart
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                    </button>
                                 </div>
-                                <h3 className="mt-4 text-sm text-gray-700">{product.title}</h3>
-                                <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p>
-                            </a>
-                        ))}
-                        {openedProduct && 
-                            <ProductQuickview {...openedProduct} />
-                        }
-                    </div>
+                            </div>
+                        </div>
+                    ))}
+                    {openedProduct &&
+                        <ProductQuickview {...openedProduct} />
+                    }
                 </div>
             </div>
         </div>

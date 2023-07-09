@@ -288,6 +288,7 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
             const userPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
             if (userPictures) {
                 userPictures.set("picture", uploadedFiles[0]);
+                userPictures.save();
             }
 
             res.json(await user.save());

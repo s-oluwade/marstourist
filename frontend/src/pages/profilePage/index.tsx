@@ -32,7 +32,7 @@ const ProfilePage = () => {
                             <div id="user_brief" className="flex flex-col w-full justify-center gap-2 items-center">
                                 <div className="avatar">
                                     <div className="w-32 mask mask-hexagon">
-                                        <img src={`http://localhost:4000/${user?.photo}`} />
+                                        <img src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
                                     </div>
                                 </div>
                                 <div className="flex flex-col text-sm gap-1 items-center font-light">
