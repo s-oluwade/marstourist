@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { ProductWithId } from "../models/product";
-import { GlobalContext } from "../components/GlobalContext";
+import { GlobalContext } from "../components/Providers/GlobalContext";
 import ProductQuickview from "../components/ProductQuickview";
 import axios from "axios";
 

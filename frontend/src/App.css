@@ -1,4 +1,6 @@
-input[type="text"], input[type="password"], input[type="email"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     @apply focus:outline-none focus:ring-1 my-1;
 }
 textarea {
@@ -44,7 +46,7 @@ textarea {
     border-top: 1px solid;
 }
 .background-image-fixed {
-    background-image: url('./img/background/space-earth-fantasy-spaceship-wallpaper-78e6cdf8b050bc9810cc41fe68d2d4ea.jpg');
+    background-image: url("./img/background/space-earth-fantasy-spaceship-wallpaper-78e6cdf8b050bc9810cc41fe68d2d4ea.jpg");
     background-size: cover;
     position: fixed;
     height: 100%;
@@ -81,4 +83,8 @@ textarea {
 }
 html {
     overflow-y: scroll;
+}
+::selection {
+    color: hsl(var(--ac));
+    background: hsl(var(--a));
 }

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { AuthContext } from '../components/AuthContext';
+import { AuthContext } from '../components/Providers/AuthContext';
 import axios from 'axios';
 
 interface Member {

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { GlobalContext } from "../components/GlobalContext";
+import { GlobalContext } from "../components/Providers/GlobalContext";
 import { ProductWithId } from "../models/product";
 import { Cart } from "../models/cart";
 import axios from "axios";
@@ -68,9 +68,9 @@ const ShoppingCartPage = () => {
                             </div>
                             <div className="flex mt-10 mb-5">
                                 <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
-                                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
-                                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
-                                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+                                <h3 className="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
+                                <h3 className="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
+                                <h3 className="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
                             </div>
 
                             {Object.keys(cart.products).map(function (productId, idx) {

@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useContext } from "react";
-import { GlobalContext } from "./GlobalContext";
+import { GlobalContext } from "./Providers/GlobalContext";
 
 interface DeleteConfirmationModal {
     title: string;

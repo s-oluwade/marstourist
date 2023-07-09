@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { AuthContext } from "../../components/AuthContext";
+import { AuthContext } from "../../components/Providers/AuthContext";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -39,7 +39,7 @@ const RegisterAdminPage = () => {
     return (
         <div className="mt-4 grow flex items-center justify-around">
             <div className="mb-32 p-8 border rounded-2xl shadow-2xl bg-base-100">
-                <h1 className="text-4xl text-center text-neutral underline">ADMIN REGISTER</h1>
+                <h1 className="text-2xl font-medium text-center text-neutral">ADMIN CREATE ACCOUNT</h1>
                 <form className="max-w-sm mx-auto mt-4" onSubmit={handleSubmit(onSubmit)}>
                     <input type="text"
                         id="admin-name"
@@ -70,9 +70,9 @@ const RegisterAdminPage = () => {
                     {!!errors.password &&
                         <p role="alert" className="alert text-red text-xs italic">Please choose a password.</p>
                     }
-                    <button className='btn btn-block btn-neutral'>Register</button>
+                    <button className='btn btn-block btn-neutral'>CREATE ACCOUNT</button>
                     <div className="text-center pt-4">
-                        <span className="text-gray-400">Already a member?</span> <Link className="underline" to="/login/admin">Login</Link>
+                        <span className="text-gray-400">Already a member?</span> <Link className="underline" to="/login/admin">SIGN IN</Link>
                     </div>
                 </form>
             </div>

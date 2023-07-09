@@ -5,12 +5,14 @@ const router = express.Router();
 
 router.get("/", PostsController.getPosts);
 
+router.get("/profile-names", PostsController.getNames);
+
+router.get("/profile-pictures", PostsController.getPictures);
+
 router.get("/:userId", PostsController.getPosts);
 
 router.post("/", PostsController.createPost);
 
-// router.delete("/", PostsController.deletePost);
-
-// router.put("/", PostsController.editPost);
+router.delete("/:postId", PostsController.deletePost);
 
 export default router;

@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../../components/AuthContext";
-import { GlobalContext } from "../../components/GlobalContext";
+import { AuthContext } from "../../components/Providers/AuthContext";
+import { GlobalContext } from "../../components/Providers/GlobalContext";
 import axios from "axios";
 import { User } from "../../models/user";
 

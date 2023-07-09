@@ -1,5 +1,6 @@
 import { createContext } from 'react';
-import { Cart } from '../models/cart';
+import { Cart } from '../../models/cart';
+import { ReceivedPost } from '../../models/post';
 
 const initialState = {
     showDeleteModal: false,
@@ -8,16 +9,16 @@ const initialState = {
     setModalResponse: () => { return "" },
     cart: {} as Cart,
     setCart: () => { return {} as Cart },
-    cartItems: [],
-    setCartItems: () => { return [] },
-    addedToCart: false,
-    setAddedToCart: () => { return false },
-    cartCounter: 0,
-    setCartCounter: () => { return 0 },
     showProductQuickview: false,
     setShowProductQuickview: () => { return false },
     locations: [],
     setLocations: () => { return [] },
+    allPosts: [],
+    setAllPosts: () => { return [] },
+    postNames: [],
+    setPostNames: () => { return [] },
+    postAvatars: [],
+    setPostAvatars: () => { return [] },
 }
 
 interface IContext {
@@ -27,16 +28,16 @@ interface IContext {
     setModalResponse: React.Dispatch<React.SetStateAction<string>>;
     cart: Cart | null;
     setCart: React.Dispatch<React.SetStateAction<Cart | null>>;
-    cartItems: any[];
-    setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
-    addedToCart: boolean;
-    setAddedToCart: React.Dispatch<React.SetStateAction<boolean>>;
-    cartCounter: number;
-    setCartCounter: React.Dispatch<React.SetStateAction<number>>;
     showProductQuickview: boolean;
     setShowProductQuickview: React.Dispatch<React.SetStateAction<boolean>>;
     locations: string[];
     setLocations: React.Dispatch<React.SetStateAction<string[]>>;
+    allPosts: ReceivedPost[];
+    setAllPosts: React.Dispatch<React.SetStateAction<ReceivedPost[]>>;
+    postNames: { _id: string; name: string; owner: string; }[];
+    setPostNames: React.Dispatch<React.SetStateAction<{ _id: string; name: string; owner: string; }[]>>;
+    postAvatars: { _id: string; picture: string; owner: string; }[];
+    setPostAvatars: React.Dispatch<React.SetStateAction<{ _id: string; picture: string; owner: string; }[]>>;
 }
 
 export const GlobalContext = createContext<IContext>(initialState);

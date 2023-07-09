@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AuthContext } from "../../components/AuthContext";
+import { AuthContext } from "../../components/Providers/AuthContext";
 import AccountSubPage from "./AccountSubPage";
 import EditProfileSubPage from "./EditProfileSubPage";
 import GeneralSubPage from "./GeneralSubPage";
@@ -29,8 +29,8 @@ export default function SettingsSubPage() {
     }
 
     return (
-        <div className="bg-base-100 rounded-lg h-full">
-            <div className="flex items-center justify-center py-8">
+        <div className="bg-base-100 rounded-lg py-8 min-h-[800px]">
+            <div className="flex items-center justify-center py-4">
                 <div className="flex">
                     <Link to="#" className="">
                         <img className="w-32 h-32 border-2 rounded-full" alt={user?.fullname || ""} src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
@@ -45,10 +45,10 @@ export default function SettingsSubPage() {
             <hr />
             <div className="grid grid-cols-5 pt-10 px-15">
                 <ul id="profile-submenu" className="col-start-2 px-4">
-                    <li><Link className={subpage === "general" ? "font-bold" : ""} to="/profile/settings/general">General</Link></li>
-                    <li><Link className={["edit-profile", undefined].includes(subpage) ? "font-bold" : ""} to="/profile/settings/edit-profile">Edit Profile</Link></li>
-                    <li><Link className={subpage === "password" ? "font-bold" : ""} to="/profile/settings/password">Password</Link></li>
-                    <li><Link className={subpage === "account" ? "font-bold" : ""} to="/profile/settings/account">Account</Link></li>
+                    <li><Link className={subpage === "general" ? "font-medium" : ""} to="/profile/settings/general">General</Link></li>
+                    <li><Link className={["edit-profile", undefined].includes(subpage) ? "font-medium" : ""} to="/profile/settings/edit-profile">Edit Profile</Link></li>
+                    <li><Link className={subpage === "password" ? "font-medium" : ""} to="/profile/settings/password">Password</Link></li>
+                    <li><Link className={subpage === "account" ? "font-medium" : ""} to="/profile/settings/account">Account</Link></li>
                 </ul>
                 <div className="col-span-2 col-start-3 px-10">
                     {subtitle == "General" && <GeneralSubPage />}

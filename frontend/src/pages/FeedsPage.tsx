@@ -1,39 +1,108 @@
+import { useContext } from "react";
+import { AuthContext } from "../components/Providers/AuthContext";
+import { GlobalContext } from "../components/Providers/GlobalContext";
+
 const FeedsPage = () => {
+
+    const { postNames, postAvatars, allPosts } = useContext(GlobalContext);
+    const { user } = useContext(AuthContext)
+
+    function getWhen(createdAt: string) {
+        const then = new Date(createdAt);
+        const now = new Date();
+        let difference = Math.trunc(Math.abs(now.getTime() - then.getTime()) / (1000 * 60 * 60));
+
+        if (difference < 1) {
+            difference = Math.trunc(Math.abs(now.getTime() - then.getTime()) / (1000 * 60));
+            if (difference < 1) {
+                difference = Math.trunc(Math.abs(now.getTime() - then.getTime()) / 1000);
+
+                if (difference < 10) {
+                    return "Just now";
+                }
+
+                return difference + " seconds ago";
+            } else if (difference === 1) {
+                return difference + " minute ago";
+            }
+
+            return difference + " minutes ago";
+        } else if (difference === 1) {
+            return difference + " hour ago";
+        }
+
+        return difference + " hours ago";
+    }
+
+    function getName(id: string) {
+        if (postNames.length > 0) {
+            const name = postNames.filter((each) => each.owner === id)[0].name;
+            return name;
+        }
+        return "";
+    }
+
+    function getPicture(id: string) {
+        if (postAvatars.length > 0) {
+            const picture = postAvatars.filter((each) => each.owner === id)[0].picture;
+            if (picture) {
+                return picture;
+            }
+            return "";
+        }
+        return "";
+    }
+
+    function likePost(id: string) {
+        // 
+    }
+
     return (
-        <div className="mt-10 w-full px-[250px]">
-            <h1 className="text-center text-3xl font-semibold">Feeds</h1>
-            <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-6 mt-6">
-                <li className="mb-10 ml-6">
-                    <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                        <img className="rounded-full shadow-lg" src="/docs/images/people/profile-picture-3.jpg" alt="Bonnie image" />
-                    </span>
-                    <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
-                        <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">just now</time>
-                        <div className="text-sm font-normal text-gray-500 dark:text-gray-300">Bonnie moved <a href="#" className="font-semibold text-blue-600 dark:text-blue-500 hover:underline">Jese Leos</a> to <span className="bg-gray-100 text-gray-800 text-xs font-normal mr-2 px-2.5 py-0.5 rounded dark:bg-gray-600 dark:text-gray-300">Funny Group</span></div>
-                    </div>
-                </li>
-                <li className="mb-10 ml-6">
-                    <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                        <img className="rounded-full shadow-lg" src="/docs/images/people/profile-picture-5.jpg" alt="Thomas Lean image" />
-                    </span>
-                    <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
-                        <div className="items-center justify-between mb-3 sm:flex">
-                            <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">2 hours ago</time>
-                            <div className="text-sm font-normal text-gray-500 lex dark:text-gray-300">Thomas Lean commented on  <a href="#" className="font-semibold text-gray-900 dark:text-white hover:underline">Flowbite Pro</a></div>
+        <div className="flex w-full justify-center">
+            <div id="posts" className="p-6 inline-flex flex-col items-center min-h-full">
+
+                {allPosts.map((post, index) => (
+                    <div key={index} className="rounded-lg border p-3 shadow-md w-[32rem] bg-base-100 mb-4">
+                        <div className="flex w-full items-center justify-between border-b pb-2">
+                            <div className="flex items-center space-x-3">
+                                <div className="avatar">
+                                    <div className="w-8 rounded-full">
+                                        <img src={`http://localhost:4000/${getPicture(post.owner)}`} />
+                                    </div>
+                                </div>
+                                {/* https://i.pravatar.cc/32 */}
+                                <div className="text-md font-medium text-neutral">{getName(post.owner)}</div>
+                            </div>
+                            <div className="flex space-x-2 items-center">
+                                {!!post.topic && (
+                                    <div className="badge badge-outline">{post.topic}</div>
+                                )}
+
+                                <div className="text-xs text-neutral-500">{getWhen(post.createdAt)}</div>
+                            </div>
                         </div>
-                        <div className="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300">Hi ya'll! I wanted to share a webinar zeroheight is having regarding how to best measure your design system! This is the second session of our new webinar series on #DesignSystems discussions where we'll be speaking about Measurement.</div>
+
+                        <div className="mt-4 mb-2 flex justify-between gap-8">
+                            <div className="text-sm text-neutral-600">
+                                <p>{post.content}</p>
+                            </div>
+                            {user &&
+                                <div onClick={()=>likePost(post._id)} className="text-slate-500 flex items-end">
+                                    <div className="flex cursor-pointer gap-1 items-center transition hover:text-slate-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
+                                        </svg>
+                                        <span>{post.likes.length}</span>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
                     </div>
-                </li>
-                <li className="ml-6">
-                    <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                        <img className="rounded-full shadow-lg" src="/docs/images/people/profile-picture-1.jpg" alt="Jese Leos image" />
-                    </span>
-                    <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
-                        <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">1 day ago</time>
-                        <div className="text-sm font-normal text-gray-500 lex dark:text-gray-300">Jese Leos has changed <a href="#" className="font-semibold text-blue-600 dark:text-blue-500 hover:underline">Pricing page</a> task status to  <span className="font-semibold text-gray-900 dark:text-white">Finished</span></div>
-                    </div>
-                </li>
-            </ol>
+                ))}
+
+            </div>
         </div>
     );
 }

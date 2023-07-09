@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { AuthContext } from "../../components/AuthContext";
+import { AuthContext } from "../../components/Providers/AuthContext";
 import { useForm } from "react-hook-form";
 import { User } from "../../models/user";
 import axios from "axios";
@@ -27,13 +27,13 @@ const LoginUserPage = () => {
     }
 
     if (redirect) {
-        return <Navigate to={'/'} />
+        return <Navigate to={'/store'} />
     }
 
     return (
         <div className="mt-4 grow flex items-center justify-around">
             <div className="mb-32 p-8 border rounded-2xl shadow-2xl bg-base-100">
-                <h1 className="text-4xl text-center text-accent underline">LOGIN</h1>
+                <h1 className="text-2xl font-medium text-center text-accent">SIGN IN</h1>
                 <form className="max-w-sm mx-auto mt-4" onSubmit={handleSubmit(onSubmit)}>
                     <input type="email"
                         className="input input-bordered input-accent w-full"
@@ -53,9 +53,9 @@ const LoginUserPage = () => {
                     {!!errors.password &&
                         <p role="alert" className="text-red-500 text-xs italic">Please choose a password.</p>
                     }
-                    <button className='btn btn-block btn-accent'>Login</button>
+                    <button className='btn btn-block btn-accent'>Sign In</button>
                     <div className="text-center pt-4">
-                        <span className="text-gray-400">Dont have an account?</span> <Link className="underline" to="/register/user">Register</Link>
+                        <span className="text-gray-400">Dont have an account?</span> <Link className="underline" to="/register/user">Create Account</Link>
                     </div>
                 </form>
             </div>

@@ -1,14 +1,18 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
-import { GlobalContext } from "./GlobalContext";
+import { AuthContext } from "./Providers/AuthContext";
+import { GlobalContext } from "./Providers/GlobalContext";
 import StoreNavigation from "./StoreNavigation";
+
+
 
 const Header = () => {
     const { user, setUser, admin } = useContext(AuthContext);
     const { cart } = useContext(GlobalContext);
     const [logout, setLogout] = useState(false);
+    const currentPath = window.location.pathname;
+
     useEffect(() => {
         if (logout) {
             setLogout(false);
@@ -38,13 +42,20 @@ const Header = () => {
         }
     }, [admin, logout, setUser])
 
+    function isStorePage() {
+        const storepath = '/store';
+        const currentPath = window.location.pathname;
+
+        return currentPath.slice(0, storepath.length) === storepath;
+    }
+
     return (
         <div className="">
             <div className="navbar bg-base-100 border border-b-2 border-b-accent">
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
                         {/* <img src="https://fontmeme.com/permalink/230702/6197e7e7e930e3bcb60d8607d05d2b4f.png" width={150} alt="mass-effect-font" /> */}
-                        <img src="https://fontmeme.com/permalink/230702/b38d6013be9c028347cb151d427cbc38.png" width={300} alt="mass-effect-font" />
+                        <img src="https://fontmeme.com/permalink/230708/6b945069c771cf0931a7814ea2e154d5.png" width={300} alt="mass-effect-font" />
                     </Link>
                 </div>
                 {admin &&
@@ -54,12 +65,16 @@ const Header = () => {
                         </Link>
                     </div>
                 }
-                <div className="flex-none gap-6">
-                    {user &&
+                <div className="flex-none gap-4">
+                    {user ?
                         <>
-                            <div className="badge badge-accent">
+                            <ul className="menu menu-horizontal p-0 flex-nowrap gap-2">
+                                <li><Link to="/feeds">Feeds</Link></li>
+                                <li><Link to="/store">Store</Link></li>
+                            </ul>
+                            <div className="badge">
                                 {user.credit &&
-                                    <span className="font-semibold uppercase">Mars credit: &nbsp;{user.credit}</span>
+                                    <span className="font-semibold font-chilanka">Credit: &nbsp;{user.credit} mrs</span>
                                 }
                             </div>
                             <Link id="cart-btn" to="/cart">
@@ -73,8 +88,8 @@ const Header = () => {
                                 </label>
                             </Link>
                             <div className="dropdown dropdown-end">
-                                <label tabIndex={0} className="btn btn-accent btn-circle avatar">
-                                    <div className="w-10 rounded-full">
+                                <label tabIndex={0} className="btn btn-circle avatar">
+                                    <div className="w-10 rounded-full ring ring-neutral ring-offset-base-100 ring-offset-2">
                                         <img src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
                                     </div>
                                 </label>
@@ -97,7 +112,12 @@ const Header = () => {
                                     </li>
                                 </ul>
                             </div>
-                        </>
+                        </> :
+                        <ul className="menu menu-horizontal p-0 flex-nowrap">
+                            <li><Link to="/feeds">Feeds</Link></li>
+                            <li><Link to="/store">Store</Link></li>
+                            <li><Link to='/login'>Sign in</Link></li>
+                        </ul>
                     }
                     {admin &&
                         <div className="dropdown dropdown-end">
@@ -115,52 +135,47 @@ const Header = () => {
                     }
                 </div>
             </div>
-            <div className="flex justify-between items-center h-10 pl-4">
-                <div className="text-sm breadcrumbs">
-                    <ul>
-                        <li>
-                            <Link to="/">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                                Home
-                            </Link>
-                        </li>
-                        <li><a>Documents</a></li>
-                        <li>Add Document</li>
-                    </ul>
-                </div>
-                <div className="join">
-                    <div>
-                        <div>
-                            <input className="input input-bordered input-sm join-item focus:outline-none" placeholder="Search..." />
+            {isStorePage() &&
+                <>
+                    <div className="flex justify-between items-center h-10 pl-4">
+                        <div className="text-sm breadcrumbs">
+                            <ul>
+                                <li>
+                                    <Link to="/">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                                        Home
+                                    </Link>
+                                </li>
+                                <li><a>Documents</a></li>
+                                <li>Add Document</li>
+                            </ul>
+                        </div>
+                        <div className="join">
+                            <div>
+                                <div>
+                                    <input className="input input-bordered input-sm join-item focus:outline-none" placeholder="Search..." />
+                                </div>
+                            </div>
+                            <select name="search" defaultValue='all' className="select select-bordered select-sm join-item focus:outline-none">
+                                <option>All</option>
+                                <option disabled>Movies</option>
+                                <option>Sci-fi</option>
+                                <option>Drama</option>
+                                <option>Action</option>
+                                <option disabled>Clothing</option>
+                                <option>Tops</option>
+                                <option>Shorts</option>
+                                <option>Shoes</option>
+                            </select>
+                            <div className="indicator">
+                                <button className="btn btn-sm join-item">Search</button>
+                            </div>
                         </div>
                     </div>
-                    <select name="search" defaultValue='all' className="select select-bordered select-sm join-item focus:outline-none">
-                        <option>All</option>
-                        <option disabled>Movies</option>
-                        <option>Sci-fi</option>
-                        <option>Drama</option>
-                        <option>Action</option>
-                        <option disabled>Clothing</option>
-                        <option>Tops</option>
-                        <option>Shorts</option>
-                        <option>Shoes</option>
-                    </select>
-                    <div className="indicator">
-                        <button className="btn btn-sm join-item">Search</button>
+                    <div>
+                        <StoreNavigation />
                     </div>
-                </div>
-                <ul className="menu menu-horizontal bg-base-200 p-0 flex-nowrap">
-                    <li><Link to="/feeds">Feeds</Link></li>
-                    <li><Link to="/store">Shop</Link></li>
-                    <li><Link to="/store/guns">Buy Weapons</Link></li>
-                    <li><Link to="/checkout">Cart</Link></li>
-                    <li><Link to='/login'>Sign in</Link></li>
-                </ul>
-            </div>
-            {user && window.location.pathname.substring(0, 6) === '/store' &&
-                <div>
-                    <StoreNavigation />
-                </div>
+                </>
             }
         </div>
     );

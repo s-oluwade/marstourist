@@ -1,23 +1,5 @@
-import { useContext } from "react";
-import { GlobalContext } from "../components/GlobalContext";
-import { redirect } from "react-router-dom";
 
 const CheckoutPage = () => {
-
-    const { cartItems, setCartItems, cartCounter, setCartCounter } = useContext(GlobalContext);
-
-    function processpayment() {
-        console.log("Processing");
-        redirect('/payment');
-    }
-
-    function removeItem(product: any) {
-        const newCart = [...cartItems].filter(item => item[1].name !== product[1].name);
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        localStorage.setItem('cart_counter', JSON.stringify(cartCounter - product[1].qty));
-        setCartCounter(cartCounter - product[1].qty);
-        setCartItems(newCart);
-    }
 
     return (
         <div className="flex flex-col">

@@ -7,12 +7,10 @@ import productRoutes from "./routes/products";
 import postRoutes from "./routes/posts";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
-import GunsModel from "./models/guns";
 import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
 const cookieParser = require('cookie-parser');
-const Crawler = require('crawler');
 const app = express();
 
 app.use(morgan("dev"));
@@ -37,55 +35,6 @@ app.use(session({
         mongoUrl: env.MONGO_CONNECTION_STRING
     }),
 }));
-
-app.get('/load-weapons', (req, response) => {
-
-    response.json(null);
-
-    return
-
-    const weapons: { image: any; name: any; weaponType: any; manufacturer: any; elements: any; }[] = [];
-
-    const c = new Crawler({
-        maxConnections: 10,
-        // This will be called for each crawled page
-        callback: async (error: any, res: { $: any; }, done: () => void) => {
-            if (error) {
-                console.log(error);
-            } else {
-                const $ = res.$;
-                // $ is Cheerio by default
-                // a lean implementation of core jQuery designed specifically for the server
-
-                for (const item of $('#item-list')[0].children) {
-                    const image = item.children[2].attribs.src;
-                    const name = item.children[3].children[0].data;
-                    const weaponType = item.children[4].children[0].data;
-                    const manufacturer = item.children[5].children[0].data;
-                    let elements = [];
-
-                    for (const child of item.children[6].children) {
-                        if (!child.attribs.class.split(' ').includes('w-condition-invisible')) {
-                            elements.push(child.attribs.src);
-                        }
-                    }
-
-                    weapons.push({
-                        image,
-                        name,
-                        weaponType,
-                        manufacturer,
-                        elements,
-                    });
-                }
-            }
-            done();
-            console.log(await GunsModel.create(weapons));
-        }
-    });
-
-    c.queue('https://www.lootlemon.com/db/borderlands-3/weapons');
-})
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);

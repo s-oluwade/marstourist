@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { User } from '../models/user';
-import { Admin } from '../models/admin';
+import { User } from '../../models/user';
+import { Admin } from '../../models/admin';
 
 const initialState = {
     user: null,

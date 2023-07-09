@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { Outlet, useNavigate } from "react-router";
 import WebFont from 'webfontloader';
-import { AuthContext } from './components/AuthContext';
+import { AuthContext } from './components/Providers/AuthContext';
 import Header from './components/Header';
 
 const Layout = () => {
@@ -15,7 +15,7 @@ const Layout = () => {
         WebFont.load({
             google: {
                 families: ['Chilanka', 'Open Sans', 'Open Sans Condensed', 'Roboto',
-                    'Roboto Slab', 'Montserrat', 'Raleway', 'Rubik']
+                    'Roboto Slab', 'Montserrat', 'Raleway', 'Rubik:300,400,500,700']
             }
         })
 
@@ -51,7 +51,7 @@ const Layout = () => {
                 <>
                     <div className={`flex flex-col min-h-screen`}>
                         <Header />
-                        <div className="bg-base-200 flex grow">
+                        <div className="bg-base-200 flex grow font-rubik font-light">
                             <Outlet />
                         </div>
                     </div>

@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../components/AuthContext";
+import { AuthContext } from "../../components/Providers/AuthContext";
 import { User } from "../../models/user";
 
 export default function GeneralSubPage() {
     const { user, setUser } = useContext(AuthContext);
     const [fullname, setFullname] = useState<string | undefined>(user?.fullname);
     const [username, setUsername] = useState<string | undefined>(user?.username);
-    
+
     const [files, setFiles] = useState<FileList | null>(null);
 
     async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
@@ -67,25 +67,27 @@ export default function GeneralSubPage() {
     return (
         <>
             <div className="pb-4">
-                <div id="uploader" className="hidden flex gap-8 items-end">
-                    <label className="w-20 cursor-pointer text-center border rounded-2xl p-4 text-3xl flex justify-center">
-                        <input type="file" className="hidden" onChange={(e) => {
-                            setFiles(e.target.files)
-                        }} />
-                        <span className="h-10">+</span>
-                    </label>
+                <div id="uploader" className="hidden">
+                    <div className="flex gap-8 items-end">
+                        <label className="w-20 cursor-pointer text-center border rounded-2xl p-4 text-3xl flex justify-center">
+                            <input type="file" className="hidden" onChange={(e) => {
+                                setFiles(e.target.files)
+                            }} />
+                            <span className="h-10">+</span>
+                        </label>
 
-                    <div className="flex flex-col w-48">
-                        {files &&
-                            <p className="text-xs">{files[0].name}</p>
-                        }
-                        <button onClick={uploadPhoto} className="btn btn-accent btn-sm">
-                            Upload
+                        <div className="flex flex-col w-48">
+                            {files &&
+                                <p className="text-xs">{files[0].name}</p>
+                            }
+                            <button onClick={uploadPhoto} className="btn btn-accent btn-sm">
+                                Upload
+                            </button>
+                        </div>
+                        <button onClick={hideUploader} className="btn btn-square">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
                     </div>
-                    <button onClick={hideUploader} className="btn btn-square">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
                 </div>
                 <button onClick={showUploader} id="update-avatar-btn" className="btn btn-accent btn-sm">Update Avatar</button>
             </div>
@@ -96,7 +98,7 @@ export default function GeneralSubPage() {
                 </div>
                 <div>
                     <label htmlFor="username" className="block mb-2 text-sm font-medium base-content">Username</label>
-                    <input onChange={(e) =>setUsername(e.target.value)} type="text" id="username" className="bg-base-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="johndoe" defaultValue={user?.username} required />
+                    <input onChange={(e) => setUsername(e.target.value)} type="text" id="username" className="bg-base-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="johndoe" defaultValue={user?.username} required />
                 </div>
                 <div className="">
                     <button className="btn btn-neutral btn-sm btn-block">Save</button>

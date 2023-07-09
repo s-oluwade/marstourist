@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import ShoppingCart from "../components/ShoppingCart";
-import { GlobalContext } from "../components/GlobalContext";
+import { GlobalContext } from "../components/Providers/GlobalContext";
 
 const GunStorePage = () => {
     const [gunList, setGunList] = useState<any[]>();

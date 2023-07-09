@@ -4,9 +4,8 @@ import { Route, Routes } from 'react-router';
 import './App.css';
 import Layout from './Layout';
 import BlogPage from './pages/BlogPage';
-import AuthContextProvider from './components/AuthContextProvider';
-import GlobalContextProvider from './components/GlobalContextProvider';
-import CheckoutPage from './pages/CheckoutPage';
+import AuthContextProvider from './components/Providers/AuthContextProvider';
+import GlobalContextProvider from './components/Providers/GlobalContextProvider';
 import GunStorePage from './pages/GunStorePage';
 import IndexPage from './pages/IndexPage';
 import LoginAdminPage from './pages/authPages/LoginAdminPage';
@@ -41,7 +40,6 @@ function App() {
             <Route path="register/user" element={<RegisterUserPage />} />
             <Route path="register/admin" element={<RegisterAdminPage />} />
             <Route path="cart" element={<ShoppingCartPage />} />
-            <Route path="checkout" element={<CheckoutPage />} />
             <Route path="feeds" element={<FeedsPage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="profile/home" element={<ProfilePage />} />

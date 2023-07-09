@@ -1,29 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment, useEffect, useState, useContext } from 'react';
-import { GlobalContext } from './GlobalContext';
+import { Fragment, useState } from 'react';
 
 export default function ShoppingCart() {
     const [open, setOpen] = useState(false);
-    const { cartItems, setCartItems, addedToCart, setAddedToCart, cartCounter, setCartCounter } = useContext(GlobalContext);
-
-    useEffect(() => {
-        if (addedToCart) {
-            setAddedToCart(false);
-            openCart();
-        }
-    }, [addedToCart, setAddedToCart]);
 
     function openCart() {
         setOpen(true);
-    }
-
-    function removefromCart(product: any[]) {
-        const newCart = [...cartItems.filter(item => item[1].name !== product[1].name)];
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        localStorage.setItem('cart_counter', JSON.stringify(cartCounter - product[1].qty));
-        setCartItems(newCart);
-        setCartCounter(cartCounter - product[1].qty);
     }
 
     return (
@@ -75,7 +58,7 @@ export default function ShoppingCart() {
                                                 <div className="mt-8">
                                                     <div className="flow-root">
                                                         <ul role="list" className="-my-6 divide-y divide-gray-200">
-                                                            {cartItems.map((product, index) => (
+                                                            {/* {cartItems.map((product, index) => (
                                                                 <li key={index} className="flex py-6">
                                                                     <div className="self-center h-100 w-50 flex-shrink-0 overflow-hidden rounded-md">
                                                                         <img
@@ -111,7 +94,7 @@ export default function ShoppingCart() {
                                                                         </div>
                                                                     </div>
                                                                 </li>
-                                                            ))}
+                                                            ))} */}
                                                         </ul>
                                                     </div>
                                                 </div>

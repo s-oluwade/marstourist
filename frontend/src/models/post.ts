@@ -4,8 +4,8 @@ export interface ReceivedPost {
     topic: string;
     content: string;
     likes: string[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface SentPost {

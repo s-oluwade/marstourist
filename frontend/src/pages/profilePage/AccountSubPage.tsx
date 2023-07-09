@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { GlobalContext } from "../../components/GlobalContext";
+import { GlobalContext } from "../../components/Providers/GlobalContext";
 import { useContext, useEffect } from "react";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 

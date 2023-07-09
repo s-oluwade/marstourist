@@ -16,7 +16,7 @@ import { Fragment, useState, useContext } from 'react';
 import { Dialog, RadioGroup, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/20/solid';
-import { GlobalContext } from "../components/GlobalContext";
+import { GlobalContext } from "./Providers/GlobalContext";
 import { ProductWithId } from '../models/product';
 import axios from 'axios';
 import { Cart } from '../models/cart';
