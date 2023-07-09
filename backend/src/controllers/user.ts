@@ -6,6 +6,8 @@ import ProfileNames from "../models/profileNames";
 import ProfilePictures from "../models/profilePictures";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
+import PurchasedModel from "../models/purchased";
+import mongoose from "mongoose";
 const imageDownloader = require('image-downloader');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -46,13 +48,19 @@ export const getCart: RequestHandler = async (req, res, next) => {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
 
-            let carts = (await CartModel.find({ owner: decodedUser.id }).exec());
-            if (carts.length === 0) {
-                let cart = await CartModel.create({ owner: decodedUser.id, productIds: [] });
+            let cart = await CartModel.findOne({ owner: decodedUser.id }).exec();
+            if (!cart) {
+                cart = await CartModel.create({ owner: decodedUser.id, productIds: [] });
                 res.status(200).json(cart);
             }
             else {
-                res.status(200).json(carts[0]);
+                if (!cart.products.get("total")) {
+                    cart.products.set("total", {count: 0, timestamp: new Date().getTime()});
+                    res.json(await cart.save());
+                }
+                else {
+                    res.json(cart);
+                }
             }
         })
     }
@@ -215,6 +223,7 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
             username: username,
             email: email,
             password: passwordHashed,
+            credit: 100,
         });
 
         await ProfileNames.create({ owner: newUser._id, name: newUser.fullname });
@@ -339,7 +348,7 @@ export const updateUserCredentials: RequestHandler<unknown, unknown, UserCredBod
                 res.status(200).json(await userDoc.save());
             } catch (error) {
                 console.log(error);
-                res.status(200).json(error);
+                res.json(error);
             }
         })
     }
@@ -389,3 +398,107 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
         res.json(null);
     }
 }
+
+export const addCredit: RequestHandler<unknown, unknown, { credit: number }, unknown> = async (req, res, next) => {
+    const { token } = req.cookies;
+
+    if (!req.body.credit) throw new Error;
+
+    if (token) {
+        jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
+            if (err) throw err;
+
+            const userDoc = await UserModel.findById(decodedUser.id);
+            if (!userDoc) throw new Error;
+
+            userDoc.set({
+                credit: userDoc.credit + req.body.credit,
+            });
+
+            res.status(200).json(await userDoc.save());
+        })
+    }
+    else {
+        res.json(null);
+    }
+}
+
+interface CartItem {
+    productId: string;
+    quantity: number;
+}
+
+export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number], unknown> = async (req, res, next) => {
+    const { token } = req.cookies;
+
+    if (!req.body) throw new Error;
+
+    const cartitems = req.body[0];
+    const cost = req.body[1];
+
+    if (token) {
+        jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
+            if (err) throw err;
+
+            try {
+                for (const item of cartitems) {
+                    const purchasedItem = await PurchasedModel.findOne({ productId: item.productId }).exec();
+                    if (purchasedItem) {
+                        // product.quantity += item.quantity;  // should work but i'm not sure
+                        purchasedItem.set({
+                            quantity: purchasedItem.quantity + item.quantity,
+                        })
+
+                        purchasedItem.save();
+                    }
+                    else {
+                        await PurchasedModel.create({
+                            owner: decodedUser.id,
+                            ...item,
+                        });
+                    }
+                }
+
+                const cart = await CartModel.findOne({owner: decodedUser.id});
+
+                if (cart) {
+                    cart.products = new Map<string, { count: number; timestamp: number; }>;
+                    await cart.save();
+                }
+
+                const userDoc = await UserModel.findById(decodedUser.id);
+                if (!userDoc) throw new Error;
+
+                userDoc.set({
+                    credit: cost > userDoc.credit ? 0 : userDoc.credit - cost,
+                });
+
+                res.json(await userDoc.save());
+            } catch (error) {
+                next(error);
+            }
+
+        })
+    }
+    else {
+        res.json(null);
+    }
+}
+
+export const getPurchase: RequestHandler = async (req, res, next) => {
+
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
+            if (err) throw err;
+
+            const purchased = await PurchasedModel.find({ owner: decodedUser.id }).exec();
+
+            res.status(200).json(purchased);
+        })
+    }
+    else {
+        console.log("User token not found");
+        res.json(null);
+    }
+};

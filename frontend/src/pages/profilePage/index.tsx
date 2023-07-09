@@ -27,7 +27,7 @@ const ProfilePage = () => {
         <div className="flex w-full justify-center pt-2">
             <div className="grid grid-cols-7 w-full max-w-screen-xl">
                 <div className="col-span-2">
-                    <div id="side-nav" className="bg-base-100 m-4 rounded-lg shadow-xl min-h-[800px]">
+                    <div id="side-nav" className="bg-base-100 m-4 rounded-md shadow-md min-h-[800px] border-2 border-accent">
                         <div id="user_detail" className="flex flex-col items-center justify-evenly pt-6">
                             <div id="user_brief" className="flex flex-col w-full justify-center gap-2 items-center">
                                 <div className="avatar">

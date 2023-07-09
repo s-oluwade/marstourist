@@ -3,15 +3,11 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./Providers/AuthContext";
 import { GlobalContext } from "./Providers/GlobalContext";
-import StoreNavigation from "./StoreNavigation";
-
-
 
 const Header = () => {
     const { user, setUser, admin } = useContext(AuthContext);
     const { cart } = useContext(GlobalContext);
     const [logout, setLogout] = useState(false);
-    const currentPath = window.location.pathname;
 
     useEffect(() => {
         if (logout) {
@@ -73,7 +69,7 @@ const Header = () => {
                                 <li><Link to="/store">Store</Link></li>
                             </ul>
                             <div className="badge">
-                                <span className="font-semibold font-chilanka">Credit: &nbsp;{user.credit ? user.credit : 0} mrs</span>
+                                <span className="font-semibold font-chilanka">Credit: &nbsp;{user.credit ? user.credit.toFixed(3) : 0} mrs</span>
                             </div>
                             <Link id="cart-btn" to="/cart">
                                 <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -169,9 +165,6 @@ const Header = () => {
                                 <button className="btn btn-sm join-item">Search</button>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <StoreNavigation />
                     </div>
                 </>
             }

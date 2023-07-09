@@ -41,7 +41,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/data", dataRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/posts", postRoutes);
-// app.use("/api/purchases", requiresUserAuth, purchaseRoutes); // TODO
 app.use("/uploads", express.static(__dirname + "/../uploads"));
 app.use("/images", express.static(__dirname + "/img"));
 

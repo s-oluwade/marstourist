@@ -6,7 +6,7 @@ import { ReceivedPost } from '../../models/post';
 
 export default function GlobalContextProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line prefer-const
-    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
     const [modalResponse, setModalResponse] = useState<string>("");
     const [cart, setCart] = useState<Cart | null>(null);
     const [showProductQuickview, setShowProductQuickview] = useState<boolean>(false);
@@ -66,7 +66,7 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                     cart, setCart,
                     showProductQuickview, setShowProductQuickview,
                     modalResponse, setModalResponse,
-                    showDeleteModal, setShowDeleteModal
+                    showConfirmationModal, setShowConfirmationModal,
                 }
             }>
             {children}

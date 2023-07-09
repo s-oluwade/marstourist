@@ -1,15 +1,29 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { GlobalContext } from "../components/Providers/GlobalContext";
 import { ProductWithId } from "../models/product";
 import { Cart } from "../models/cart";
 import axios from "axios";
+import ConfirmationModal from "../components/ConfirmationModal";
+import { AuthContext } from "../components/Providers/AuthContext";
+import { User } from "../models/user";
+
+const purchaseConfirmationTitle = "Purchase with credit";
+
+interface CartItem {
+    productId: string;
+    quantity: number;
+}
 
 const ShoppingCartPage = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState<ProductWithId[]>([]);
     const { cart, setCart } = useContext(GlobalContext);
     const [totalCost, setTotalCost] = useState(0);
+    const { modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
+    const [numberOfItems, setNumberOfItems] = useState(0);
+    const [purchaseAlerts, setPurchaseAlerts] = useState<JSX.Element[]>([]);
+    const { user, setUser } = useContext(AuthContext);
 
     useEffect(() => {
         async function add() {
@@ -32,8 +46,44 @@ const ShoppingCartPage = () => {
                 }
             }
             setTotalCost(cost);
+            setNumberOfItems(cart.products["total"].count);
         }
+
     }, [cart, products, products.length])
+
+    useEffect(() => {
+
+        if (modalResponse === purchaseConfirmationTitle && cart && numberOfItems > 0) {
+            if (hasFunds(totalCost)) {
+
+                const cartItems = [] as CartItem[];
+
+                for (const item of Object.keys(cart.products)) {
+                    if (item !== "total") {
+                        const cartItem = { productId: item, quantity: cart.products[item].count } as CartItem;
+                        cartItems.push(cartItem);
+                    }
+                }
+                axios.post<User>('/user/purchase', [cartItems, totalCost / 1000], { headers: { "Content-Type": "application/json" } })
+                    .then(response => {
+                        setPurchaseAlerts([successToast(purchaseAlerts.length)]);
+                        setCart(null);
+                        setUser(response.data);
+                    });
+            }
+            else {
+                setPurchaseAlerts([errorToast(purchaseAlerts.length)]);
+            }
+        }
+        setModalResponse("");
+        function hasFunds(amount: number) {
+            if (user) {
+                return user.credit > (amount / 1000);
+            }
+            return false;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalResponse, purchaseAlerts, setModalResponse, totalCost, user])
 
     async function removeFromCart(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
         e.preventDefault();
@@ -56,9 +106,35 @@ const ShoppingCartPage = () => {
         setCart(data);
     }
 
+    function successToast(key: number) {
+        return (
+            <div key={key} id="purchase-alert-success" className="alert alert-success">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>Purchased complete.</span>
+                <button onClick={() => setPurchaseAlerts([])} className="btn btn-xs btn-circle btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        )
+    }
+
+    function errorToast(key: number) {
+        return (
+
+            <div key={key} id="purchase-alert-error" className="alert alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>Insufficient funds.</span>
+                <button onClick={() => setPurchaseAlerts([])} className="btn btn-xs btn-circle btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        )
+    }
+
     return (
         <div className="container mx-auto">
-            <div className="flex shadow-md my-10">
+
+            <div className="flex shadow-md my-10 min-w-max">
                 <div className="w-3/4 bg-white px-10 py-10">
                     {products.length > 0 && cart && cart.products["total"].count > 0 &&
                         <>
@@ -88,7 +164,7 @@ const ShoppingCartPage = () => {
                                             <div className="flex flex-col justify-between ml-4 flex-grow">
                                                 <span className="font-bold text-sm">{item.title}</span>
                                                 <span className="text-red-500 text-xs">{item.brand}</span>
-                                                <a href="#" onClick={(e) => removeFromCart(e, productId)} className="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</a>
+                                                <a href="#" onClick={(e) => removeFromCart(e, productId)} className="font-medium hover:text-red-500 text-gray-500 text-sm">Remove</a>
                                             </div>
                                         </div>
                                         <div className="flex justify-center w-1/5">
@@ -104,18 +180,29 @@ const ShoppingCartPage = () => {
                                                 </svg>
                                             </a>
                                         </div>
-                                        <span className="text-center w-1/5 font-semibold text-sm">${item.price}</span>
-                                        <span className="text-center w-1/5 font-semibold text-sm">${item.price * cart.products[productId].count}</span>
+                                        <span className="text-center w-1/5 font-semibold text-sm">
+                                            {item.price.toLocaleString("en-US", {
+                                                style: "currency",
+                                                currency: "USD",
+                                            })}
+                                        </span>
+                                        <span className="text-center w-1/5 font-semibold text-sm">
+                                            {(item.price * cart.products[productId].count).toLocaleString("en-US", {
+                                                style: "currency",
+                                                currency: "USD",
+                                            })}
+                                        </span>
                                     </div>
                                 )
                             })}
                         </>
                     }
 
-                    <a onClick={() => navigate('/store')} className="cursor-pointer flex font-semibold text-indigo-600 text-sm mt-10">
-                        <svg className="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" /></svg>
+                    <Link to='/store' className="cursor-pointer inline-flex font-medium text-primary text-sm mt-10">
+                        <svg className="fill-current mr-2 text-primary w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" /></svg>
                         Continue Shopping
-                    </a>
+                    </Link>
+
                 </div>
 
                 <div id="summary" className="w-1/4 px-8 py-10">
@@ -124,31 +211,17 @@ const ShoppingCartPage = () => {
                         <span className="font-semibold text-sm uppercase">Items {cart && cart.products["total"].count}</span>
                         <span className="font-semibold text-sm">{totalCost}$</span>
                     </div>
-                    <div>
-                        <label className="font-medium inline-block mb-3 text-sm uppercase">Shipping</label>
-                        <select className="block p-2 text-gray-600 w-full text-sm">
-                            <option>Standard shipping - $10.00</option>
-                        </select>
-                    </div>
-                    <div className="py-10">
-                        <label htmlFor="promo" className="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>
-                        <input type="text" id="promo" placeholder="Enter your code" className="p-2 text-sm w-full" />
-                    </div>
-                    <button className="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>
-                    <div className="border-t mt-8">
-                        <div className="flex font-semibold justify-between py-6 text-sm uppercase">
-                            <span>Total cost</span>
-                            <span>${totalCost > 0 ? totalCost + 10 : 0}</span>
-                        </div>
-                        <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Checkout</button>
-                    </div>
-                    <div className="mt-10">
-                        <p>Or buy with mars credit</p>
-                        <p>1 mars credit = $1000</p>
-                        <button className="btn btn-active btn-sm btn-secondary rounded-none w-full">
-                            Buy with {totalCost > 0 ? ((totalCost + 10) / 1000).toFixed(3) : 0} Mars credit
+                    <div className="flex flex-col gap-2 mt-10">
+                        <p>Pay with mars credit</p>
+                        <p>1 mars credit = $1,000</p>
+                        <button onClick={() => setShowConfirmationModal(true)} className="btn btn-block btn-secondary btn-sm">
+                            Pay with {totalCost > 0 ? ((totalCost) / 1000).toFixed(3) : 0} Mars credit
                         </button>
                     </div>
+                    <div className="toast toast-start">
+                        {purchaseAlerts.map((purchaseAlert) => purchaseAlert)}
+                    </div>
+                    <ConfirmationModal message={`Buy ${numberOfItems} items with ${totalCost > 0 ? (totalCost / 1000).toFixed(3) : 0} mrs?`} title={purchaseConfirmationTitle} />
                 </div>
             </div>
         </div>

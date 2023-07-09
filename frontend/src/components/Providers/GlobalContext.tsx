@@ -3,8 +3,8 @@ import { Cart } from '../../models/cart';
 import { ReceivedPost } from '../../models/post';
 
 const initialState = {
-    showDeleteModal: false,
-    setShowDeleteModal: () => { return false },
+    showConfirmationModal: false,
+    setShowConfirmationModal: () => { return false },
     modalResponse: "",
     setModalResponse: () => { return "" },
     cart: {} as Cart,
@@ -22,8 +22,8 @@ const initialState = {
 }
 
 interface IContext {
-    showDeleteModal: boolean;
-    setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+    showConfirmationModal: boolean;
+    setShowConfirmationModal: React.Dispatch<React.SetStateAction<boolean>>;
     modalResponse: string;
     setModalResponse: React.Dispatch<React.SetStateAction<string>>;
     cart: Cart | null;

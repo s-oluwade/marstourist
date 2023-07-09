@@ -1,8 +1,4 @@
-import bcrypt from "bcrypt";
 import { RequestHandler } from "express";
-import createHttpError from "http-errors";
-import AdminModel from "../models/admin";
-import env from "../util/validateEnv";
 import Product from "../models/product";
 
 export const getProducts: RequestHandler = async (req, res, next) => {

@@ -16,18 +16,24 @@ router.post("/login", UserController.login);
 
 router.post("/logout", UserController.logout);
 
+router.put("/", UserController.updateUserCredentials);
+
+router.put("/profile", UserController.updateUserProfile);
+
+router.put("/add-credit", UserController.addCredit);
+
+router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
+
+router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
+
 router.get("/cart", UserController.getCart);
 
 router.put("/cart/add", UserController.addToCart);
 
 router.put("/cart/remove", UserController.removeFromCart);
 
-router.put("/", UserController.updateUserCredentials);
+router.get("/purchase", UserController.getPurchase);
 
-router.put("/profile", UserController.updateUserProfile);
-
-router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
-
-router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
+router.post("/purchase", UserController.buyProducts);
 
 export default router;

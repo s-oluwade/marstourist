@@ -2,19 +2,19 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useContext } from "react";
 import { GlobalContext } from "./Providers/GlobalContext";
 
-interface DeleteConfirmationModal {
+interface ConfirmationModalProps {
     title: string;
     message: string;
 }
 
-export default function DeleteConfirmationModal({ title, message }: DeleteConfirmationModal) {
+export default function ConfirmationModal({ title, message }: ConfirmationModalProps) {
 
-    const { setModalResponse, showDeleteModal, setShowDeleteModal } = useContext(GlobalContext);
+    const { setModalResponse, showConfirmationModal, setShowConfirmationModal } = useContext(GlobalContext);
 
     return (
         <>
-            <Transition appear show={showDeleteModal} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={() => { setShowDeleteModal(false); }}>
+            <Transition appear show={showConfirmationModal} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={() => { setShowConfirmationModal(false); }}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -38,30 +38,30 @@ export default function DeleteConfirmationModal({ title, message }: DeleteConfir
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl leading-6 bg-white p-4 align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl leading-6 bg-base-100 p-4 align-middle shadow-xl transition-all">
                                     <Dialog.Title
                                         as="h3"
-                                        className="py-2 text-lg font-medium text-gray-900"
+                                        className="py-4 text-xl font-medium text-gray-900"
                                     >
                                         {title}
                                     </Dialog.Title>
-                                    <Dialog.Description className="py-2">
+                                    <Dialog.Description className="py-2 text-lg">
                                         {message}
                                     </Dialog.Description>
-                                    <div className="py-2 flex justify-center gap-16">
+                                    <div className="py-4 flex justify-center gap-2">
                                         <button
                                             type="button"
-                                            className="rounded-md border border-transparent bg-blue-200 px-8 py-2 text-sm font-medium text-black-900 hover:bg-blue-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            onClick={() => { setModalResponse(title); setShowDeleteModal(false) }}
+                                            className="btn sm:btn-sm md:btn-md btn-secondary"
+                                            onClick={() => { setModalResponse(title); setShowConfirmationModal(false) }}
                                         >
                                             Yes
                                         </button>
                                         <button
                                             type="button"
-                                            className="rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
-                                            onClick={() => { setShowDeleteModal(false) }}
+                                            className="btn sm:btn-sm md:btn-md btn-neutral btn-outline"
+                                            onClick={() => { setModalResponse("dismiss"); setShowConfirmationModal(false) }}
                                         >
-                                            No
+                                            Cancel
                                         </button>
                                     </div>
                                 </Dialog.Panel>
