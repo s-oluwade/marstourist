@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { Cart } from '../../models/cart';
 import { ReceivedPost } from '../../models/post';
+import { ProductWithId } from '../../models/product';
 
 const initialState = {
     showConfirmationModal: false,
@@ -19,6 +20,8 @@ const initialState = {
     setPostNames: () => { return [] },
     postAvatars: [],
     setPostAvatars: () => { return [] },
+    products: [],
+    setProducts: () => { return [] },
 }
 
 interface IContext {
@@ -38,6 +41,8 @@ interface IContext {
     setPostNames: React.Dispatch<React.SetStateAction<{ _id: string; name: string; owner: string; }[]>>;
     postAvatars: { _id: string; picture: string; owner: string; }[];
     setPostAvatars: React.Dispatch<React.SetStateAction<{ _id: string; picture: string; owner: string; }[]>>;
+    products: ProductWithId[];
+    setProducts: React.Dispatch<React.SetStateAction<ProductWithId[]>>;
 }
 
 export const GlobalContext = createContext<IContext>(initialState);

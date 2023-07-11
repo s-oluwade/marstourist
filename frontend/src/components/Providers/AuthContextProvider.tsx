@@ -52,7 +52,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         async function getCart() {
-            const { data } = await axios.get<Cart>('/user/cart');
+            const { data } = await axios.get<Cart>('/sales/cart');
             return data
         }
 

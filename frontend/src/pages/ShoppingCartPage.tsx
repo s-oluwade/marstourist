@@ -12,6 +12,10 @@ const purchaseConfirmationTitle = "Purchase with credit";
 
 interface CartItem {
     productId: string;
+    title: string,
+    imageUrl: string,
+    brand: string,
+    category: string,
     quantity: number;
 }
 
@@ -59,12 +63,21 @@ const ShoppingCartPage = () => {
                 const cartItems = [] as CartItem[];
 
                 for (const item of Object.keys(cart.products)) {
+                    
                     if (item !== "total") {
-                        const cartItem = { productId: item, quantity: cart.products[item].count } as CartItem;
+                        const prod = products.filter(prod => prod._id === item)[0];
+                        const cartItem = { 
+                            productId: item, 
+                            quantity: cart.products[item].count,
+                            title: prod.title,
+                            imageUrl: prod.images[0],
+                            brand: prod.brand,
+                            category: prod.category,
+                        } as CartItem;
                         cartItems.push(cartItem);
                     }
                 }
-                axios.post<User>('/user/purchase', [cartItems, totalCost / 1000], { headers: { "Content-Type": "application/json" } })
+                axios.post<User>('/sales/purchase', [cartItems, totalCost / 1000], { headers: { "Content-Type": "application/json" } })
                     .then(response => {
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
                         setCart(null);
@@ -89,20 +102,20 @@ const ShoppingCartPage = () => {
         e.preventDefault();
 
         if (cart) {
-            const { data } = await axios.put<Cart>('/user/cart/remove', [id, cart.products[id].count]);
+            const { data } = await axios.put<Cart>('/sales/cart/remove', [id, cart.products[id].count]);
             setCart(data);
         }
     }
 
     async function reduceFromCart(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
         e.preventDefault();
-        const { data } = await axios.put<Cart>('/user/cart/remove', [id, 1]);
+        const { data } = await axios.put<Cart>('/sales/cart/remove', [id, 1]);
         setCart(data);
     }
 
     async function addToCart(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
         e.preventDefault();
-        const { data } = await axios.put<Cart>('/user/cart/add', { item: id });
+        const { data } = await axios.put<Cart>('/sales/cart/add', { item: id });
         setCart(data);
     }
 

@@ -51,7 +51,7 @@ const Layout = () => {
                 <>
                     <div className={`flex flex-col min-h-screen`}>
                         <Header />
-                        <div className="bg-base-200 flex grow font-rubik font-light">
+                        <div className="bg-base-300 flex grow font-rubik font-light">
                             <Outlet />
                         </div>
                     </div>

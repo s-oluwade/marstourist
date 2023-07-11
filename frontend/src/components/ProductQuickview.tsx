@@ -57,7 +57,7 @@ export default function ProductQuickview({ title, price, images, _id }: ProductW
 
 	async function addToCart(e: React.MouseEvent<HTMLButtonElement>, id: string) {
 		e.preventDefault();
-		const { data } = await axios.put<Cart>('/user/cart/add', { item: id });
+		const { data } = await axios.put<Cart>('/sales/cart/add', { item: id });
 		setCart(data);
 	}
 

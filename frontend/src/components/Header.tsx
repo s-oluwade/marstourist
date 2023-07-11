@@ -82,15 +82,19 @@ const Header = () => {
                                 </label>
                             </Link>
                             <div className="dropdown dropdown-end">
-                                <label tabIndex={0} className="btn btn-circle avatar">
-                                    <div className="w-10 rounded-full ring ring-neutral ring-offset-base-100 ring-offset-2">
-                                        <img src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
-                                    </div>
-                                </label>
+                                <div className="indicator">
+                                    <span className="indicator-item badge badge-sm badge-secondary right-2 top-2"></span>
+                                    <label tabIndex={0} className="btn btn-circle avatar">
+                                        <div className="w-10 rounded-full ring ring-neutral ring-offset-base-100 ring-offset-2">
+                                            <img src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
+                                        </div>
+                                    </label>
+                                </div>
                                 <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 w-36 gap-1 rounded">
                                     <li>
                                         <Link to="/profile" className="flex justify-between">
                                             Profile
+                                            <div className="badge badge-sm badge-outline">new</div>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>

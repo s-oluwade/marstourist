@@ -1,14 +1,13 @@
 import axios from "axios";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ShoppingCart from "../components/ShoppingCart";
-import { GlobalContext } from "../components/Providers/GlobalContext";
 
 const GunStorePage = () => {
     const [gunList, setGunList] = useState<any[]>();
     const [view, setView] = useState<string>("list");
     const [seed, setSeed] = useState(1);
 
-    const { cartItems, setCartItems, setAddedToCart, cartCounter, setCartCounter } = useContext(GlobalContext);
+    // const { cartItems, setCartItems, setAddedToCart, cartCounter, setCartCounter } = useContext(GlobalContext);
 
     useEffect(() => {
         const loadGuns = async () => {
@@ -45,30 +44,6 @@ const GunStorePage = () => {
 
     function changeView(view: ChangeEvent<HTMLSelectElement>) {
         setView(view.target.value);
-    }
-
-    function addToCart(e: any, gun: any) {
-        localStorage.setItem('cart_counter', JSON.stringify(cartCounter + 1));
-
-        for (const item of cartItems) {
-            if (gun[1].name === item[1].name) {
-                item[1].qty += 1;
-                localStorage.setItem('cart', JSON.stringify([...cartItems]));
-                setAddedToCart(true);
-                return;
-            }
-        }
-
-        localStorage.setItem('cart', JSON.stringify([...cartItems, gun]));
-        setAddedToCart(true);
-    }
-
-    function clearCart() {
-        localStorage.removeItem('cart');
-        localStorage.removeItem('cart_counter');
-        setCartItems([]);
-        setCartCounter(0);
-        reset();
     }
 
     function reset() {
@@ -123,7 +98,7 @@ const GunStorePage = () => {
                 </div>
                 <div className="flex gap-6 mr-28">
                     <ShoppingCart key={seed} />
-                    <button className="bg-gray-600 p-1 rounded" onClick={clearCart}>Clear Cart</button>
+                    <button className="bg-gray-600 p-1 rounded">Clear Cart</button>
                 </div>
             </div>
             <br />
@@ -189,7 +164,7 @@ const GunStorePage = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <button onClick={(e) => { addToCart(e, item) }} className="btn btn-sm">Add to cart</button>
+                                        <button className="btn btn-sm">Add to cart</button>
                                     </td>
                                 </tr>
                             ))}
@@ -210,7 +185,7 @@ const GunStorePage = () => {
                                         <div className="badge badge-outline">{item[1]["manufacturer"]}</div>
                                     </div>
                                     <div className="card-actions justify-end">
-                                        <button onClick={(e) => { addToCart(e, item) }} className="btn btn-sm">Add to cart</button>
+                                        <button className="btn btn-sm">Add to cart</button>
                                         <button className="btn btn-primary btn-sm">Buy Now</button>
                                     </div>
                                 </div>

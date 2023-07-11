@@ -26,14 +26,4 @@ router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
 
 router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
 
-router.get("/cart", UserController.getCart);
-
-router.put("/cart/add", UserController.addToCart);
-
-router.put("/cart/remove", UserController.removeFromCart);
-
-router.get("/purchase", UserController.getPurchase);
-
-router.post("/purchase", UserController.buyProducts);
-
 export default router;

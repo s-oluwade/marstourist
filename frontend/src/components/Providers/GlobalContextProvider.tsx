@@ -3,6 +3,7 @@ import { GlobalContext } from './GlobalContext';
 import { Cart } from '../../models/cart';
 import axios from 'axios';
 import { ReceivedPost } from '../../models/post';
+import { ProductWithId } from '../../models/product';
 
 export default function GlobalContextProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line prefer-const
@@ -14,6 +15,7 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     const [allPosts, setAllPosts] = useState<ReceivedPost[]>([]);
     const [postNames, setPostNames] = useState<{ _id: string; name: string; owner: string; }[]>([]);
     const [postAvatars, setPostAvatars] = useState<{ _id: string; picture: string; owner: string; }[]>([]);
+    const [products, setProducts] = useState<ProductWithId[]>([]);
 
     useEffect(() => {
         async function loadGlobalData() {
@@ -51,6 +53,14 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                 .catch((error) => {
                     console.log(error);
                 });
+            axios.get("/products")
+                .then((response) => {
+                    const products = response.data;
+                    setProducts(products);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
         loadGlobalData();
     }, [])
@@ -59,6 +69,7 @@ export default function GlobalContextProvider({ children }: { children: React.Re
         <GlobalContext.Provider
             value={
                 {
+                    products, setProducts,
                     postNames, setPostNames,
                     postAvatars, setPostAvatars,
                     allPosts, setAllPosts,

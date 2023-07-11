@@ -6,23 +6,17 @@ import axios from "axios";
 import { Cart } from "../models/cart";
 
 const StorePage = () => {
-    const [products, setProducts] = useState<ProductWithId[]>([]);
+    // const [products, setProducts] = useState<ProductWithId[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<ProductWithId[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [category, setCategory] = useState<string>("all");
-    const { setShowProductQuickview, setCart } = useContext(GlobalContext);
+    const { setShowProductQuickview, setCart, products } = useContext(GlobalContext);
     const [openedProduct, setOpenedProduct] = useState<ProductWithId | null>(null);
     const [selectedTab, setSelectedTab] = useState("tab-all");
 
     useEffect(() => {
-        async function add() {
-            const { data } = await axios.get<ProductWithId[]>("/products");
-            setProducts(data);
-        }
-        if (products.length == 0) {
-            add();
-        }
-        else {
+        if (products.length > 0) {
+
             if (categories.length == 0) {
                 const temp: string[] = []
                 for (const product of products) {
@@ -55,7 +49,7 @@ const StorePage = () => {
 
     async function addToCart(e: React.MouseEvent<HTMLButtonElement>, id: string) {
         e.preventDefault();
-        const { data } = await axios.put<Cart>('/user/cart/add', { item: id });
+        const { data } = await axios.put<Cart>('/sales/cart/add', { item: id });
         setCart(data);
     }
 
@@ -75,12 +69,13 @@ const StorePage = () => {
                     {filteredProducts.map((product, index) => (
                         <div key={index}
                             className="w-80 card card-compact bg-base-100 shadow-sm transition-shadow hover:shadow-md">
-                            <figure onClick={() => { setOpenedProduct(product); setShowProductQuickview(true); }}>
-                                <img src={product.images[0]} alt="Shoes" className="h-48 object-cover cursor-pointer" />
+                            <figure className="h-48" onClick={() => { setOpenedProduct(product); setShowProductQuickview(true); }}>
+                                <img src={product.images[0]} alt="Shoes" className="cursor-pointer" />
                             </figure>
                             <div className="card-body">
                                 <h2 className="card-title font-normal">{product.title}</h2>
-                                <p>If a dog chews shoes whose shoes does he choose?</p>
+                                <p>{product.description}</p>
+                                {/* If a dog chews shoes whose shoes does he choose? */}
                                 <div className="card-actions justify-between items-center my-2">
                                     <div className="badge">
                                         {product.price.toLocaleString("en-US", {

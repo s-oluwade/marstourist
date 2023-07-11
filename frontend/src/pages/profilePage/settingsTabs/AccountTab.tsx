@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { GlobalContext } from "../../components/Providers/GlobalContext";
+import { GlobalContext } from "../../../components/Providers/GlobalContext";
 import { useContext, useEffect } from "react";
-import ConfirmationModal from "../../components/ConfirmationModal";
+import ConfirmationModal from "../../../components/ConfirmationModal";
 
 export default function AccountSettingsSubPage() {
     const { modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);

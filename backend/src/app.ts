@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from "express";
 import userRoutes from "./routes/user";
 import adminRoutes from "./routes/admin";
 import dataRoutes from "./routes/data";
+import salesRoutes from "./routes/sales";
 import productRoutes from "./routes/products";
 import postRoutes from "./routes/posts";
 import morgan from "morgan";
@@ -38,6 +39,7 @@ app.use(session({
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/sales", salesRoutes);
 app.use("/api/data", dataRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/posts", postRoutes);
