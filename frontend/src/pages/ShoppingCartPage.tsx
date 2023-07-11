@@ -24,7 +24,7 @@ const ShoppingCartPage = () => {
     const [products, setProducts] = useState<ProductWithId[]>([]);
     const { cart, setCart } = useContext(GlobalContext);
     const [totalCost, setTotalCost] = useState(0);
-    const { modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
+    const { notifications, setNotifications, modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
     const [numberOfItems, setNumberOfItems] = useState(0);
     const [purchaseAlerts, setPurchaseAlerts] = useState<JSX.Element[]>([]);
     const { user, setUser } = useContext(AuthContext);
@@ -63,11 +63,11 @@ const ShoppingCartPage = () => {
                 const cartItems = [] as CartItem[];
 
                 for (const item of Object.keys(cart.products)) {
-                    
+
                     if (item !== "total") {
                         const prod = products.filter(prod => prod._id === item)[0];
-                        const cartItem = { 
-                            productId: item, 
+                        const cartItem = {
+                            productId: item,
                             quantity: cart.products[item].count,
                             title: prod.title,
                             imageUrl: prod.images[0],
@@ -80,6 +80,13 @@ const ShoppingCartPage = () => {
                 axios.post<User>('/sales/purchase', [cartItems, totalCost / 1000], { headers: { "Content-Type": "application/json" } })
                     .then(response => {
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
+                        if (notifications && user) {
+                            axios.post('/notifications/add/' + user._id, ["purchase"], { headers: { "Content-Type": "application/json" } })
+                                .then(response => {
+                                    console.log(response.data);
+                                })
+                            // setNotifications({ ...notifications });
+                        }
                         setCart(null);
                         setUser(response.data);
                     });

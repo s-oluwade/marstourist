@@ -44,7 +44,7 @@ const StorePage = () => {
             }
         }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [products, filteredProducts, categories, category]);
 
     async function addToCart(e: React.MouseEvent<HTMLButtonElement>, id: string) {
@@ -55,13 +55,13 @@ const StorePage = () => {
 
     return (
         <div className="flex flex-col w-full items-center gap-5 mt-2">
-            <a className="tabs">
-                <a onClick={()=>setCategory("all")} id={`tab-all`} key={0} className="tab tab-lg tab-lifted tab-active">All categories</a>
+            <div className="tabs">
+                <a onClick={() => setCategory("all")} id={`tab-all`} key={0} className="tab tab-lg tab-lifted tab-active">All categories</a>
                 {!!categories.length && categories.map((category, index) => (
-                    <a onClick={()=>setCategory(category)} id={`tab-${category}`} key={index} className="tab tab-lg tab-lifted capitalize">{category}</a>
+                    <a onClick={() => setCategory(category)} id={`tab-${category}`} key={index} className="tab tab-lg tab-lifted capitalize">{category}</a>
                 ))}
 
-            </a>
+            </div>
             <div className="mx-auto mt-8">
                 <h2 className="sr-only">Products</h2>
 

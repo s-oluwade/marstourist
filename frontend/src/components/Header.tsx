@@ -6,7 +6,7 @@ import { GlobalContext } from "./Providers/GlobalContext";
 
 const Header = () => {
     const { user, setUser, admin } = useContext(AuthContext);
-    const { cart } = useContext(GlobalContext);
+    const { notifications, cart } = useContext(GlobalContext);
     const [logout, setLogout] = useState(false);
 
     useEffect(() => {
@@ -83,7 +83,9 @@ const Header = () => {
                             </Link>
                             <div className="dropdown dropdown-end">
                                 <div className="indicator">
-                                    <span className="indicator-item badge badge-sm badge-secondary right-2 top-2"></span>
+                                    {notifications && notifications[user._id] && notifications[user._id].length > 0 &&
+                                        <span className="indicator-item badge badge-sm badge-secondary right-2 top-2"></span>
+                                    }
                                     <label tabIndex={0} className="btn btn-circle avatar">
                                         <div className="w-10 rounded-full ring ring-neutral ring-offset-base-100 ring-offset-2">
                                             <img src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />

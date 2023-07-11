@@ -6,6 +6,7 @@ import dataRoutes from "./routes/data";
 import salesRoutes from "./routes/sales";
 import productRoutes from "./routes/products";
 import postRoutes from "./routes/posts";
+import notificationsRoutes from "./routes/notifications";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import session from "express-session";
@@ -37,6 +38,7 @@ app.use(session({
     }),
 }));
 
+app.use("/api/notifications", notificationsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/sales", salesRoutes);
