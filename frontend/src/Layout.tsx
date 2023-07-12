@@ -10,7 +10,7 @@ const Layout = () => {
     const currentPath = window.location.pathname;
     const DEFAULT_THEME = 'light';
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         WebFont.load({
             google: {
@@ -49,12 +49,27 @@ const Layout = () => {
         <>
             {!loadingUser &&
                 <>
-                    <div className={`flex flex-col min-h-screen`}>
+                    <div className="drawer">
+                        <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+                        <div className="drawer-content flex flex-col min-h-screen">
+                            
                         <Header />
-                        <div className="bg-base-300 flex grow font-rubik font-light">
-                            <Outlet />
+                            <div className="bg-base-300 flex grow font-rubik font-light">
+                                <Outlet />
+                            </div>
+                        </div>
+                        <div className="drawer-side">
+                            <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
+                            <ul className="menu p-4 w-80 h-full bg-base-200">
+                                {/* Sidebar content here */}
+                                <li><a>Sidebar Item 1</a></li>
+                                <li><a>Sidebar Item 2</a></li>
+
+                            </ul>
+
                         </div>
                     </div>
+
                 </>
             }
         </>

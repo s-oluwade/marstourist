@@ -32,13 +32,11 @@ export const addNotification: RequestHandler<{ userId: string }, unknown, string
         if (notif && notif.notifications) {
             const usersNotifications = notif.notifications.get(user);
             if (usersNotifications) {
-                console.log("if: " + usersNotifications);
                 usersNotifications.concat(notifications);
                 notif.notifications.set(user, usersNotifications);
                 res.json(await notif.save());
             }
             else {
-                console.log("else: " + notif)
                 notif.notifications.set(user, notifications);
                 res.json(await notif.save());
             }

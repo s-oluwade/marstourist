@@ -46,8 +46,13 @@ const Header = () => {
     }
 
     return (
-        <div className="">
-            <div className="navbar bg-base-100 border border-b-2 border-b-accent">
+        <>
+            <div className="navbar bg-base-100 border border-b-2 border-b-accent w-full">
+                <div className="flex-none lg:hidden">
+                    <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </label>
+                </div>
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
                         {/* <img src="https://fontmeme.com/permalink/230702/6197e7e7e930e3bcb60d8607d05d2b4f.png" width={150} alt="mass-effect-font" /> */}
@@ -61,7 +66,7 @@ const Header = () => {
                         </Link>
                     </div>
                 }
-                <div className="flex-none gap-4">
+                <div className="flex-none gap-4 hidden lg:flex">
                     {user ?
                         <>
                             <ul className="menu menu-horizontal p-0 flex-nowrap gap-2">
@@ -174,7 +179,7 @@ const Header = () => {
                     </div>
                 </>
             }
-        </div>
+        </>
     );
 }
 

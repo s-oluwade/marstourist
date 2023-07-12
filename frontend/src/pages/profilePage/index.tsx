@@ -27,8 +27,8 @@ const ProfilePage = () => {
 
     return (
         <div className="flex w-full justify-center pt-2">
-            <div className="grid grid-cols-7 w-full max-w-screen-xl">
-                <div className="col-span-2">
+            <div className="flex flex-col lg:flex-row w-full max-w-screen-xl">
+                <div className="hidden lg:block basis-1/4">
                     <div id="side-nav" className="bg-base-100 m-4 rounded-md shadow-md min-h-[800px] border-2 border-accent">
                         <div id="user_detail" className="flex flex-col items-center justify-evenly pt-6">
                             <div id="user_brief" className="flex flex-col w-full justify-center gap-2 items-center">
@@ -43,7 +43,6 @@ const ProfilePage = () => {
                                     <div className="">{user?.email}</div>
                                 </div>
                             </div>
-
                             <ul className="py-6 text-sm w-full">
                                 <li className="w-full px-4 py-2 border-b">
                                     <h6 className="text-sm font-medium mb-1">Location</h6>
@@ -97,9 +96,8 @@ const ProfilePage = () => {
                             </ul>
                         </div>
                     </div>
-
                 </div>
-                <div className="col-start-3 col-span-5 m-4">
+                <div className="basis-3/4 mt-4">
                     {homepaths.includes(currentPath) && <UserHomeSubPage />}
                     {settingspaths.includes(currentPath) && <SettingsSubPage />}
                     {inboxpaths.includes(currentPath) && <InboxSubPage />}

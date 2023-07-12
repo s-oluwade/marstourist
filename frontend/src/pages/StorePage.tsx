@@ -10,7 +10,7 @@ const StorePage = () => {
     const [filteredProducts, setFilteredProducts] = useState<ProductWithId[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [category, setCategory] = useState<string>("all");
-    const { setShowProductQuickview, setCart, products } = useContext(GlobalContext);
+    const { setShowProductQuickview, cart, setCart, products } = useContext(GlobalContext);
     const [openedProduct, setOpenedProduct] = useState<ProductWithId | null>(null);
     const [selectedTab, setSelectedTab] = useState("tab-all");
 
@@ -49,6 +49,11 @@ const StorePage = () => {
 
     async function addToCart(e: React.MouseEvent<HTMLButtonElement>, id: string) {
         e.preventDefault();
+        // Just increase cart counter while cart is being updated
+        if (cart && cart.products["total"].count){
+            cart.products["total"].count += 1;
+            setCart({...cart});
+        }
         const { data } = await axios.put<Cart>('/sales/cart/add', { item: id });
         setCart(data);
     }
