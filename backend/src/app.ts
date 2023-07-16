@@ -40,6 +40,7 @@ app.use(session({
     }),
 }));
 
+// for production use only
 mongoose.connect(env.MONGO_CONNECTION_STRING);
 
 app.use("/api/notifications", notificationsRoutes);

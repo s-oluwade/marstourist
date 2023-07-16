@@ -8,7 +8,7 @@ import { UserContext } from "../components/Providers/UserContext";
 const FeedsPage = () => {
 
     const { postNames, postAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
-    const { userPosts, setUserPosts } = useContext(UserContext);
+    const { userPosts, setUserPosts, userAvatar } = useContext(UserContext);
     const { user } = useContext(AuthContext)
 
     function getWhen(createdAt: string) {
@@ -59,7 +59,10 @@ const FeedsPage = () => {
         if (postAvatars.length > 0) {
             const picture = postAvatars.filter((each) => each.owner === id)[0].picture;
             if (picture) {
-                return picture;
+                if (picture.includes("https://")) {
+                    return picture;
+                }
+                return `http://localhost:4000/${picture}`;
             }
             return "";
         }
@@ -115,7 +118,7 @@ const FeedsPage = () => {
                             <div className="flex items-center space-x-3">
                                 <div className="avatar">
                                     <div className="w-8 rounded-full">
-                                        <img src={`http://localhost:4000/${getPicture(post.owner)}`} />
+                                        <img src={getPicture(post.owner)} />
                                     </div>
                                 </div>
                                 {/* https://i.pravatar.cc/32 */}

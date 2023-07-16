@@ -83,7 +83,10 @@ const UserHomeSubPage = () => {
         if (postAvatars.length > 0) {
             const picture = postAvatars.filter((each) => each.owner === id)[0].picture;
             if (picture) {
-                return picture;
+                if (picture.includes("https://")) {
+                    return picture;
+                }
+                return `http://localhost:4000/${picture}`;
             }
             return "";
         }
@@ -203,7 +206,7 @@ const UserHomeSubPage = () => {
                             <div className="flex items-center space-x-3">
                                 <div className="avatar">
                                     <div className="w-8 rounded-full">
-                                        <img src={user?.photo ? `http://localhost:4000/${getPicture(post.owner)}` : 'http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png'} />
+                                        <img src={user?.photo ? getPicture(post.owner) : 'http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png'} />
                                     </div>
                                 </div>
                                 {/* https://i.pravatar.cc/32 */}

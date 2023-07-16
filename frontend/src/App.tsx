@@ -23,7 +23,7 @@ import LoginPage from './pages/authPages/LoginPage';
 import ShoppingCartPage from './pages/ShoppingCartPage';
 import FeedsPage from './pages/FeedsPage';
 
-axios.defaults.baseURL = 'http://localhost:4000/api';
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 axios.defaults.withCredentials = true;
 
 function App() {
