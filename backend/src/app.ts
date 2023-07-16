@@ -40,14 +40,7 @@ app.use(session({
     }),
 }));
 
-mongoose.connect(env.MONGO_CONNECTION_STRING)
-.then(() => {
-    console.log("Mongoose connected");
-    app.listen(port, () => {
-        console.log("Server running on port: " + port);
-    });
-})
-.catch(console.error);
+mongoose.connect(env.MONGO_CONNECTION_STRING);
 
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/admin", adminRoutes);
