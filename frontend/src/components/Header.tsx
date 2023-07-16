@@ -2,11 +2,13 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./Providers/AuthContext";
+import { UserContext } from "./Providers/UserContext";
 import { GlobalContext } from "./Providers/GlobalContext";
 
 const Header = () => {
     const { user, setUser, admin } = useContext(AuthContext);
-    const { notifications, cart } = useContext(GlobalContext);
+    const { cart, userAvatar } = useContext(UserContext);
+    const { notifications} = useContext(GlobalContext);
     const [logout, setLogout] = useState(false);
 
     useEffect(() => {
@@ -93,7 +95,7 @@ const Header = () => {
                                     }
                                     <label tabIndex={0} className="btn btn-circle avatar">
                                         <div className="w-10 rounded-full ring ring-neutral ring-offset-base-100 ring-offset-2">
-                                            <img src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
+                                            <img src={userAvatar} />
                                         </div>
                                     </label>
                                 </div>
@@ -129,7 +131,7 @@ const Header = () => {
                             Admin
                             <label tabIndex={0} className="btn btn-neutral btn-circle avatar">
                                 <div className="w-10 rounded-full">
-                                    <img src="http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png" />
+                                    <img src={userAvatar} />
                                 </div>
                             </label>
                             <ul tabIndex={0} className="menu menu-xs dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-28 gap-1">

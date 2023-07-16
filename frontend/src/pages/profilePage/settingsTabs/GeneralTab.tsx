@@ -36,7 +36,7 @@ export default function GeneralSubPage() {
         }
         const data = new FormData();
         data.append('photos', files[0]);
-        axios.put<User>('/user/uploadPhoto', data, {
+        axios.put('/user/uploadPhoto', data, {
             headers: { 'Content-Type': 'multipart/form-data' },
         }).then(() => {
             window.location.reload();
@@ -48,6 +48,9 @@ export default function GeneralSubPage() {
         elem?.classList.remove('hidden');
     }
     function hideUploader() {
+        setFiles(null);
+        const file_uploader = document.getElementById('fileUploader') as HTMLFormElement;
+        file_uploader.reset()
         const elem = document.getElementById('uploader');
         const updAvatarBtn = document.getElementById('update-avatar-btn');
         elem?.classList.add('hidden');
@@ -67,13 +70,14 @@ export default function GeneralSubPage() {
             <div className="pb-4">
                 <div id="uploader" className="hidden">
                     <div className="flex gap-8 items-end">
-                        <label className="w-20 cursor-pointer text-center border rounded-2xl p-4 text-3xl flex justify-center">
-                            <input type="file" className="hidden" onChange={(e) => {
-                                setFiles(e.target.files)
-                            }} />
-                            <span className="h-10">+</span>
-                        </label>
-
+                        <form action="" id="fileUploader">
+                            <label className="w-20 cursor-pointer text-center border rounded-2xl p-4 text-3xl flex justify-center">
+                                <input type="file" className="hidden" onChange={(e) => {
+                                    setFiles(e.target.files);
+                                }} />
+                                <span className="h-10">+</span>
+                            </label>
+                        </form>
                         <div className="flex flex-col w-48">
                             {files &&
                                 <p className="text-xs">{files[0].name}</p>

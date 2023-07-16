@@ -6,4 +6,6 @@ export default cleanEnv(process.env, {
     PORT: port(),
     SESSION_SECRET: str(),
     JWT_SECRET: str(),
+    S3_ACCESS_KEY: str(),
+    S3_SECRET_ACCESS_KEY: str(),
 });

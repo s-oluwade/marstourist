@@ -5,6 +5,7 @@ import SettingsSubPage from "./SettingsPage";
 import UserHomeSubPage from "./UserHomePage";
 import InboxSubPage from "./InboxPage";
 import { GlobalContext } from "../../components/Providers/GlobalContext";
+import { UserContext } from "../../components/Providers/UserContext";
 
 const homepaths = ['/profile/home', '/profile/home/', '/profile', '/profile/'];
 const inboxpaths = ['/profile/inbox', '/profile/inbox/'];
@@ -23,6 +24,7 @@ const settingspaths = [
 const ProfilePage = () => {
     const { user } = useContext(AuthContext);
     const { notifications } = useContext(GlobalContext);
+    const { userAvatar } = useContext(UserContext);
     const currentPath = window.location.pathname;
 
     return (
@@ -34,7 +36,7 @@ const ProfilePage = () => {
                             <div id="user_brief" className="flex flex-col w-full justify-center gap-2 items-center">
                                 <div className="avatar">
                                     <div className="w-32 mask mask-hexagon">
-                                        <img src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
+                                        <img src={userAvatar} />
                                     </div>
                                 </div>
                                 <div className="flex flex-col text-sm gap-1 items-center font-light">

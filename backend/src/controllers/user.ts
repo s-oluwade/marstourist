@@ -5,6 +5,7 @@ import ProfileNames from "../models/profileNames";
 import ProfilePictures from "../models/profilePictures";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
+const {S3Client, PutObjectCommand} = require('@aws-sdk/client-s3');
 const imageDownloader = require('image-downloader');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -143,6 +144,7 @@ export const logout: RequestHandler = (req, res, next) => {
     res.cookie('token', '').json(true);
 };
 
+// not in use
 export const uploadPhotoByLink: RequestHandler = async (req, res, next) => {
 
     const { link } = req.body;
@@ -169,30 +171,54 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
                 let values = Object.values(req.files)
 
                 for (let i = 0; i < values.length; i++) {
-                    const { path, originalname } = values[i];
-                    const parts = originalname.split('.');
-                    const ext = parts[parts.length - 1];
-                    const newPath = path + '.' + ext;
-                    fs.renameSync(path, newPath);
-                    uploadedFiles.push(newPath.replace('uploads/', ''));
+                    const { path, originalname, mimetype } = values[i];
+                    
+                    // fs.renameSync(path, newPath);
+                    // uploadedFiles.push(newPath.replace('uploads/', ''));
+
+                    uploadedFiles.push(await uploadToS3(path, originalname, mimetype));
                 }
+                
+                const user = await UserModel.findById(decodedUser.id);
+
+                if (!user) throw new Error;
+
+                user.set('photo', uploadedFiles[0]);
+
+                const userPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
+                if (userPictures) {
+                    userPictures.set("picture", uploadedFiles[0]);
+                    userPictures.save();
+                }
+
+                res.json(await user.save());
             }
-
-            const user = await UserModel.findById(decodedUser.id);
-
-            if (!user) throw new Error;
-
-            user.set('photo', uploadedFiles[0]);
-
-            const userPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
-            if (userPictures) {
-                userPictures.set("picture", uploadedFiles[0]);
-                userPictures.save();
-            }
-
-            res.json(await user.save());
         })
     }
+}
+
+async function uploadToS3(path: any, originalFileName: any, mimetype: any) {
+    const bucket = 'martiantourist-bucket';
+    const client = new S3Client({
+        region: 'us-east-2',
+        credentials: {
+            accessKeyId: env.S3_ACCESS_KEY,
+            secretAccessKey: env.S3_SECRET_ACCESS_KEY,
+        }
+    })
+
+    const parts = originalFileName.split('.');
+    const ext = parts[parts.length - 1];
+    const newFilename = Date.now() + '.' + ext;
+    await client.send(new PutObjectCommand({
+        Bucket: bucket,
+        Body: fs.readFileSync(path),
+        Key: newFilename,
+        ContentType: mimetype,
+        ACL: 'public-read',
+    }));
+    
+    return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
 }
 
 interface UserCredBody {

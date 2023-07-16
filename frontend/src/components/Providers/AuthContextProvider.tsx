@@ -11,7 +11,6 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [loadingUser, setLoadingUser] = useState<boolean>(true);
     const [admin, setAdmin] = useState<Admin | null>(null);
     const [loadingAdmin, setLoadingAdmin] = useState<boolean>(true);
-    const { cart, setCart } = useContext(GlobalContext);
 
     useEffect(() => {
         // If no logged in state
@@ -43,20 +42,9 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         else {
             setLoadingUser(false);
             setLoadingAdmin(false);
-
-            if (user && !cart) {
-                getCart().then(res => {
-                    setCart(res);
-                })
-            }
         }
 
-        async function getCart() {
-            const { data } = await axios.get<Cart>('/sales/cart');
-            return data
-        }
-
-    }, [user, admin, cart, setCart]);
+    }, [user, admin]);
 
     async function logoutUser() {
         try {

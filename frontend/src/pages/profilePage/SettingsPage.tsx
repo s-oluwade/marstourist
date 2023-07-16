@@ -5,9 +5,11 @@ import AccountSubPage from "./settingsTabs/AccountTab";
 import EditProfileSubPage from "./settingsTabs/EditProfileTab";
 import GeneralSubPage from "./settingsTabs/GeneralTab";
 import PasswordSubPage from "./settingsTabs/PasswordTab";
+import { UserContext } from "../../components/Providers/UserContext";
 
 export default function SettingsSubPage() {
     const { user } = useContext(AuthContext);
+    const { userAvatar } = useContext(UserContext);
     const { subpage } = useParams();
 
     let subtitle = "Edit Profile";
@@ -33,7 +35,7 @@ export default function SettingsSubPage() {
             <div className="flex items-center justify-center py-4">
                 <div className="flex">
                     <Link to="#" className="">
-                        <img className="w-32 h-32 border-2 rounded-full" alt={user?.fullname || ""} src={user?.photo ? `http://localhost:4000/${user?.photo}` : "http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png"} />
+                        <img className="w-32 h-32 border-2 rounded-full" alt={user?.fullname || ""} src={userAvatar} />
                     </Link>
                     <div className="ml-8 flex flex-col gap-4 w-72 h-32 items-center">
                         <h1 className="text-2xl flex gap-4 items-center justify-center w-full h-full">

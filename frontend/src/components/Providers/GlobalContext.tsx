@@ -8,8 +8,6 @@ const initialState = {
     setShowConfirmationModal: () => { return false },
     modalResponse: "",
     setModalResponse: () => { return "" },
-    cart: {} as Cart,
-    setCart: () => { return {} as Cart },
     showProductQuickview: false,
     setShowProductQuickview: () => { return false },
     locations: [],
@@ -31,8 +29,6 @@ interface IContext {
     setShowConfirmationModal: React.Dispatch<React.SetStateAction<boolean>>;
     modalResponse: string;
     setModalResponse: React.Dispatch<React.SetStateAction<string>>;
-    cart: Cart | null;
-    setCart: React.Dispatch<React.SetStateAction<Cart | null>>;
     showProductQuickview: boolean;
     setShowProductQuickview: React.Dispatch<React.SetStateAction<boolean>>;
     locations: string[];

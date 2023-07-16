@@ -9,13 +9,12 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     // eslint-disable-next-line prefer-const
     const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
     const [modalResponse, setModalResponse] = useState<string>("");
-    const [cart, setCart] = useState<Cart | null>(null);
-    const [showProductQuickview, setShowProductQuickview] = useState<boolean>(false);
     const [locations, setLocations] = useState<string[]>([]);
     const [allPosts, setAllPosts] = useState<ReceivedPost[]>([]);
     const [postNames, setPostNames] = useState<{ _id: string; name: string; owner: string; }[]>([]);
     const [postAvatars, setPostAvatars] = useState<{ _id: string; picture: string; owner: string; }[]>([]);
     const [products, setProducts] = useState<ProductWithId[]>([]);
+    const [showProductQuickview, setShowProductQuickview] = useState<boolean>(false);
     const [notifications, setNotifications] = useState<{ [key: string]: string[] } | null>(null);
 
     useEffect(() => {
@@ -80,7 +79,6 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                     postAvatars, setPostAvatars,
                     allPosts, setAllPosts,
                     locations, setLocations,
-                    cart, setCart,
                     showProductQuickview, setShowProductQuickview,
                     modalResponse, setModalResponse,
                     showConfirmationModal, setShowConfirmationModal,
