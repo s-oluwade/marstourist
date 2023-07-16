@@ -12,8 +12,10 @@ import createHttpError, { isHttpError } from "http-errors";
 import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
+import mongoose from "mongoose";
 const cookieParser = require('cookie-parser');
 const app = express();
+const port = env.PORT;
 
 app.use(morgan("dev"));
 app.use(cookieParser());
@@ -37,6 +39,15 @@ app.use(session({
         mongoUrl: env.MONGO_CONNECTION_STRING
     }),
 }));
+
+mongoose.connect(env.MONGO_CONNECTION_STRING)
+.then(() => {
+    console.log("Mongoose connected");
+    app.listen(port, () => {
+        console.log("Server running on port: " + port);
+    });
+})
+.catch(console.error);
 
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/admin", adminRoutes);
