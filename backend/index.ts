@@ -1,6 +1,6 @@
-import app from "../src/app";
-import UserModel from "../src/models/user";
-import env from "../src/util/validateEnv";
+import app from "./src/app";
+import UserModel from "./src/models/user";
+import env from "./src/util/validateEnv";
 const jwt = require("jsonwebtoken");
 
 app.get('/api/user', (req, res) => {
