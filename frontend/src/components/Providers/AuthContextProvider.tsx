@@ -2,8 +2,6 @@ import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
 import { Admin } from '../../models/admin';
 import { User } from '../../models/user';
-import { GlobalContext } from './GlobalContext';
-import { Cart } from '../../models/cart';
 import { AuthContext } from './AuthContext';
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
