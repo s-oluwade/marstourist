@@ -1,10 +1,10 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import userRoutes from "./routes/user";
-import adminRoutes from "./routes/admin";
+// import adminRoutes from "./routes/admin";
 import dataRoutes from "./routes/data";
-import salesRoutes from "./routes/sales";
-import productRoutes from "./routes/products";
+// import salesRoutes from "./routes/sales";
+// import productRoutes from "./routes/products";
 import postRoutes from "./routes/posts";
 import notificationsRoutes from "./routes/notifications";
 import morgan from "morgan";

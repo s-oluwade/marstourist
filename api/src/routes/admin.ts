@@ -1,15 +1,15 @@
-import express from "express";
-import * as AdminController from "../controllers/admin";
-import { requiresAdminAuth } from "../middleware/adminAuth";
+// import express from "express";
+// import * as AdminController from "../controllers/admin";
+// import { requiresAdminAuth } from "../middleware/adminAuth";
 
-const router = express.Router();
+// const router = express.Router();
 
-router.get("/", requiresAdminAuth, AdminController.getAdmin);
+// router.get("/", requiresAdminAuth, AdminController.getAdmin);
 
-router.post("/register", AdminController.register);
+// router.post("/register", AdminController.register);
 
-router.post("/login", AdminController.login);
+// router.post("/login", AdminController.login);
 
-router.post("/logout", AdminController.logout);
+// router.post("/logout", AdminController.logout);
 
-export default router;
+// export default router;
