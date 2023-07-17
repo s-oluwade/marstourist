@@ -1,112 +1,103 @@
-// import bcrypt from "bcrypt";
-// import { RequestHandler } from "express";
-// import createHttpError from "http-errors";
-// import AdminModel from "../models/admin";
-// import env from "../util/validateEnv";
-// import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import { RequestHandler } from "express";
+import createHttpError from "http-errors";
+import AdminModel from "../models/admin";
 
-// const jwt = require("jsonwebtoken");
+export const getAdmin: RequestHandler = async (req, res, next) => {
 
-// const bcryptSalt = bcrypt.genSaltSync(10);
+    try {
+        const admin = await AdminModel.findById(req.session.adminId).select("+email").exec();
+        res.status(200).json(admin);
+    } catch (error) {
+        res.json(null);
+    }
+};
 
-// export const getAdmin: RequestHandler = async (req, res, next) => {
-//     mongoose.connect(env.MONGO_CONNECTION_STRING);
+interface AdminLoginBody {
+    name?: string,
+    password?: string,
+}
 
-//     try {
-//         const admin = await AdminModel.findById(req.session.adminId).select("+email").exec();
-//         res.status(200).json(admin);
-//     } catch (error) {
-//         res.json(null);
-//     }
-// };
+export const login: RequestHandler<unknown, unknown, AdminLoginBody, unknown> = async (req, res, next) => {
 
-// interface AdminLoginBody {
-//     name?: string,
-//     password?: string,
-// }
+    const name = req.body.name;
+    const password = req.body.password;
 
-// export const login: RequestHandler<unknown, unknown, AdminLoginBody, unknown> = async (req, res, next) => {
-//     mongoose.connect(env.MONGO_CONNECTION_STRING);
+    try {
+        if (!name || !password) {
+            throw createHttpError(400, "Parameters missing");
+        }
 
-//     const name = req.body.name;
-//     const password = req.body.password;
+        const admin = await AdminModel.findOne({ name: name }).select("+password +email").exec();
 
-//     try {
-//         if (!name || !password) {
-//             throw createHttpError(400, "Parameters missing");
-//         }
+        if (!admin) {
+            throw createHttpError(401, "User not found");
+        }
 
-//         const admin = await AdminModel.findOne({ name: name }).select("+password +email").exec();
+        const passwordMatch = await bcrypt.compare(password, admin.password);
 
-//         if (!admin) {
-//             throw createHttpError(401, "User not found");
-//         }
+        if (!passwordMatch) {
+            throw createHttpError(401, "Invalid password");
+        }
 
-//         const passwordMatch = await bcrypt.compare(password, admin.password);
+        req.session.adminId = admin._id;
+        res.status(201).json(admin);
 
-//         if (!passwordMatch) {
-//             throw createHttpError(401, "Invalid password");
-//         }
+    } catch (error) {
+        next(error);
+    }
+};
 
-//         req.session.adminId = admin._id;
-//         res.status(201).json(admin);
+interface AdminRegisterBody extends AdminLoginBody {
+    email?: string,
+}
 
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// interface AdminRegisterBody extends AdminLoginBody {
-//     email?: string,
-// }
-
-// export const register: RequestHandler<unknown, unknown, AdminRegisterBody, unknown> = async (req, res, next) => {
-//     mongoose.connect(env.MONGO_CONNECTION_STRING);
+export const register: RequestHandler<unknown, unknown, AdminRegisterBody, unknown> = async (req, res, next) => {
     
-//     const name = req.body.name;
-//     const email = req.body.email;
-//     const passwordRaw = req.body.password;
+    const name = req.body.name;
+    const email = req.body.email;
+    const passwordRaw = req.body.password;
 
-//     try {
-//         if (!name || !email || !passwordRaw) {
-//             throw createHttpError(400, "Parameters missing");
-//         }
+    try {
+        if (!name || !email || !passwordRaw) {
+            throw createHttpError(400, "Parameters missing");
+        }
 
-//         const existingEmail = await AdminModel.findOne({ email: email }).exec();
+        const existingEmail = await AdminModel.findOne({ email: email }).exec();
 
-//         if (existingEmail) {
-//             throw createHttpError(409, "An admin with this email address already exists.");
-//         }
+        if (existingEmail) {
+            throw createHttpError(409, "An admin with this email address already exists.");
+        }
 
-//         if (name) {
-//             const existingAdminName = await AdminModel.findOne({ name: name }).exec();
-//             if (existingAdminName) {
-//                 throw createHttpError(409, "An admin with this name already exists. Please choose a different one or log in instead.");
-//             }
-//         }
+        if (name) {
+            const existingAdminName = await AdminModel.findOne({ name: name }).exec();
+            if (existingAdminName) {
+                throw createHttpError(409, "An admin with this name already exists. Please choose a different one or log in instead.");
+            }
+        }
 
-//         const passwordHashed = await bcrypt.hash(passwordRaw, 10);
+        const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
-//         const admin = await AdminModel.create({
-//             name: name,
-//             email: email,
-//             password: passwordHashed,
-//         });
+        const admin = await AdminModel.create({
+            name: name,
+            email: email,
+            password: passwordHashed,
+        });
 
-//         req.session.adminId = admin._id;
-//         res.status(201).json(admin);
+        req.session.adminId = admin._id;
+        res.status(201).json(admin);
 
-//     } catch (error) {
-//         next(error);
-//     }
-// };
+    } catch (error) {
+        next(error);
+    }
+};
 
-// export const logout: RequestHandler = (req, res, next) => {
-//     req.session.destroy(error => {
-//         if (error) {
-//             next(error);
-//         } else {
-//             res.sendStatus(200);
-//         }
-//     });
-// };
+export const logout: RequestHandler = (req, res, next) => {
+    req.session.destroy(error => {
+        if (error) {
+            next(error);
+        } else {
+            res.sendStatus(200);
+        }
+    });
+};

@@ -8,7 +8,7 @@ const multer = require("multer");
 const fs = require('fs');
 
 export const getSiteData: RequestHandler = async (req, res, next) => {
-    mongoose.connect(env.MONGO_CONNECTION_STRING);
+    
     try {
         const data = await DataModel.find().exec();
         res.json(data[0]);

@@ -10,21 +10,21 @@ router.get("/allUsers", requiresAdminAuth, UserController.getUsers);
 
 router.get("/", UserController.getUser);
 
-// router.post("/register", UserController.register);
+router.post("/register", UserController.register);
 
 router.post("/login", UserController.login);
 
 router.post("/logout", UserController.logout);
 
-// router.put("/", UserController.updateUserCredentials);
+router.put("/", UserController.updateUserCredentials);
 
-// router.put("/profile", UserController.updateUserProfile);
+router.put("/profile", UserController.updateUserProfile);
 
-// router.put("/add-credit", UserController.addCredit);
+router.put("/add-credit", UserController.addCredit);
 
 // not in use
 // router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
 
-// router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
+router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
 
 export default router;
