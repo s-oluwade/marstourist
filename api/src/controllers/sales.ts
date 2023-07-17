@@ -3,9 +3,11 @@ import CartModel from "../models/cart";
 import PurchasedModel from "../models/purchased";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
+import mongoose from "mongoose";
 const jwt = require("jsonwebtoken");
 
 export const getCart: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
 
     const { token } = req.cookies;
     if (token) {
@@ -35,6 +37,8 @@ export const getCart: RequestHandler = async (req, res, next) => {
 };
 
 export const addToCart: RequestHandler<unknown, unknown, { item: string }, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const itemToAdd = req.body.item;
     const { token } = req.cookies;
     if (token) {
@@ -76,6 +80,8 @@ export const addToCart: RequestHandler<unknown, unknown, { item: string }, unkno
 };
 
 export const removeFromCart: RequestHandler<unknown, unknown, [string, number], unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const toRemove = req.body;      // [itemToRemove, howManyItems]
     const { token } = req.cookies;
     if (token) {
@@ -122,6 +128,8 @@ interface CartItem {
 }
 
 export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number], unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const { token } = req.cookies;
 
     if (!req.body) throw new Error;
@@ -179,6 +187,7 @@ export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number],
 }
 
 export const getPurchase: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
 
     const { token } = req.cookies;
     if (token) {

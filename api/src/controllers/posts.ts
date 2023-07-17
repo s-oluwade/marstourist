@@ -4,9 +4,12 @@ import UserModel from "../models/user";
 import env from "../util/validateEnv";
 import ProfileNamesModel from '../models/profileNames';
 import ProfilePicturesModel from '../models/profilePictures';
+import mongoose from "mongoose";
 const jwt = require("jsonwebtoken");
 
 export const getPosts: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+    
     const userId = req.params.userId;
 
     if (userId) {
@@ -28,6 +31,8 @@ export const getPosts: RequestHandler = async (req, res, next) => {
 }
 
 export const getNames: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     try {
         const data = await ProfileNamesModel.find({}).exec();
         res.json(data);
@@ -37,6 +42,8 @@ export const getNames: RequestHandler = async (req, res, next) => {
 }
 
 export const getPictures: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     try {
         const data = await ProfilePicturesModel.find({}).exec();
         res.json(data);
@@ -52,6 +59,8 @@ interface PostBody {
 }
 
 export const createPost: RequestHandler<unknown, unknown, PostBody, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const { token } = req.cookies;
     const content = req.body.content;
     const topic = req.body.topic || "";
@@ -83,6 +92,8 @@ export const createPost: RequestHandler<unknown, unknown, PostBody, unknown> = a
 };
 
 export const deletePost: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const postId = req.params.postId;
     const { token } = req.cookies;
 
@@ -103,6 +114,8 @@ export const deletePost: RequestHandler = async (req, res, next) => {
 }
 
 export const likePost: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const postId = req.params.postId;
     const { token } = req.cookies;
 

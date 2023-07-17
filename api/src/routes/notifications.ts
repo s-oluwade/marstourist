@@ -3,10 +3,8 @@ import * as NotificationsController from "../controllers/notifications";
 
 const router = express.Router();
 
-router.get("/", NotificationsController.getNotifications);
+// router.get("/", NotificationsController.getNotifications);
 
-// router.post("/", NotificationsController.createNotificationsCollection);
-
-router.post("/add/:userId", NotificationsController.addNotification);
+// router.post("/add/:userId", NotificationsController.addNotification);
 
 export default router;

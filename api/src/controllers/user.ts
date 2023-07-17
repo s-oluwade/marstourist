@@ -10,9 +10,11 @@ const imageDownloader = require('image-downloader');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
 const bcryptSalt = bcrypt.genSaltSync(10);
+import mongoose from "mongoose";
 
 export const getUsers: RequestHandler = async (req, res, next) => {
     // admin already verified. just fetch users
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
     try {
         const users = await UserModel.find({}).select("+email").exec();
         res.status(200).json([users]);
@@ -22,6 +24,7 @@ export const getUsers: RequestHandler = async (req, res, next) => {
 };
 
 export const getUser: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
 
     const { token } = req.cookies;
     if (token) {
@@ -45,6 +48,7 @@ interface LoginBody {
 }
 
 export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
     const email = req.body.email;
     const password = req.body.password;
 
@@ -84,6 +88,7 @@ interface RegisterBody extends LoginBody {
 }
 
 export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
     const fullname = req.body.fullname;
     const username = req.body.username;
     const email = req.body.email;
@@ -145,20 +150,21 @@ export const logout: RequestHandler = (req, res, next) => {
 };
 
 // not in use
-export const uploadPhotoByLink: RequestHandler = async (req, res, next) => {
+// export const uploadPhotoByLink: RequestHandler = async (req, res, next) => {
 
-    const { link } = req.body;
-    const newName = Date.now() + '.jpg';
+//     const { link } = req.body;
+//     const newName = Date.now() + '.jpg';
 
-    await imageDownloader.image({
-        url: link,
-        dest: __dirname + '/../../uploads/' + newName,
-    });
+//     await imageDownloader.image({
+//         url: link,
+//         dest: __dirname + '/../../uploads/' + newName,
+//     });
 
-    res.json(newName);
-}
+//     res.json(newName);
+// }
 
 export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
 
     const { token } = req.cookies;
     if (token) {
@@ -227,6 +233,7 @@ interface UserCredBody {
 }
 
 export const updateUserCredentials: RequestHandler<unknown, unknown, UserCredBody, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
     const { token } = req.cookies;
 
     let {
@@ -279,6 +286,7 @@ interface UserDataBody {
 }
 
 export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
     const { token } = req.cookies;
 
     let {
@@ -316,6 +324,7 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
 }
 
 export const addCredit: RequestHandler<unknown, unknown, { credit: number }, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
     const { token } = req.cookies;
 
     if (!req.body.credit) throw new Error;

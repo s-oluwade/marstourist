@@ -5,8 +5,6 @@ const photosMiddleware = multer({dest:'uploads'});
 
 const router = express.Router();
 
-router.get("/guns", DataController.getGuns);
-
 router.get("/site-data", DataController.getSiteData);
 
 export default router;

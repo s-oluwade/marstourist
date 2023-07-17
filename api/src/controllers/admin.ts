@@ -3,12 +3,14 @@ import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import AdminModel from "../models/admin";
 import env from "../util/validateEnv";
+import mongoose from "mongoose";
 
 const jwt = require("jsonwebtoken");
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 export const getAdmin: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
 
     try {
         const admin = await AdminModel.findById(req.session.adminId).select("+email").exec();
@@ -24,6 +26,8 @@ interface AdminLoginBody {
 }
 
 export const login: RequestHandler<unknown, unknown, AdminLoginBody, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const name = req.body.name;
     const password = req.body.password;
 
@@ -57,6 +61,8 @@ interface AdminRegisterBody extends AdminLoginBody {
 }
 
 export const register: RequestHandler<unknown, unknown, AdminRegisterBody, unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+    
     const name = req.body.name;
     const email = req.body.email;
     const passwordRaw = req.body.password;

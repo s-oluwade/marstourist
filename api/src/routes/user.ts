@@ -23,7 +23,7 @@ router.put("/profile", UserController.updateUserProfile);
 router.put("/add-credit", UserController.addCredit);
 
 // not in use
-router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
+// router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
 
 router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
 

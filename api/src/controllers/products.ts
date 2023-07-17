@@ -1,7 +1,11 @@
 import { RequestHandler } from "express";
 import Product from "../models/product";
+import mongoose from "mongoose";
+import env from "../util/validateEnv";
 
 export const getProducts: RequestHandler = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     const title = req.query.title;
     const brand = req.query.brand;
     const category = req.query.category;
@@ -42,6 +46,8 @@ interface ProductBody {
 }
 
 export const addProducts: RequestHandler<unknown, unknown, ProductBody[], unknown> = async (req, res, next) => {
+    mongoose.connect(env.MONGO_CONNECTION_STRING);
+
     try {
         const added = await Product.create(req.body);
 
