@@ -43,11 +43,11 @@ app.use(session({
 // for production use only
 
 app.use("/api/notifications", notificationsRoutes);
-app.use("/api/admin", adminRoutes);
+// app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/sales", salesRoutes);
+// app.use("/api/sales", salesRoutes);
 app.use("/api/data", dataRoutes);
-app.use("/api/products", productRoutes);
+// app.use("/api/products", productRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/uploads", express.static(__dirname + "/../uploads"));
 app.use("/images", express.static(__dirname + "/img"));
