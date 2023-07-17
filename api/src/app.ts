@@ -1,10 +1,10 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import userRoutes from "./routes/user";
-// import adminRoutes from "./routes/admin";
+import adminRoutes from "./routes/admin";
 import dataRoutes from "./routes/data";
-// import salesRoutes from "./routes/sales";
-// import productRoutes from "./routes/products";
+import salesRoutes from "./routes/sales";
+import productRoutes from "./routes/products";
 import postRoutes from "./routes/posts";
 import notificationsRoutes from "./routes/notifications";
 import morgan from "morgan";
@@ -43,15 +43,15 @@ app.use(session({
 // for production use only
 mongoose.connect(env.MONGO_CONNECTION_STRING);
 
-// app.use("/api/notifications", notificationsRoutes);
-// app.use("/api/admin", adminRoutes);
+app.use("/api/notifications", notificationsRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
-// app.use("/api/sales", salesRoutes);
-// app.use("/api/data", dataRoutes);
-// app.use("/api/products", productRoutes);
-// app.use("/api/posts", postRoutes);
-// app.use("/uploads", express.static(__dirname + "/../uploads"));
-// app.use("/images", express.static(__dirname + "/img"));
+app.use("/api/sales", salesRoutes);
+app.use("/api/data", dataRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/uploads", express.static(__dirname + "/../uploads"));
+app.use("/images", express.static(__dirname + "/img"));
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
