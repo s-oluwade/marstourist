@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
-import ShoppingCart from "../components/ShoppingCart";
+// import ShoppingCart from "../components/ShoppingCart";
 
 const GunStorePage = () => {
     const [gunList, setGunList] = useState<any[]>();
     const [view, setView] = useState<string>("list");
-    const [seed, setSeed] = useState(1);
+    // const [seed, setSeed] = useState(1);
 
 
     useEffect(() => {
@@ -47,9 +47,9 @@ const GunStorePage = () => {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    function reset() {
-        setSeed(Math.random());
-    }
+    // function reset() {
+    //     setSeed(Math.random());
+    // }
 
     function sortTable(column: string) {
         if (gunList) {
@@ -98,7 +98,7 @@ const GunStorePage = () => {
                     </select>
                 </div>
                 <div className="flex gap-6 mr-28">
-                    <ShoppingCart key={seed} />
+                    {/* <ShoppingCart key={seed} /> */}
                     <button className="bg-gray-600 p-1 rounded">Clear Cart</button>
                 </div>
             </div>
