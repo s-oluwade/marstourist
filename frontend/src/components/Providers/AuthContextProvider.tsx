@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { Admin } from '../../models/admin';
 import { User } from '../../models/user';
 import { AuthContext } from './AuthContext';

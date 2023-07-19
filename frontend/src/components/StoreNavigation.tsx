@@ -21,7 +21,7 @@ const navigation = {
     {
       id: 'men',
       name: 'Men',
-      featured: [] as any[],
+      featured: [] as { [key: string]: string }[],
       sections: [
         {
           id: 'clothing',
@@ -40,17 +40,17 @@ const navigation = {
           ],
         },
         {
-            id: 'uncategorized',
-            name: 'Uncategorized',
-            items: [
-              { name: 'Smartphones', href: 'http://localhost:4000/api/products?category=smartphones' },
-              { name: 'Laptops', href: '#' },
-              { name: 'Fragrances', href: '#' },
-              { name: 'Skincare', href: '#' },
-              { name: 'Groceries', href: '#' },
-              { name: 'Home Decoration', href: '#' },
-            ],
-          },
+          id: 'uncategorized',
+          name: 'Uncategorized',
+          items: [
+            { name: 'Smartphones', href: 'http://localhost:4000/api/products?category=smartphones' },
+            { name: 'Laptops', href: '#' },
+            { name: 'Fragrances', href: '#' },
+            { name: 'Skincare', href: '#' },
+            { name: 'Groceries', href: '#' },
+            { name: 'Home Decoration', href: '#' },
+          ],
+        },
         {
           id: 'brands',
           name: 'Brands',

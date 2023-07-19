@@ -7,8 +7,6 @@ import TurianBlog from "./blogs/TurianBlog";
 
 const BlogPage = () => {
 
-    const chooser = (new Date()).getDate() % 5;
-
     const { title } = useParams();
 
     if (!title) {
@@ -22,7 +20,6 @@ const BlogPage = () => {
                     <div><Link to={'salarian'}>Salarian</Link></div>
                     <div><Link to={'turian'}>Turian</Link></div>
                 </div>
-
             </div>
         )
     }

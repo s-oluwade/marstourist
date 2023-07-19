@@ -11,7 +11,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
     const [cart, setCart] = useState<Cart | null>(null);
     const [userAvatar, setUserAvatar] = useState<string>("http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png");
     const { user } = useContext(AuthContext);
-    const { notifications, setNotifications } = useContext(GlobalContext);
+    const { notifications } = useContext(GlobalContext);
 
     useEffect(() => {
         if (user) {
@@ -62,6 +62,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
             const { data } = await axios.get<Cart>('/sales/cart');
             return data
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, notifications])
 
     return (

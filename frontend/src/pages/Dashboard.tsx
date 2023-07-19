@@ -24,11 +24,11 @@ const Dashboard = () => {
 
     useEffect(() => {
         async function fetchAllUsers() {
-            const { data } = await axios.get<[any[], any[]]>('users');
+            const { data } = await axios.get('users');
 
             const temp = [];
             for (const user of data[0]) {
-                const user_data = data[1].filter(data => data.owner === user._id)[0];
+                const user_data = data[1].filter((data: { owner: string; }) => data.owner === user._id)[0];
 
                 temp.push({
                     id: user._id,

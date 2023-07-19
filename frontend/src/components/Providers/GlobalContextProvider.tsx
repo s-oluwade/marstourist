@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
-import { GlobalContext } from './GlobalContext';
-import { Cart } from '../../models/cart';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { ReceivedPost } from '../../models/post';
 import { ProductWithId } from '../../models/product';
+import { GlobalContext } from './GlobalContext';
 
 export default function GlobalContextProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line prefer-const

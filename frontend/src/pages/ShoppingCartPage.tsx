@@ -1,11 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
-import { GlobalContext } from "../components/Providers/GlobalContext";
-import { ProductWithId } from "../models/product";
-import { Cart } from "../models/cart";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ConfirmationModal from "../components/ConfirmationModal";
 import { AuthContext } from "../components/Providers/AuthContext";
+import { GlobalContext } from "../components/Providers/GlobalContext";
+import { UserContext } from "../components/Providers/UserContext";
+import { Cart } from "../models/cart";
+import { ProductWithId } from "../models/product";
 import { User } from "../models/user";
 
 const purchaseConfirmationTitle = "Purchase with credit";
@@ -20,11 +21,10 @@ interface CartItem {
 }
 
 const ShoppingCartPage = () => {
-    const navigate = useNavigate();
     const [products, setProducts] = useState<ProductWithId[]>([]);
-    const { cart, setCart } = useContext(GlobalContext);
+    const { cart, setCart } = useContext(UserContext);
     const [totalCost, setTotalCost] = useState(0);
-    const { notifications, setNotifications, modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
+    const { notifications, modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
     const [numberOfItems, setNumberOfItems] = useState(0);
     const [purchaseAlerts, setPurchaseAlerts] = useState<JSX.Element[]>([]);
     const { user, setUser } = useContext(AuthContext);

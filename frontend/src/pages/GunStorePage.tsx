@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import ShoppingCart from "../components/ShoppingCart";
@@ -7,7 +8,6 @@ const GunStorePage = () => {
     const [view, setView] = useState<string>("list");
     const [seed, setSeed] = useState(1);
 
-    // const { cartItems, setCartItems, setAddedToCart, cartCounter, setCartCounter } = useContext(GlobalContext);
 
     useEffect(() => {
         const loadGuns = async () => {
@@ -46,6 +46,7 @@ const GunStorePage = () => {
         setView(view.target.value);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function reset() {
         setSeed(Math.random());
     }
@@ -109,7 +110,7 @@ const GunStorePage = () => {
                         <thead>
                             <tr>
                                 <th
-                                    onClick={(e) => { sortTable("NAME") }}
+                                    onClick={() => { sortTable("NAME") }}
                                     className="select-none cursor-pointer uppercase text-base">
                                     <div className="inline-flex">
                                         NAME
@@ -123,7 +124,7 @@ const GunStorePage = () => {
                                     IMAGE
                                 </th>
                                 <th
-                                    onClick={(e) => { sortTable("WEAPONTYPE") }}
+                                    onClick={() => { sortTable("WEAPONTYPE") }}
                                     className="select-none cursor-pointer uppercase text-base">
                                     <div className="inline-flex">
                                         WEAPONTYPE
@@ -133,7 +134,7 @@ const GunStorePage = () => {
                                     </div>
                                 </th>
                                 <th
-                                    onClick={(e) => { sortTable("MANUFACTURER") }}
+                                    onClick={() => { sortTable("MANUFACTURER") }}
                                     className="select-none cursor-pointer uppercase text-base">
                                     <div className="inline-flex">
                                         MANUFACTURER

@@ -12,12 +12,12 @@
   }
   ```
 */
-import { Fragment, useState, useContext } from 'react';
 import { Dialog, RadioGroup, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/20/solid';
-import { GlobalContext } from "./Providers/GlobalContext";
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Fragment, useContext, useState } from 'react';
 import { ProductWithId } from '../models/product';
+import { GlobalContext } from "./Providers/GlobalContext";
 import axios from 'axios';
 import { Cart } from '../models/cart';
 
@@ -53,12 +53,11 @@ function classNames(...classes: string[]) {
 export default function ProductQuickview({ title, price, images, _id }: ProductWithId) {
 	const [selectedColor, setSelectedColor] = useState(product.colors[0])
 	const [selectedSize, setSelectedSize] = useState(product.sizes[2])
-	const { showProductQuickview, setShowProductQuickview, cart, setCart } = useContext(GlobalContext)
+	const { showProductQuickview, setShowProductQuickview } = useContext(GlobalContext)
 
 	async function addToCart(e: React.MouseEvent<HTMLButtonElement>, id: string) {
 		e.preventDefault();
-		const { data } = await axios.put<Cart>('/sales/cart/add', { item: id });
-		setCart(data);
+		await axios.put<Cart>('/sales/cart/add', { item: id });
 	}
 
 	return (

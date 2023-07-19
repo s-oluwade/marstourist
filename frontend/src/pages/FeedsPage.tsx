@@ -8,7 +8,7 @@ import { UserContext } from "../components/Providers/UserContext";
 const FeedsPage = () => {
 
     const { postNames, postAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
-    const { userPosts, setUserPosts, userAvatar } = useContext(UserContext);
+    const { userPosts, setUserPosts } = useContext(UserContext);
     const { user } = useContext(AuthContext)
 
     function getWhen(createdAt: string) {

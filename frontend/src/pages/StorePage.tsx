@@ -4,13 +4,15 @@ import { GlobalContext } from "../components/Providers/GlobalContext";
 import ProductQuickview from "../components/ProductQuickview";
 import axios from "axios";
 import { Cart } from "../models/cart";
+import { UserContext } from "../components/Providers/UserContext";
 
 const StorePage = () => {
     // const [products, setProducts] = useState<ProductWithId[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<ProductWithId[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [category, setCategory] = useState<string>("all");
-    const { setShowProductQuickview, cart, setCart, products } = useContext(GlobalContext);
+    const { setShowProductQuickview, products } = useContext(GlobalContext);
+    const { cart, setCart } = useContext(UserContext)
     const [openedProduct, setOpenedProduct] = useState<ProductWithId | null>(null);
     const [selectedTab, setSelectedTab] = useState("tab-all");
 
@@ -50,9 +52,9 @@ const StorePage = () => {
     async function addToCart(e: React.MouseEvent<HTMLButtonElement>, id: string) {
         e.preventDefault();
         // Just increase cart counter while cart is being updated
-        if (cart && cart.products["total"].count){
+        if (cart && cart.products["total"].count) {
             cart.products["total"].count += 1;
-            setCart({...cart});
+            setCart({ ...cart });
         }
         const { data } = await axios.put<Cart>('/sales/cart/add', { item: id });
         setCart(data);

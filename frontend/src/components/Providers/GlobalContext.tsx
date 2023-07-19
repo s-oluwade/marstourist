@@ -1,5 +1,4 @@
 import { createContext } from 'react';
-import { Cart } from '../../models/cart';
 import { ReceivedPost } from '../../models/post';
 import { ProductWithId } from '../../models/product';
 
