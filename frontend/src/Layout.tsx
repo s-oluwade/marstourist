@@ -11,6 +11,8 @@ const Layout = () => {
     const DEFAULT_THEME = 'light';
     const navigate = useNavigate();
 
+    console.log(currentPath);
+
     useEffect(() => {
         WebFont.load({
             google: {
@@ -36,7 +38,11 @@ const Layout = () => {
 
         const userSignedOut = !loadingUser && !user;
         const adminSignedOut = !loadingAdmin && !admin;
-        const signOutAddresses = ['/', '/login', '/register', '/login/user', '/login/admin', '/register/user', '/register/admin', '/feeds'];
+        const signOutAddresses = ['/', '/login', '/login', '/register', '/register/', 
+        '/login/user', '/login/user/', '/login/admin', '/login/admin/', 
+        '/register/user', '/register/user/', 
+        '/register/admin', '/register/admin/', 
+        '/feeds', '/feeds/'];
 
         // if not signed in, redirect to login page
         if (userSignedOut && adminSignedOut && !signOutAddresses.includes(currentPath)) {
