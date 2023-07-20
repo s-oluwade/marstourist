@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/server.ts",
-    "lint": "npx eslint . --ext.ts"
+    "lint": "npx eslint . --ext.ts",
+    "gcp-build": "tsc -p ."
   },
   "keywords": [],
   "author": "",
