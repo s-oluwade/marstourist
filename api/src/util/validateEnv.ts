@@ -8,4 +8,5 @@ export default cleanEnv(process.env, {
     JWT_SECRET: str(),
     S3_ACCESS_KEY: str(),
     S3_SECRET_ACCESS_KEY: str(),
+    CLIENT_DOMAIN: str(),
 });

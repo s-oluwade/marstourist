@@ -2,7 +2,8 @@ runtime: nodejs18
 
 env_variables:
   MONGO_CONNECTION_STRING: "mongodb+srv://samuel:mongoaccess@cluster0.iovys.mongodb.net/martian?retryWrites=true&w=majority"
-  SESSION_SECRET: ierRlerFGlm%$a
-  JWT_SECRET: jhweoqh3202354y80542353nkw30
-  S3_ACCESS_KEY: AKIARGVYXF6SETDSWMN4
-  S3_SECRET_ACCESS_KEY: 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
+  SESSION_SECRET: "ierRlerFGlm%$a"
+  JWT_SECRET: "jhweoqh3202354y80542353nkw30"
+  S3_ACCESS_KEY: "AKIARGVYXF6SETDSWMN4"
+  S3_SECRET_ACCESS_KEY: "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"
+  CLIENT_DOMAIN: "https://main.d1una5jkr2zdiy.amplifyapp.com/"
