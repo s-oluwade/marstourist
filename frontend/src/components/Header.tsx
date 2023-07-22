@@ -3,12 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./Providers/AuthContext";
 import { UserContext } from "./Providers/UserContext";
-import { GlobalContext } from "./Providers/GlobalContext";
 
 const Header = () => {
     const { user, setUser, admin } = useContext(AuthContext);
-    const { cart, userAvatar } = useContext(UserContext);
-    const { notifications} = useContext(GlobalContext);
+    const { cart, userAvatar, userNotifications } = useContext(UserContext);
     const [logout, setLogout] = useState(false);
 
     useEffect(() => {
@@ -90,7 +88,7 @@ const Header = () => {
                             </Link>
                             <div className="dropdown dropdown-end">
                                 <div className="indicator">
-                                    {notifications && notifications[user._id] && notifications[user._id].length > 0 &&
+                                    {userNotifications.length > 0 &&
                                         <span className="indicator-item badge badge-sm badge-secondary right-2 top-2"></span>
                                     }
                                     <label tabIndex={0} className="btn btn-circle avatar">

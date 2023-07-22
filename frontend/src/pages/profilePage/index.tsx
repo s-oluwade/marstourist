@@ -1,11 +1,10 @@
 import { useContext } from "react";
-import { AuthContext } from "../../components/Providers/AuthContext";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../components/Providers/AuthContext";
+import { UserContext } from "../../components/Providers/UserContext";
+import InboxSubPage from "./InboxPage";
 import SettingsSubPage from "./SettingsPage";
 import UserHomeSubPage from "./UserHomePage";
-import InboxSubPage from "./InboxPage";
-import { GlobalContext } from "../../components/Providers/GlobalContext";
-import { UserContext } from "../../components/Providers/UserContext";
 
 const homepaths = ['/profile/home', '/profile/home/', '/profile', '/profile/'];
 const inboxpaths = ['/profile/inbox', '/profile/inbox/'];
@@ -23,8 +22,7 @@ const settingspaths = [
 
 const ProfilePage = () => {
     const { user } = useContext(AuthContext);
-    const { notifications } = useContext(GlobalContext);
-    const { userAvatar } = useContext(UserContext);
+    const { userAvatar, userNotifications } = useContext(UserContext);
     const currentPath = window.location.pathname;
 
     return (
@@ -73,17 +71,16 @@ const ProfilePage = () => {
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
                                         </svg>
                                         <div className="indicator">
-                                            {user && notifications && notifications[user._id] &&
-                                                (notifications[user._id].includes("purchase") ||
-                                                    notifications[user._id].includes("message") ||
-                                                    notifications[user._id].includes("update")
-                                                )
+                                            {(
+                                                userNotifications.includes("purchase") ||
+                                                userNotifications.includes("message") ||
+                                                userNotifications.includes("update")
+                                            )
                                                 &&
                                                 <span className="indicator-item badge badge-outline -right-10 top-2">new</span>
                                             }
                                             <span>Inbox</span>
                                         </div>
-
                                     </Link>
                                 </li>
                                 <li>

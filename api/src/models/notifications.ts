@@ -1,10 +1,8 @@
 import { InferSchemaType, model, Schema } from "mongoose";
 
 const notificationsSchema = new Schema({
-    notifications: {
-        type: Map,
-        of: [String]
-    },
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    notifications: { type: [String], default: [], required: true },
 });
 
 type Notifications = InferSchemaType<typeof notificationsSchema>;

@@ -176,10 +176,10 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
                 if (uploadedFiles[0]) {
                     user.set('photo', uploadedFiles[0]);
 
-                    const userPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
-                    if (userPictures) {
-                        userPictures.set("picture", uploadedFiles[0]);
-                        userPictures.save();
+                    const usersPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
+                    if (usersPictures) {
+                        usersPictures.set("picture", uploadedFiles[0]);
+                        usersPictures.save();
                     }
 
                     res.json(await user.save());
@@ -238,8 +238,6 @@ async function uploadToS3(path: any, originalFileName: any, mimetype: any) {
 
     return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
 }
-
-
 
 interface UserCredBody {
     fullname?: string;

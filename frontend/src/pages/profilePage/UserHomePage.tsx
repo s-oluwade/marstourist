@@ -1,17 +1,15 @@
 import axios from "axios";
 import { useContext, useState } from "react";
+import { AuthContext } from "../../components/Providers/AuthContext";
 import { GlobalContext } from "../../components/Providers/GlobalContext";
 import { UserContext } from "../../components/Providers/UserContext";
 import { ReceivedPost } from "../../models/post";
-import { AuthContext } from "../../components/Providers/AuthContext";
-
-const rootURL = import.meta.env.VITE_API_ROOT_URL;
 
 const UserHomeSubPage = () => {
     const [content, setContent] = useState("");
     const [topic, setTopic] = useState("mars");
     const [idOfPostToDelete, setIdOfPostToDelete] = useState("");
-    const { locations, postAvatars, postNames, allPosts, setAllPosts } = useContext(GlobalContext);
+    const { locations, allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts, userAvatar } = useContext(UserContext);
     const { user } = useContext(AuthContext);
 
@@ -71,28 +69,6 @@ const UserHomeSubPage = () => {
         }
         
         return Math.trunc(difference) + " days ago";
-    }
-
-    function getName(id: string) {
-        if (postNames.length > 0) {
-            const name = postNames.filter((each) => each.owner === id)[0].name;
-            return name;
-        }
-        return "";
-    }
-
-    function getPicture(id: string) {
-        if (postAvatars.length > 0) {
-            const picture = postAvatars.filter((each) => each.owner === id)[0].picture;
-            if (picture) {
-                if (picture.includes("https://")) {
-                    return picture;
-                }
-                return `${rootURL}/${picture}`;
-            }
-            return "";
-        }
-        return "";
     }
 
     function showDeleteModal() {

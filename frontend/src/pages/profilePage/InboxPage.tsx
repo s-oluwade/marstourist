@@ -1,7 +1,7 @@
 import { useState } from "react";
+import MessagesTab from "./inboxTabs/MessagesTab";
 import PurchasedTab from "./inboxTabs/PurchasedTab";
 import UpdatesTab from "./inboxTabs/UpdatesTab";
-import MessagesTab from "./inboxTabs/MessagesTab";
 
 const InboxSubPage = () => {
 

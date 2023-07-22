@@ -7,7 +7,6 @@ import { GlobalContext } from "../components/Providers/GlobalContext";
 import { UserContext } from "../components/Providers/UserContext";
 import { Cart } from "../models/cart";
 import { ProductWithId } from "../models/product";
-import { User } from "../models/user";
 
 const purchaseConfirmationTitle = "Purchase with credit";
 
@@ -22,9 +21,9 @@ interface CartItem {
 
 const ShoppingCartPage = () => {
     const [products, setProducts] = useState<ProductWithId[]>([]);
-    const { cart, setCart } = useContext(UserContext);
+    const { cart, setCart, setUserNotifications } = useContext(UserContext);
     const [totalCost, setTotalCost] = useState(0);
-    const { notifications, modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
+    const { modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
     const [numberOfItems, setNumberOfItems] = useState(0);
     const [purchaseAlerts, setPurchaseAlerts] = useState<JSX.Element[]>([]);
     const { user, setUser } = useContext(AuthContext);
@@ -65,10 +64,9 @@ const ShoppingCartPage = () => {
         if (modalResponse === purchaseConfirmationTitle && cart && numberOfItems > 0) {
             if (hasFunds(totalCost)) {
 
+                // generate cart items
                 const cartItems = [] as CartItem[];
-
                 for (const item of Object.keys(cart.products)) {
-
                     if (item !== "total") {
                         const prod = products.filter(prod => prod._id === item)[0];
                         const cartItem = {
@@ -82,18 +80,16 @@ const ShoppingCartPage = () => {
                         cartItems.push(cartItem);
                     }
                 }
-                axios.post<User>('/sales/purchase', [cartItems, totalCost / 1000], { headers: { "Content-Type": "application/json" } })
+
+                // process purchase
+                axios.post('/sales/purchase', [cartItems, totalCost / 1000], { headers: { "Content-Type": "application/json" } })
                     .then(response => {
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
-                        if (notifications && user) {
-                            axios.post('/notifications/add/' + user._id, ["purchase"], { headers: { "Content-Type": "application/json" } })
-                                .then(response => {
-                                    console.log(response.data);
-                                })
-                            // setNotifications({ ...notifications });
-                        }
                         setCart(null);
-                        setUser(response.data);
+                        setUser(response.data[0]);
+                        if (response.data[1]) {
+                            setUserNotifications(response.data[1]);
+                        }
                     });
             }
             else {

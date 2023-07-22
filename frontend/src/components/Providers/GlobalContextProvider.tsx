@@ -14,7 +14,6 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     const [postAvatars, setPostAvatars] = useState<{ _id: string; picture: string; owner: string; }[]>([]);
     const [products, setProducts] = useState<ProductWithId[]>([]);
     const [showProductQuickview, setShowProductQuickview] = useState<boolean>(false);
-    const [notifications, setNotifications] = useState<{ [key: string]: string[] } | null>(null);
 
     useEffect(() => {
         async function loadGlobalData() {
@@ -65,10 +64,6 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                     setProducts([]);
                     console.log(error);
                 });
-            axios.get("/notifications")
-                .then((response) => {
-                    setNotifications(response.data);
-                })
         }
         loadGlobalData();
     }, [])
@@ -77,7 +72,6 @@ export default function GlobalContextProvider({ children }: { children: React.Re
         <GlobalContext.Provider
             value={
                 {
-                    notifications, setNotifications,
                     products, setProducts,
                     postNames, setPostNames,
                     postAvatars, setPostAvatars,

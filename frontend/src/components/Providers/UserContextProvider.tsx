@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 import { Cart } from '../../models/cart';
 import { ReceivedPost } from '../../models/post';
 import { AuthContext } from './AuthContext';
-import { GlobalContext } from './GlobalContext';
 import { UserContext } from './UserContext';
 
 const rootURL = import.meta.env.VITE_API_ROOT_URL;
@@ -14,7 +13,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
     const [cart, setCart] = useState<Cart | null>(null);
     const [userAvatar, setUserAvatar] = useState<string>(defaultPhotoURL);
     const { user } = useContext(AuthContext);
-    const { notifications } = useContext(GlobalContext);
+    const [userNotifications, setUserNotifications] = useState<string[]>([]);
 
     useEffect(() => {
         if (user) {
@@ -35,52 +34,40 @@ export default function UserContextProvider({ children }: { children: React.Reac
                     else {
                         setUserPosts([]);
                     }
-                    
                 })
                 .catch((error) => {
                     setUserPosts([]);
                     console.log(error);
                 });
-            if (notifications) {
-                
-                if (!notifications[user._id]) {
-                    // need to create notification array
-                }
-                else if (notifications[user._id].length > 0) {
-                    // need to show notifications
-                }
-            }
+            
             if (!cart) {
-                getCart().then(res => {
-                    setCart(res);
+                axios.get<Cart>('/sales/cart').then(res => {
+                    setCart(res.data);
                 })
             }
             
             // set user picture
-            (function setUserPic () {
-                const photo = user.photo;
-                if (photo) {
-                    setUserAvatar(photo);
-                }
-                else {
-                    setUserAvatar(defaultPhotoURL);
-                }
-            }());
+            const photo = user.photo;
+            if (photo) setUserAvatar(photo);
+            else setUserAvatar(defaultPhotoURL);
+
+            // get notifications
+            axios.get("/notifications")
+            .then((response) => {
+                if (response.data) setUserNotifications(response.data);
+            })
         }
         else {
             setUserAvatar(defaultPhotoURL);
         }
-        async function getCart() {
-            const { data } = await axios.get<Cart>('/sales/cart');
-            return data
-        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user, notifications])
+    }, [user])
 
     return (
         <UserContext.Provider
             value={
                 {
+                    userNotifications, setUserNotifications,
                     userAvatar, setUserAvatar,
                     userPosts, setUserPosts,
                     cart, setCart,

@@ -3,6 +3,7 @@ import PostModel from '../models/post';
 import env from "../util/validateEnv";
 import ProfileNamesModel from '../models/profileNames';
 import ProfilePicturesModel from '../models/profilePictures';
+import mongoose from 'mongoose';
 const jwt = require("jsonwebtoken");
 
 export const getPosts: RequestHandler = async (req, res, next) => {
@@ -11,7 +12,7 @@ export const getPosts: RequestHandler = async (req, res, next) => {
 
     if (userId) {
         try {
-            const post = await PostModel.find({ owner: userId }).exec();
+            const post = await PostModel.find({ owner: new mongoose.Types.ObjectId(userId) }).exec();
             res.json(post);
         } catch (error) {
             res.json(null);

@@ -9,6 +9,8 @@ const initialState = {
     setCart: () => { return {} as Cart },
     userAvatar: "",
     setUserAvatar: () => { return "" },
+    userNotifications: [],
+    setUserNotifications: () => { return [] },
 }
 
 interface IContext {
@@ -18,6 +20,8 @@ interface IContext {
     setCart: React.Dispatch<React.SetStateAction<Cart | null>>;
     userAvatar: string;
     setUserAvatar: React.Dispatch<React.SetStateAction<string>>;
+    userNotifications: string[];
+    setUserNotifications: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const UserContext = createContext<IContext>(initialState);

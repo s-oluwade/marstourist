@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
 import CartModel from "../models/cart";
 import PurchasedModel from "../models/purchased";
+import NotificationsModel from "../models/notifications";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
-import mongoose from "mongoose";
 const jwt = require("jsonwebtoken");
 
 export const getCart: RequestHandler = async (req, res, next) => {
@@ -137,15 +137,15 @@ export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number],
             if (err) throw err;
 
             try {
+                // store items purchased
                 for (const item of cartitems) {
-                    const purchasedItem = await PurchasedModel.findOne({ productId: item.productId }).exec();
+                    const purchasedItem = await PurchasedModel.findOne({ owner: decodedUser.id, productId: item.productId }).exec();
                     if (purchasedItem) {
                         // product.quantity += item.quantity;  // should work but i'm not sure
                         purchasedItem.set({
                             quantity: purchasedItem.quantity + item.quantity,
                         })
-
-                        purchasedItem.save();
+                        await purchasedItem.save();
                     }
                     else {
                         await PurchasedModel.create({
@@ -154,26 +154,32 @@ export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number],
                         });
                     }
                 }
-
                 const cart = await CartModel.findOne({owner: decodedUser.id});
-
                 if (cart) {
                     cart.products = new Map<string, { count: number; timestamp: number; }>;
                     await cart.save();
                 }
 
-                const userDoc = await UserModel.findById(decodedUser.id);
+                // update user's balance
+                let userDoc = await UserModel.findById(decodedUser.id);
                 if (!userDoc) throw new Error;
-
                 userDoc.set({
                     credit: cost > userDoc.credit ? 0 : userDoc.credit - cost,
                 });
+                userDoc = await userDoc.save();
 
-                res.json(await userDoc.save());
+                // update notifications
+                let userNotification = await NotificationsModel.findOne({owner: decodedUser.id}).exec();
+                if (userNotification) {
+                    userNotification.notifications.push("purchase");
+                    let result = await userNotification.save();
+                    userNotification = result;
+                }
+
+                res.json([userDoc, userNotification?.notifications]);
             } catch (error) {
                 res.json(null);
             }
-
         })
     }
     else {
@@ -186,7 +192,6 @@ export const getPurchase: RequestHandler = async (req, res, next) => {
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
-
             const purchased = await PurchasedModel.find({ owner: decodedUser.id }).exec();
 
             res.status(200).json(purchased);

@@ -19,8 +19,6 @@ const initialState = {
     setPostAvatars: () => { return [] },
     products: [],
     setProducts: () => { return [] },
-    notifications: null,
-    setNotifications: () => { return null },
 }
 
 interface IContext {
@@ -40,8 +38,7 @@ interface IContext {
     setPostAvatars: React.Dispatch<React.SetStateAction<{ _id: string; picture: string; owner: string; }[]>>;
     products: ProductWithId[];
     setProducts: React.Dispatch<React.SetStateAction<ProductWithId[]>>;
-    notifications: { [key: string]: string[] } | null;
-    setNotifications: React.Dispatch<React.SetStateAction<{ [key: string]: string[] } | null>>
+    
 }
 
 export const GlobalContext = createContext<IContext>(initialState);
