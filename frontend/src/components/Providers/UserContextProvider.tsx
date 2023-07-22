@@ -60,17 +60,15 @@ export default function UserContextProvider({ children }: { children: React.Reac
             (function setUserPic () {
                 const photo = user.photo;
                 if (photo) {
-                    if (photo.includes("https://")) {
-                        setUserAvatar(photo);
-                    }
-                    else {
-                        setUserAvatar(`${rootURL}/${photo}`);
-                    }
+                    setUserAvatar(photo);
                 }
                 else {
                     setUserAvatar(defaultPhotoURL);
                 }
             }());
+        }
+        else {
+            setUserAvatar(defaultPhotoURL);
         }
         async function getCart() {
             const { data } = await axios.get<Cart>('/sales/cart');

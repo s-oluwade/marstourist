@@ -13,6 +13,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         // If no logged in state
         if (!user && !admin) {
+
             // grab admin if authenticated
             axios.get<Admin>("/admin", {
                 headers: {

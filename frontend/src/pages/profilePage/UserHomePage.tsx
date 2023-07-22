@@ -212,7 +212,7 @@ const UserHomeSubPage = () => {
                                     </div>
                                 </div>
                                 {/* https://i.pravatar.cc/32 */}
-                                <div className="text-md font-normal text-neutral">{getName(post.owner)}</div>
+                                <div className="text-md font-normal text-neutral capitalize">{user?.fullname}</div>
                             </div>
                             <div className="flex space-x-2 items-center">
                                 {!!post.topic && (
