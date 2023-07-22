@@ -19,7 +19,6 @@ const PurchasedTab = () => {
         async function removeNotification(id: string) {
             axios.put('/notifications/remove/' + id, ["purchase"], { headers: { "Content-Type": "application/json" } })
                 .then(response => {
-                    console.log(response.data)
                     if (response.data) setUserNotifications(response.data);
                 })
         }
