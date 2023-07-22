@@ -6,10 +6,13 @@ import { AuthContext } from './AuthContext';
 import { GlobalContext } from './GlobalContext';
 import { UserContext } from './UserContext';
 
+const rootURL = import.meta.env.VITE_API_ROOT_URL;
+const defaultPhotoURL = `${rootURL}/uploads/73-730154_open-default-profile-picture-png.png`;
+
 export default function UserContextProvider({ children }: { children: React.ReactNode }) {
     const [userPosts, setUserPosts] = useState<ReceivedPost[]>([]);
     const [cart, setCart] = useState<Cart | null>(null);
-    const [userAvatar, setUserAvatar] = useState<string>("http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png");
+    const [userAvatar, setUserAvatar] = useState<string>(defaultPhotoURL);
     const { user } = useContext(AuthContext);
     const { notifications } = useContext(GlobalContext);
 
@@ -18,16 +21,24 @@ export default function UserContextProvider({ children }: { children: React.Reac
             axios.get<ReceivedPost[]>("/posts/" + user._id)
                 .then((response) => {
                     const data = response.data;
-                    data.sort((a, b) =>
-                        new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
-                            ? 1
-                            : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
-                                ? -1
-                                : 0
-                    );
-                    setUserPosts(data);
+
+                    if (data) {
+                        data.sort((a, b) =>
+                            new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
+                                ? 1
+                                : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+                                    ? -1
+                                    : 0
+                        );
+                        setUserPosts(data);
+                    }
+                    else {
+                        setUserPosts([]);
+                    }
+                    
                 })
                 .catch((error) => {
+                    setUserPosts([]);
                     console.log(error);
                 });
             if (notifications) {
@@ -53,8 +64,11 @@ export default function UserContextProvider({ children }: { children: React.Reac
                         setUserAvatar(photo);
                     }
                     else {
-                        setUserAvatar(`http://localhost:4000/${photo}`);
+                        setUserAvatar(`${rootURL}/${photo}`);
                     }
+                }
+                else {
+                    setUserAvatar(defaultPhotoURL);
                 }
             }());
         }

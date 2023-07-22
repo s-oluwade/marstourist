@@ -11,8 +11,6 @@ const Layout = () => {
     const DEFAULT_THEME = 'light';
     const navigate = useNavigate();
 
-    console.log(currentPath);
-
     useEffect(() => {
         WebFont.load({
             google: {
@@ -70,12 +68,9 @@ const Layout = () => {
                                 {/* Sidebar content here */}
                                 <li><a>Sidebar Item 1</a></li>
                                 <li><a>Sidebar Item 2</a></li>
-
                             </ul>
-
                         </div>
                     </div>
-
                 </>
             }
         </>

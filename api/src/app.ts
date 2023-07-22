@@ -40,12 +40,9 @@ app.use(session({
     }),
 }));
 
-// for production use only
-// mongoose.connect(env.MONGO_CONNECTION_STRING);
-
-app.get('/', (req, res) => {
-    res.send("Welcome, Server running...");
-})
+// app.get('/', (req, res) => {
+//     res.send("Welcome, Server running...");
+// })
 
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/admin", adminRoutes);

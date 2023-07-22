@@ -5,12 +5,14 @@ import { UserContext } from "../../components/Providers/UserContext";
 import { ReceivedPost } from "../../models/post";
 import { AuthContext } from "../../components/Providers/AuthContext";
 
+const rootURL = import.meta.env.VITE_API_ROOT_URL;
+
 const UserHomeSubPage = () => {
     const [content, setContent] = useState("");
     const [topic, setTopic] = useState("mars");
     const [idOfPostToDelete, setIdOfPostToDelete] = useState("");
     const { locations, postAvatars, postNames, allPosts, setAllPosts } = useContext(GlobalContext);
-    const { userPosts, setUserPosts } = useContext(UserContext);
+    const { userPosts, setUserPosts, userAvatar } = useContext(UserContext);
     const { user } = useContext(AuthContext);
 
     async function deletePost() {
@@ -86,7 +88,7 @@ const UserHomeSubPage = () => {
                 if (picture.includes("https://")) {
                     return picture;
                 }
-                return `http://localhost:4000/${picture}`;
+                return `${rootURL}/${picture}`;
             }
             return "";
         }
@@ -206,7 +208,7 @@ const UserHomeSubPage = () => {
                             <div className="flex items-center space-x-3">
                                 <div className="avatar">
                                     <div className="w-8 rounded-full">
-                                        <img src={user?.photo ? getPicture(post.owner) : 'http://localhost:4000/uploads/73-730154_open-default-profile-picture-png.png'} />
+                                        <img src={userAvatar} />
                                     </div>
                                 </div>
                                 {/* https://i.pravatar.cc/32 */}

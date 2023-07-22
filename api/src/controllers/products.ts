@@ -28,7 +28,7 @@ export const getProducts: RequestHandler = async (req, res, next) => {
         // else get all products that match the query parameters
         res.status(200).json(products);
     } catch (error) {
-        next(error);
+        res.json(null);
     }
 };
 
@@ -51,6 +51,6 @@ export const addProducts: RequestHandler<unknown, unknown, ProductBody[], unknow
 
         res.status(200).json(added.length);
     } catch (error) {
-        next(error);
+        res.json(null);
     }
 };

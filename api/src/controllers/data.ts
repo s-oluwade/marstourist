@@ -13,6 +13,6 @@ export const getSiteData: RequestHandler = async (req, res, next) => {
         const data = await DataModel.find().exec();
         res.json(data[0]);
     } catch (error) {
-        next(error);
+        res.json(null);
     }
 }

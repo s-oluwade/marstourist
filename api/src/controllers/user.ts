@@ -5,12 +5,13 @@ import ProfileNames from "../models/profileNames";
 import ProfilePictures from "../models/profilePictures";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
-const {S3Client, PutObjectCommand} = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const imageDownloader = require('image-downloader');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
 const bcryptSalt = bcrypt.genSaltSync(10);
-import mongoose from "mongoose";
+// Imports the Google Cloud client library
+const { Storage } = require('@google-cloud/storage');
 
 export const getUsers: RequestHandler = async (req, res, next) => {
     // admin already verified. just fetch users
@@ -145,20 +146,6 @@ export const logout: RequestHandler = (req, res, next) => {
     res.cookie('token', '').json(true);
 };
 
-// not in use
-// export const uploadPhotoByLink: RequestHandler = async (req, res, next) => {
-
-//     const { link } = req.body;
-//     const newName = Date.now() + '.jpg';
-
-//     await imageDownloader.image({
-//         url: link,
-//         dest: __dirname + '/../../uploads/' + newName,
-//     });
-
-//     res.json(newName);
-// }
-
 export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = async (req, res, next) => {
 
     const { token } = req.cookies;
@@ -166,36 +153,66 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
 
-            const uploadedFiles = [];
+            let uploadedFiles = [];
             if (typeof req.files === 'object') {
 
                 let values = Object.values(req.files)
 
                 for (let i = 0; i < values.length; i++) {
                     const { path, originalname, mimetype } = values[i];
-                    
+
                     // fs.renameSync(path, newPath);
                     // uploadedFiles.push(newPath.replace('uploads/', ''));
 
-                    uploadedFiles.push(await uploadToS3(path, originalname, mimetype));
+                    // uploadedFiles.push(await uploadToS3(path, originalname, mimetype));
+
+                    uploadedFiles.push(await uploadToGCloudStorage(path, originalname));
                 }
-                
+
                 const user = await UserModel.findById(decodedUser.id);
 
                 if (!user) throw new Error;
 
-                user.set('photo', uploadedFiles[0]);
+                if (uploadedFiles[0]) {
+                    user.set('photo', uploadedFiles[0]);
 
-                const userPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
-                if (userPictures) {
-                    userPictures.set("picture", uploadedFiles[0]);
-                    userPictures.save();
+                    const userPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
+                    if (userPictures) {
+                        userPictures.set("picture", uploadedFiles[0]);
+                        userPictures.save();
+                    }
+
+                    res.json(await user.save());
                 }
-
-                res.json(await user.save());
+                else {
+                    res.json(null);
+                }
             }
         })
     }
+}
+
+// Need to login first using the command below
+// gcloud auth application-default login
+async function uploadToGCloudStorage(path: any, originalFileName: any) {
+    // Creates a client
+    const storage = new Storage();
+    const bucket = env.GCLOUD_STORAGE_BUCKET;
+
+    const parts = originalFileName.split('.');
+    const ext = parts[parts.length - 1];
+    const newFileName = Date.now() + '.' + ext;
+
+    const generationMatchPrecondition = 0;
+
+    const options = {
+        destination: newFileName,
+        preconditionOpts: { ifGenerationMatch: generationMatchPrecondition },
+    }
+
+    const res = await storage.bucket(bucket).upload(path, options);
+
+    return `https://storage.cloud.google.com/${bucket}/${newFileName}`;
 }
 
 async function uploadToS3(path: any, originalFileName: any, mimetype: any) {
@@ -218,9 +235,11 @@ async function uploadToS3(path: any, originalFileName: any, mimetype: any) {
         ContentType: mimetype,
         ACL: 'public-read',
     }));
-    
+
     return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
 }
+
+
 
 interface UserCredBody {
     fullname?: string;
@@ -235,7 +254,6 @@ export const updateUserCredentials: RequestHandler<unknown, unknown, UserCredBod
         username,
     } = req.body;
 
-    const locations = ['olympus mons', 'jezero', 'gale', 'gusev', 'meridiani', 'olympus mons', 'capri chasma', 'coloe', 'shalbatana', 'valles marineris', 'cavi angusti', 'medusae fossae', 'nicholson', 'zunil', 'milankovic', 'terra sirenum', 'eberswalde'];
     function isAlphanumeric(str: string) {
         return str.match(/^[a-zA-Z0-9]+$/) !== null;
     }
@@ -287,7 +305,9 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
         location,
     } = req.body;
 
-    const locations = ['olympus mons', 'jezero', 'gale', 'gusev', 'meridiani', 'olympus mons', 'capri chasma', 'coloe', 'shalbatana', 'valles marineris', 'cavi angusti', 'medusae fossae', 'nicholson', 'zunil', 'milankovic', 'terra sirenum', 'eberswalde'];
+    const locations = ['olympus mons', 'jezero', 'gale', 'gusev', 'meridiani', 
+    'capri chasma', 'coloe', 'shalbatana', 'valles marineris', 'cavi angusti', 
+    'medusae fossae', 'nicholson', 'zunil', 'milankovic', 'terra sirenum', 'eberswalde'];
 
     if (bio === undefined || bio === "") {
         bio = "";
@@ -339,4 +359,3 @@ export const addCredit: RequestHandler<unknown, unknown, { credit: number }, unk
         res.json(null);
     }
 }
-

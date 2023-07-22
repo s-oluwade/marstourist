@@ -9,4 +9,7 @@ export default cleanEnv(process.env, {
     S3_ACCESS_KEY: str(),
     S3_SECRET_ACCESS_KEY: str(),
     CLIENT_DOMAIN: str(),
+    GOOGLE_CLOUD_PROJECT: str(),
+    GCLOUD_STORAGE_BUCKET: str(),
+    GCLOUD_ACCESS_TOKEN: str(),
 });

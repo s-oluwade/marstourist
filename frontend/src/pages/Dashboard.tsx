@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../components/Providers/AuthContext';
 import axios from 'axios';
 
+const rootURL = import.meta.env.VITE_API_ROOT_URL;
+
 interface Member {
     id: string;
     fullName: string;
@@ -111,14 +113,15 @@ const Dashboard = () => {
                         <ul className="menu bg-base-300 w-56 p-0 [&_li>*]:rounded-none h-full">
                             <li className="menu-title">Admin [{admin.name}]</li>
                             <li className="menu-title">Users</li>
-                            {userInformation.map((user, index) => (
-                                <li key={index} data-email={user.email} onClick={switchUserFocus}>
-                                    <a>
-                                        <span><img className='rounded-full' src={`http://localhost:4000/${user.photo}`} alt={user.userName} width={30} /></span>
-                                        <span>{user.fullName}</span>
-                                    </a>
-                                </li>
-                            ))
+                            {userInformation.map(
+                                (user, index) => (
+                                    <li key={index} data-email={user.email} onClick={switchUserFocus}>
+                                        <a>
+                                            <span><img className='rounded-full' src={`${rootURL}/${user.photo}`} alt={user.userName} width={30} /></span>
+                                            <span>{user.fullName}</span>
+                                        </a>
+                                    </li>
+                                ))
                             }
                         </ul>
                         <div className='col-start-2 col-span-3 p-2 pl-10 bg-base-200'>
@@ -161,7 +164,7 @@ const Dashboard = () => {
                             {userInformation.map((user, index) => (
                                 <li key={index} data-email={user.email} onClick={switchUserFocus}>
                                     <a>
-                                        <span><img className='rounded-full' src={`http://localhost:4000/${user.photo}`} alt={user.userName} width={30} /></span>
+                                        <span><img className='rounded-full' src={`${rootURL}/${user.photo}`} alt={user.userName} width={30} /></span>
                                         <span>{user.fullName}</span>
                                     </a>
                                 </li>
@@ -187,7 +190,7 @@ const Dashboard = () => {
                             {userInformation.map((user, index) => (
                                 <li key={index} data-email={user.email} onClick={switchUserFocus}>
                                     <a>
-                                        <span><img className='rounded-full' src={`http://localhost:4000/${user.photo}`} alt={user.userName} width={30} /></span>
+                                        <span><img className='rounded-full' src={`${rootURL}/${user.photo}`} alt={user.userName} width={30} /></span>
                                         <span>{user.fullName}</span>
                                     </a>
                                 </li>

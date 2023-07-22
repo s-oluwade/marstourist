@@ -7,7 +7,7 @@ export default function GeneralSubPage() {
     const { user, setUser } = useContext(AuthContext);
     const [fullname, setFullname] = useState<string | undefined>(user?.fullname);
     const [username, setUsername] = useState<string | undefined>(user?.username);
-
+    const [uploading, setUploading] = useState(false);
     const [files, setFiles] = useState<FileList | null>(null);
 
     async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
@@ -34,6 +34,8 @@ export default function GeneralSubPage() {
         if (files === null || files === undefined) {
             return;
         }
+        setUploading(true);
+
         const data = new FormData();
         data.append('photos', files[0]);
         axios.put('/user/uploadPhoto', data, {
@@ -78,17 +80,29 @@ export default function GeneralSubPage() {
                                 <span className="h-10">+</span>
                             </label>
                         </form>
-                        <div className="flex flex-col w-48">
-                            {files &&
-                                <p className="text-xs">{files[0].name}</p>
-                            }
-                            <button onClick={uploadPhoto} className="btn btn-accent btn-sm">
-                                Upload
-                            </button>
-                        </div>
-                        <button onClick={hideUploader} className="btn btn-square">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                        </button>
+                        {uploading ?
+                            <div className="flex flex-col w-48 break-words">
+                                {files &&
+                                    <p className="text-xs">{files[0].name}</p>
+                                }
+                                <span className="loading loading-spinner loading-md self-center"></span>
+                            </div>
+                            :
+                            <>
+                                <div className="flex flex-col w-48 break-words">
+                                    {files &&
+                                        <p className="text-xs">{files[0].name}</p>
+                                    }
+                                    <button onClick={uploadPhoto} className="btn btn-accent btn-sm">
+                                        Upload
+                                    </button>
+                                </div>
+                                <button onClick={hideUploader} className="btn btn-square">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </>
+                        }
+
                     </div>
                 </div>
                 <button onClick={showUploader} id="update-avatar-btn" className="btn btn-accent btn-sm">Update Avatar</button>

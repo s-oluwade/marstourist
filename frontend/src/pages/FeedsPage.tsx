@@ -5,6 +5,8 @@ import axios from "axios";
 import { ReceivedPost } from "../models/post";
 import { UserContext } from "../components/Providers/UserContext";
 
+const rootURL = import.meta.env.VITE_API_ROOT_URL;
+
 const FeedsPage = () => {
 
     const { postNames, postAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
@@ -62,7 +64,7 @@ const FeedsPage = () => {
                 if (picture.includes("https://")) {
                     return picture;
                 }
-                return `http://localhost:4000/${picture}`;
+                return `${rootURL}/${picture}`;
             }
             return "";
         }

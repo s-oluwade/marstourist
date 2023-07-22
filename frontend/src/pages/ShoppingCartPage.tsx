@@ -50,7 +50,12 @@ const ShoppingCartPage = () => {
                 }
             }
             setTotalCost(cost);
-            setNumberOfItems(cart.products["total"].count);
+            if (cart.products["total"]) {
+                setNumberOfItems(cart.products["total"].count);
+            }
+            else {
+                console.error("Total key missing from cart");
+            }
         }
 
     }, [cart, products, products.length])
@@ -228,7 +233,7 @@ const ShoppingCartPage = () => {
                 <div id="summary" className="w-1/4 px-8 py-10">
                     <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
                     <div className="flex justify-between mt-10 mb-5">
-                        <span className="font-semibold text-sm uppercase">Items {cart && cart.products["total"].count}</span>
+                        <span className="font-semibold text-sm uppercase">Items {cart && cart.products["total"] && cart.products["total"].count}</span>
                         <span className="font-semibold text-sm">{totalCost}$</span>
                     </div>
                     <div className="flex flex-col gap-2 mt-10">

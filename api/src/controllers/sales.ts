@@ -171,7 +171,7 @@ export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number],
 
                 res.json(await userDoc.save());
             } catch (error) {
-                next(error);
+                res.json(null);
             }
 
         })

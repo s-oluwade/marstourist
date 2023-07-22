@@ -31,7 +31,7 @@ export const login: RequestHandler<unknown, unknown, AdminLoginBody, unknown> = 
         const admin = await AdminModel.findOne({ name: name }).select("+password +email").exec();
 
         if (!admin) {
-            throw createHttpError(401, "User not found");
+            throw createHttpError(401, "Admin not found");
         }
 
         const passwordMatch = await bcrypt.compare(password, admin.password);

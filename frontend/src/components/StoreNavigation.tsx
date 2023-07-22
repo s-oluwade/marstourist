@@ -43,7 +43,7 @@ const navigation = {
           id: 'uncategorized',
           name: 'Uncategorized',
           items: [
-            { name: 'Smartphones', href: 'http://localhost:4000/api/products?category=smartphones' },
+            { name: 'Smartphones', href: `'/api/products?category=smartphones'` },
             { name: 'Laptops', href: '#' },
             { name: 'Fragrances', href: '#' },
             { name: 'Skincare', href: '#' },

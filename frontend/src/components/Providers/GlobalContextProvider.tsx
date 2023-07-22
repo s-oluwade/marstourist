@@ -23,18 +23,21 @@ export default function GlobalContextProvider({ children }: { children: React.Re
             axios.get("/posts/profile-names")
                 .then((response) => {
                     const names = response.data;
-                    setPostNames(names);
+                    if (names) setPostNames(names);
+                    else setPostNames([]);
                 })
                 .catch((error) => {
+                    setPostNames([]);
                     console.log(error);
                 });
 
             axios.get("/posts/profile-pictures")
                 .then((response) => {
                     const pictures = response.data;
-                    setPostAvatars(pictures);
+                    if (pictures) setPostAvatars(pictures);
                 })
                 .catch((error) => {
+                    setPostAvatars([]);
                     console.log(error);
                 });
             axios.get<ReceivedPost[]>("/posts")
@@ -50,6 +53,7 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                     setAllPosts(data);
                 })
                 .catch((error) => {
+                    setAllPosts([]);
                     console.log(error);
                 });
             axios.get("/products")
@@ -58,6 +62,7 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                     setProducts(products);
                 })
                 .catch((error) => {
+                    setProducts([]);
                     console.log(error);
                 });
             axios.get("/notifications")

@@ -1,12 +1,13 @@
 {
-  "name": "backend",
+  "name": "api",
   "version": "1.0.0",
   "description": "",
   "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/server.ts",
-    "lint": "npx eslint . --ext.ts"
+    "start": "nodemon src/server.ts",
+    "lint": "npx eslint . --ext.ts",
+    "gcp-build": "npx tsc"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.370.0",
+    "@google-cloud/storage": "^6.12.0",
     "bcrypt": "^5.1.0",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",

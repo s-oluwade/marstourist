@@ -5,6 +5,6 @@ export const requiresAdminAuth: RequestHandler = (req, res, next) => {
     if (req.session.adminId) {
         next();
     } else {
-        next(createHttpError(401, "User not authenticated"));
+        next(createHttpError(401, "Admin not authenticated"));
     }
 };
