@@ -42,6 +42,8 @@ const Layout = () => {
         '/register/admin', '/register/admin/', 
         '/feeds', '/feeds/'];
 
+        console.log("cookie: ", document.cookie);
+
         // if not signed in, redirect to home page
         if (userSignedOut && adminSignedOut && !signOutAddresses.includes(currentPath)) {
             navigate("/");
