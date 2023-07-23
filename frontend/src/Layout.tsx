@@ -42,9 +42,9 @@ const Layout = () => {
         '/register/admin', '/register/admin/', 
         '/feeds', '/feeds/'];
 
-        // if not signed in, redirect to login page
+        // if not signed in, redirect to home page
         if (userSignedOut && adminSignedOut && !signOutAddresses.includes(currentPath)) {
-            navigate("/login");
+            navigate("/");
         }
 
     }, [admin, currentPath, loadingAdmin, loadingUser, navigate, user]);

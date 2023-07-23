@@ -27,7 +27,7 @@ const LoginUserPage = () => {
     }
 
     if (redirect) {
-        return <Navigate to={'/store'} />
+        return <Navigate to={'/'} />
     }
 
     return (

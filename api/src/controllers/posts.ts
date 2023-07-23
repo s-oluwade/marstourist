@@ -32,7 +32,14 @@ export const getNames: RequestHandler = async (req, res, next) => {
 
     try {
         const data = await ProfileNamesModel.find({}).exec();
-        res.json(data);
+        
+        const map = {} as {[key: string]:string};
+
+        for (const each of data) {
+            map[each.owner.toString()] = each.name;
+        }
+
+        res.json(map);
     } catch (error) {
         res.json(null);
     }
@@ -42,7 +49,14 @@ export const getPictures: RequestHandler = async (req, res, next) => {
 
     try {
         const data = await ProfilePicturesModel.find({}).exec();
-        res.json(data);
+
+        const map = {} as {[key: string]:string};
+
+        for (const each of data) {
+            map[each.owner.toString()] = each.picture || '';
+        }
+
+        res.json(map);
     } catch (error) {
         res.json(null);
     }

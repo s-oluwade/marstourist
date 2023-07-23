@@ -1,19 +1,16 @@
-import { useEffect, useState, useContext } from "react";
-import { ProductWithId } from "../models/product";
-import { GlobalContext } from "../components/Providers/GlobalContext";
-import ProductQuickview from "../components/ProductQuickview";
 import axios from "axios";
-import { Cart } from "../models/cart";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext } from "../components/Providers/GlobalContext";
 import { UserContext } from "../components/Providers/UserContext";
+import { Cart } from "../models/cart";
+import { ProductWithId } from "../models/product";
 
 const StorePage = () => {
-    // const [products, setProducts] = useState<ProductWithId[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<ProductWithId[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [category, setCategory] = useState<string>("all");
-    const { setShowProductQuickview, products } = useContext(GlobalContext);
-    const { cart, setCart } = useContext(UserContext)
-    const [openedProduct, setOpenedProduct] = useState<ProductWithId | null>(null);
+    const { products } = useContext(GlobalContext);
+    const { cart, setCart } = useContext(UserContext);
     const [selectedTab, setSelectedTab] = useState("tab-all");
 
     useEffect(() => {
@@ -60,6 +57,21 @@ const StorePage = () => {
         setCart(data);
     }
 
+    function closeImageModal() {
+        const modal = document.getElementById("image-modal");
+
+        if (modal) modal.classList.add('hidden');
+    }
+
+    function showImageModal(src: string) {
+        const modal = document.getElementById("image-modal");
+        const modalImg = document.getElementById("modal-image");
+        if (modal) modal.classList.remove('hidden');
+        if (modalImg) {
+            modalImg.setAttribute("src", src);
+        }
+    }
+
     return (
         <div className="flex flex-col w-full items-center gap-5 mt-2">
             <div className="tabs">
@@ -69,14 +81,14 @@ const StorePage = () => {
                 ))}
 
             </div>
-            <div className="mx-auto mt-8">
+            <div className="mx-auto">
                 <h2 className="sr-only">Products</h2>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {filteredProducts.map((product, index) => (
                         <div key={index}
                             className="w-80 card card-compact bg-base-100 shadow-sm transition-shadow hover:shadow-md">
-                            <figure className="h-48" onClick={() => { setOpenedProduct(product); setShowProductQuickview(true); }}>
+                            <figure className="h-48" onClick={() => { showImageModal(product.images[0]) }}>
                                 <img src={product.images[0]} alt="Shoes" className="cursor-pointer" />
                             </figure>
                             <div className="card-body">
@@ -100,9 +112,17 @@ const StorePage = () => {
                             </div>
                         </div>
                     ))}
-                    {openedProduct &&
-                        <ProductQuickview {...openedProduct} />
-                    }
+                    <div id="image-modal"
+                        className="hidden fixed top-0 left-0 z-40 w-screen bg-black/70">
+                        <div className="flex justify-center items-center h-screen">
+                            <a onClick={() => closeImageModal()} className="fixed z-50 top-10 right-20 text-white text-5xl font-bold cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </a>
+                            <img id="modal-image" className="max-w-[800px] max-h-[600px] object-cover" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

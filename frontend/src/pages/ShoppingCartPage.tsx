@@ -84,12 +84,16 @@ const ShoppingCartPage = () => {
                 // process purchase
                 axios.post('/sales/purchase', [cartItems, totalCost / 1000], { headers: { "Content-Type": "application/json" } })
                     .then(response => {
+                        console.log(response.data);
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
                         setCart(null);
                         setUser(response.data[0]);
                         if (response.data[1]) {
                             setUserNotifications(response.data[1]);
                         }
+                    })
+                    .catch(error => {
+                        console.log(error);
                     });
             }
             else {
@@ -155,14 +159,13 @@ const ShoppingCartPage = () => {
     return (
         <div className="container mx-auto">
 
-            <div className="flex shadow-md my-10 min-w-max">
-                <div className="w-3/4 bg-white px-10 py-10">
+            <div className="flex shadow-md my-10 min-w-max max-w-7xl mx-auto">
+                <div className="w-3/4 px-10 py-10 bg-base-100 rounded-l">
+                    <div className="flex justify-between border-b pb-8">
+                        <h1 className="font-normal text-2xl">Cart</h1>
+                    </div>
                     {products.length > 0 && cart && cart.products["total"].count > 0 &&
                         <>
-                            <div className="flex justify-between border-b pb-8">
-                                <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-                                <h2 className="font-semibold text-2xl">{cart.products["total"].count} Items</h2>
-                            </div>
                             <div className="flex mt-10 mb-5">
                                 <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
                                 <h3 className="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
@@ -183,9 +186,11 @@ const ShoppingCartPage = () => {
                                                 <img className="h-24" src={item.images[0]} alt="" />
                                             </div>
                                             <div className="flex flex-col justify-between ml-4 flex-grow">
-                                                <span className="font-bold text-sm">{item.title}</span>
-                                                <span className="text-red-500 text-xs">{item.brand}</span>
-                                                <a href="#" onClick={(e) => removeFromCart(e, productId)} className="font-medium hover:text-red-500 text-gray-500 text-sm">Remove</a>
+                                                <span className="font-medium text-sm">{item.title}</span>
+                                                <span className="text-secondary text-xs">{item.brand}</span>
+                                                <div>
+                                                    <a href="#" onClick={(e) => removeFromCart(e, productId)} className="font-medium hover:text-red-500 text-gray-500 text-sm">Remove</a>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="flex justify-center w-1/5">
@@ -201,13 +206,13 @@ const ShoppingCartPage = () => {
                                                 </svg>
                                             </a>
                                         </div>
-                                        <span className="text-center w-1/5 font-semibold text-sm">
+                                        <span className="text-center w-1/5 font-normal text-sm">
                                             {item.price.toLocaleString("en-US", {
                                                 style: "currency",
                                                 currency: "USD",
                                             })}
                                         </span>
-                                        <span className="text-center w-1/5 font-semibold text-sm">
+                                        <span className="text-center w-1/5 font-normal text-sm">
                                             {(item.price * cart.products[productId].count).toLocaleString("en-US", {
                                                 style: "currency",
                                                 currency: "USD",
@@ -219,23 +224,23 @@ const ShoppingCartPage = () => {
                         </>
                     }
 
-                    <Link to='/store' className="cursor-pointer inline-flex font-medium text-primary text-sm mt-10">
-                        <svg className="fill-current mr-2 text-primary w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" /></svg>
+                    <Link to='/store' className="cursor-pointer inline-flex link font-medium text-sm mt-10">
+                        <svg className="fill-current mr-2 w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" /></svg>
                         Continue Shopping
                     </Link>
 
                 </div>
 
-                <div id="summary" className="w-1/4 px-8 py-10">
-                    <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
+                <div id="summary" className="w-1/4 px-8 py-10 bg-base-200 rounded-r">
+                    <h1 className="font-normal text-2xl border-b pb-8">Payment Details</h1>
                     <div className="flex justify-between mt-10 mb-5">
-                        <span className="font-semibold text-sm uppercase">Items {cart && cart.products["total"] && cart.products["total"].count}</span>
-                        <span className="font-semibold text-sm">{totalCost}$</span>
+                        <span className="font-medium text-sm uppercase">Items {cart && cart.products["total"] && cart.products["total"].count}</span>
+                        <span className="font-medium text-sm">{totalCost}$</span>
                     </div>
                     <div className="flex flex-col gap-2 mt-10">
                         <p>Pay with mars credit</p>
                         <p>1 mars credit = $1,000</p>
-                        <button onClick={() => setShowConfirmationModal(true)} className="btn btn-block btn-secondary btn-sm">
+                        <button onClick={() => setShowConfirmationModal(true)} className="btn btn-block btn-accent btn-sm mt-5">
                             Pay with {totalCost > 0 ? ((totalCost) / 1000).toFixed(3) : 0} Mars credit
                         </button>
                     </div>

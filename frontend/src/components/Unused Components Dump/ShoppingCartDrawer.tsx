@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useState } from 'react';
 
-export default function ShoppingCart() {
+export default function ShoppingCartDrawer() {
     const [open, setOpen] = useState(false);
 
     function openCart() {

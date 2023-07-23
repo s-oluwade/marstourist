@@ -10,8 +10,8 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     const [modalResponse, setModalResponse] = useState<string>("");
     const [locations, setLocations] = useState<string[]>([]);
     const [allPosts, setAllPosts] = useState<ReceivedPost[]>([]);
-    const [postNames, setPostNames] = useState<{ _id: string; name: string; owner: string; }[]>([]);
-    const [postAvatars, setPostAvatars] = useState<{ _id: string; picture: string; owner: string; }[]>([]);
+    const [postNames, setPostNames] = useState<{[key: string]:string} | null>(null);
+    const [postAvatars, setPostAvatars] = useState<{[key: string]:string} | null>(null);
     const [products, setProducts] = useState<ProductWithId[]>([]);
     const [showProductQuickview, setShowProductQuickview] = useState<boolean>(false);
 
@@ -23,20 +23,19 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                 .then((response) => {
                     const names = response.data;
                     if (names) setPostNames(names);
-                    else setPostNames([]);
+                    else setPostNames(null);
                 })
                 .catch((error) => {
-                    setPostNames([]);
+                    setPostNames(null);
                     console.log(error);
                 });
-
             axios.get("/posts/profile-pictures")
                 .then((response) => {
                     const pictures = response.data;
                     if (pictures) setPostAvatars(pictures);
                 })
                 .catch((error) => {
-                    setPostAvatars([]);
+                    setPostAvatars(null);
                     console.log(error);
                 });
             axios.get<ReceivedPost[]>("/posts")

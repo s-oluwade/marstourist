@@ -13,10 +13,10 @@ const initialState = {
     setLocations: () => { return [] },
     allPosts: [],
     setAllPosts: () => { return [] },
-    postNames: [],
-    setPostNames: () => { return [] },
-    postAvatars: [],
-    setPostAvatars: () => { return [] },
+    postNames: null,
+    setPostNames: () => { return null },
+    postAvatars: null,
+    setPostAvatars: () => { return null },
     products: [],
     setProducts: () => { return [] },
 }
@@ -32,13 +32,12 @@ interface IContext {
     setLocations: React.Dispatch<React.SetStateAction<string[]>>;
     allPosts: ReceivedPost[];
     setAllPosts: React.Dispatch<React.SetStateAction<ReceivedPost[]>>;
-    postNames: { _id: string; name: string; owner: string; }[];
-    setPostNames: React.Dispatch<React.SetStateAction<{ _id: string; name: string; owner: string; }[]>>;
-    postAvatars: { _id: string; picture: string; owner: string; }[];
-    setPostAvatars: React.Dispatch<React.SetStateAction<{ _id: string; picture: string; owner: string; }[]>>;
+    postNames: {[key: string]:string} | null;
+    setPostNames: React.Dispatch<React.SetStateAction<{[key: string]:string} | null>>;
+    postAvatars: {[key: string]:string} | null;
+    setPostAvatars: React.Dispatch<React.SetStateAction<{[key: string]:string} | null>>;
     products: ProductWithId[];
     setProducts: React.Dispatch<React.SetStateAction<ProductWithId[]>>;
-    
 }
 
 export const GlobalContext = createContext<IContext>(initialState);

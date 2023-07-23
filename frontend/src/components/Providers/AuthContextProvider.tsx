@@ -25,14 +25,11 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
                 logoutUser();
                 setAdmin(res.data);
                 // unauthenticate/logout user
-            }).catch(err => {
+            }).catch(() => {
                 setLoadingAdmin(false);
-                console.log(err.message);
                 // else grab user if authenticated
                 axios.get<User>("/user").then(res => {
                     setUser(res.data);
-                }).catch(err => {
-                    console.log(err.message);
                 }).finally(() => {
                     setLoadingUser(false);
                 })
@@ -48,7 +45,8 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     async function logoutUser() {
         try {
             await axios.post('/user/logout');
-            setUser(null);
+            window.location.reload();
+            // setUser(null);
         } catch (error) {
             console.log(error);
         }

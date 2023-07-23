@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Admin } from "../../models/admin";
 
+const adminAccessDenied = import.meta.env.VITE_ADMIN_ACCESS_DENIED
+
 export interface AdminLoginCredentials {
     name: string,
     password: string,
@@ -28,6 +30,10 @@ const LoginAdminPage = () => {
 
     if (redirect) {
         return <Navigate to={'/dashboard'} />
+    }
+
+    if (adminAccessDenied === "true") {
+        return <div className="flex justify-center grow my-10 text-2xl">Access Denied</div>
     }
 
     return (
