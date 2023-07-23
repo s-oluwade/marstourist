@@ -106,8 +106,8 @@ const FeedsPage = () => {
             <div id="posts" className="p-6 inline-flex flex-col items-center min-h-full">
 
                 {allPosts.map((post, index) => (
-                    <div key={index} className="rounded-lg border p-3 shadow-md w-[32rem] bg-base-100 mb-4">
-                        <div className="flex w-full items-center justify-between border-b pb-2">
+                    <div key={index} className="rounded-lg border p-3 shadow-md w-[32rem] bg-base-200 mb-4 border-neutral">
+                        <div className="flex w-full items-center justify-between border-b border-accent pb-2">
                             <div className="flex items-center space-x-3">
                                 <div className="avatar">
                                     <div className="w-8 rounded-full">
@@ -115,18 +115,18 @@ const FeedsPage = () => {
                                     </div>
                                 </div>
                                 {/* https://i.pravatar.cc/32 */}
-                                <div className="text-md font-normal text-neutral">{getName(post.owner)}</div>
+                                <div className="text-md font-normal text-base-content">{getName(post.owner)}</div>
                             </div>
                             <div className="flex space-x-2 items-center">
                                 {!!post.topic && (
                                     <div className="badge badge-outline">{post.topic}</div>
                                 )}
-                                <div className="text-xs text-neutral-500">{getWhen(post.createdAt)}</div>
+                                <div className="text-xs text-base-content">{getWhen(post.createdAt)}</div>
                             </div>
                         </div>
 
                         <div className="mt-4 mb-2 flex justify-between gap-8">
-                            <div className="text-sm text-neutral-600">
+                            <div className="text-sm text-base-content">
                                 <p>{post.content}</p>
                             </div>
                             {user && postNames &&

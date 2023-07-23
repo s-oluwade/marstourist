@@ -45,8 +45,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     async function logoutUser() {
         try {
             await axios.post('/user/logout');
-            window.location.reload();
-            // setUser(null);
+            setUser(null);
         } catch (error) {
             console.log(error);
         }
