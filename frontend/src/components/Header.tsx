@@ -38,11 +38,11 @@ const Header = () => {
             }
         }
 
-        console.log(cart)
-        if (cart) {
-            console.log(cart.products["total"]);
-            console.log(cart.products["total"].count)
-        }
+        // console.log(cart)
+        // if (cart) {
+        //     console.log(cart.products["total"]);
+        //     console.log(cart.products["total"].count)
+        // }
     }, [admin, logout, setUser, setAdmin, cart])
 
     // function isStorePage() {

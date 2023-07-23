@@ -29,7 +29,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
                 setLoadingAdmin(false);
                 // else grab user if authenticated
                 axios.get<User>("/user").then(res => {
-                    console.log(document.cookie);
+                    console.log("cookie: ", document.cookie);
                     setUser(res.data);
                 }).finally(() => {
                     setLoadingUser(false);
