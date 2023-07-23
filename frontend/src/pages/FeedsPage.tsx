@@ -130,9 +130,9 @@ const FeedsPage = () => {
                                 <p>{post.content}</p>
                             </div>
                             {user && postNames &&
-                                <div 
-                                className="tooltip tooltip-close tooltip-right" 
-                                data-tip={post.likes.map(like => postNames[like]).join(", ")}
+                                <div
+                                    className="tooltip tooltip-close tooltip-right"
+                                    data-tip={post.likes.map(like => postNames[like]).join(", ")}
                                 >
                                     <div onClick={(e) => {
                                         if (e.currentTarget.classList.contains("text-neutral")) {

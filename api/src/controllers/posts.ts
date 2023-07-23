@@ -32,7 +32,6 @@ export const getNames: RequestHandler = async (req, res, next) => {
 
     try {
         const data = await ProfileNamesModel.find({}).exec();
-        
         const map = {} as {[key: string]:string};
 
         for (const each of data) {
