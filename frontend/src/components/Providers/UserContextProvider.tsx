@@ -42,6 +42,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
             
             if (!cart) {
                 axios.get<Cart>('/sales/cart').then(res => {
+                    console.log(res.data);
                     setCart(res.data);
                 })
             }
