@@ -17,7 +17,7 @@ const Dashboard = () => {
     // Fetch All Users
     useEffect(() => {
         async function fetchAllUsers() {
-            const { data } = await axios.get('/user/allUsers');
+            const { data } = await axios.get('/admin/users');
 
             setUserInformation(data[0]);
         }

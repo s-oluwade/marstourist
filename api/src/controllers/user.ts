@@ -13,16 +13,6 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 // Imports the Google Cloud client library
 const { Storage } = require('@google-cloud/storage');
 
-export const getUsers: RequestHandler = async (req, res, next) => {
-    // admin already verified. just fetch users
-    try {
-        const users = await UserModel.find({}).select("+email").exec();
-        res.status(200).json([users]);
-    } catch (error) {
-        next(error);
-    }
-};
-
 export const getUser: RequestHandler = async (req, res, next) => {
 
     const { token } = req.cookies;
@@ -143,6 +133,7 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
 };
 
 export const logout: RequestHandler = (req, res, next) => {
+    console.log("logging out user");
     res.cookie('token', '').json(true);
 };
 

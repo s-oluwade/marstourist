@@ -21,10 +21,11 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 
+// CORS configuration
 const cors = require('cors');
 app.use(cors({
     credentials: true,
-    origin: env.CLIENT_DOMAIN,
+    origin: [env.CLIENT_DOMAIN, env.CLIENT_DOMAIN_S],
 }));
 
 app.use(session({
@@ -33,6 +34,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 60 * 60 * 1000,
+        httpOnly: false,
     },
     rolling: true,
     store: MongoStore.create({

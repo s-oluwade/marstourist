@@ -6,8 +6,6 @@ const photosMiddleware = multer({dest:'uploads'});
 
 const router = express.Router();
 
-router.get("/allUsers", requiresAdminAuth, UserController.getUsers);
-
 router.get("/", UserController.getUser);
 
 router.post("/register", UserController.register);

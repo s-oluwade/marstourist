@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import AdminModel from "../models/admin";
+import UserModel from "../models/user";
 
 export const getAdmin: RequestHandler = async (req, res, next) => {
 
@@ -10,6 +11,16 @@ export const getAdmin: RequestHandler = async (req, res, next) => {
         res.status(200).json(admin);
     } catch (error) {
         res.json(null);
+    }
+};
+
+export const getUsers: RequestHandler = async (req, res, next) => {
+    // admin already verified. just fetch users
+    try {
+        const users = await UserModel.find({}).select("+email").exec();
+        res.status(200).json([users]);
+    } catch (error) {
+        next(error);
     }
 };
 
@@ -41,6 +52,7 @@ export const login: RequestHandler<unknown, unknown, AdminLoginBody, unknown> = 
         }
 
         req.session.adminId = admin._id;
+
         res.status(201).json(admin);
 
     } catch (error) {
@@ -85,6 +97,7 @@ export const register: RequestHandler<unknown, unknown, AdminRegisterBody, unkno
         });
 
         req.session.adminId = admin._id;
+        
         res.status(201).json(admin);
 
     } catch (error) {
@@ -93,6 +106,7 @@ export const register: RequestHandler<unknown, unknown, AdminRegisterBody, unkno
 };
 
 export const logout: RequestHandler = (req, res, next) => {
+    console.log("logging out admin");
     req.session.destroy(error => {
         if (error) {
             next(error);

@@ -26,7 +26,15 @@ import FeedsPage from './pages/FeedsPage';
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 axios.defaults.withCredentials = true;
 
+const under_construction = import.meta.env.VITE_UNDER_CONSTRUCTION;
+
 function App() {
+
+  if (under_construction === "true") {
+    return (
+      <div>Site is under construction.</div>
+    )
+  }
 
   return (
     <GlobalContextProvider>

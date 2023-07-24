@@ -9,7 +9,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [loadingUser, setLoadingUser] = useState<boolean>(true);
     const [admin, setAdmin] = useState<Admin | null>(null);
     const [loadingAdmin, setLoadingAdmin] = useState<boolean>(true);
-
+    
     useEffect(() => {
         // If no logged in state
         if (!user && !admin) {

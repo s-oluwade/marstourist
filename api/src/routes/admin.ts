@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get("/", requiresAdminAuth, AdminController.getAdmin);
 
+router.get("/users", requiresAdminAuth, AdminController.getUsers);
+
 router.post("/register", AdminController.register);
 
 router.post("/login", AdminController.login);
