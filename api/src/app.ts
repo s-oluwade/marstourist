@@ -12,7 +12,6 @@ import createHttpError, { isHttpError } from "http-errors";
 import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
-import mongoose from "mongoose";
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = env.PORT;
@@ -25,8 +24,15 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors({
     credentials: true,
-    origin: [env.CLIENT_DOMAIN, env.CLIENT_DOMAIN_S],
+    origin: [env.CLIENT_DOMAIN, env.CLIENT_DOMAIN_S, env.CLIENT_DOMAIN_NETLIFY],
 }));
+
+let cookieSourceConfig : session.CookieOptions = { sameSite: 'lax' };
+
+if (env.ENVIRONMENT === "production") {
+    app.set('trust proxy', 1);
+    cookieSourceConfig = { sameSite: 'none', secure: true }
+}
 
 app.use(session({
     secret: env.SESSION_SECRET,
@@ -34,17 +40,13 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 60 * 60 * 1000,
-        httpOnly: false,
+        ...cookieSourceConfig
     },
     rolling: true,
     store: MongoStore.create({
         mongoUrl: env.MONGO_CONNECTION_STRING
     }),
 }));
-
-// app.get('/', (req, res) => {
-//     res.send("Welcome, Server running...");
-// })
 
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/admin", adminRoutes);

@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { RequestHandler } from "express";
+import { CookieOptions, RequestHandler } from "express";
 import createHttpError from "http-errors";
 import ProfileNames from "../models/profileNames";
 import ProfilePictures from "../models/profilePictures";
@@ -12,6 +12,8 @@ const jwt = require("jsonwebtoken");
 const bcryptSalt = bcrypt.genSaltSync(10);
 // Imports the Google Cloud client library
 const { Storage } = require('@google-cloud/storage');
+
+const cookieSourceConfig : CookieOptions = env.CLIENT_DOMAIN.includes('http://localhost') ? { sameSite: 'lax' } : { sameSite: 'none', secure: true };
 
 export const getUser: RequestHandler = async (req, res, next) => {
 
@@ -63,7 +65,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
         }, env.JWT_SECRET, {}, (err: any, token: any) => {
             if (err) throw err;
 
-            res.cookie('token', token).json(user);
+            res.cookie('token', token, cookieSourceConfig).json(user);
         });
     } catch (error) {
         next(error);
@@ -124,7 +126,7 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
                 username: newUser.username,
             }
 
-            res.cookie('token', token).json(user);
+            res.cookie('token', token, cookieSourceConfig).json(user);
         });
 
     } catch (error) {
@@ -133,8 +135,7 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
 };
 
 export const logout: RequestHandler = (req, res, next) => {
-    console.log("logging out user");
-    res.cookie('token', '').json(true);
+    res.cookie('token', '', cookieSourceConfig).json(true);
 };
 
 export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = async (req, res, next) => {
@@ -294,9 +295,9 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
         location,
     } = req.body;
 
-    const locations = ['olympus mons', 'jezero', 'gale', 'gusev', 'meridiani', 
-    'capri chasma', 'coloe', 'shalbatana', 'valles marineris', 'cavi angusti', 
-    'medusae fossae', 'nicholson', 'zunil', 'milankovic', 'terra sirenum', 'eberswalde'];
+    const locations = ['olympus mons', 'jezero', 'gale', 'gusev', 'meridiani',
+        'capri chasma', 'coloe', 'shalbatana', 'valles marineris', 'cavi angusti',
+        'medusae fossae', 'nicholson', 'zunil', 'milankovic', 'terra sirenum', 'eberswalde'];
 
     if (bio === undefined || bio === "") {
         bio = "";

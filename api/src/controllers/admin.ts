@@ -52,6 +52,9 @@ export const login: RequestHandler<unknown, unknown, AdminLoginBody, unknown> = 
         }
 
         req.session.adminId = admin._id;
+        
+        console.log(req.session);
+        console.log(req.session.cookie);
 
         res.status(201).json(admin);
 

@@ -8,8 +8,10 @@ env_variables:
   S3_SECRET_ACCESS_KEY: "xFhRQY7prV5H5cd6EvFzJssmmWBdNAqyVpQWwlw2"
   CLIENT_DOMAIN: "https://www.marstourist.co"
   CLIENT_DOMAIN_S: "https://marstourist.co"
+  CLIENT_DOMAIN_NETLIFY: "https://main--tourmaline-rabanadas-7b2ad8.netlify.app"
   CLIENT_ASSIGNED_DOMAIN: "https://main.d1una5jkr2zdiy.amplifyapp.com"
   GOOGLE_CLOUD_PROJECT: "neat-tempo-393404"
   GCLOUD_STORAGE_BUCKET: "neat-tempo-393404.appspot.com"
   GCLOUD_ACCESS_TOKEN: "ya29.a0AbVbY6PX2lt7dVv1TA3T_oNGpGI6tutS2imH2vSJn0-DkwzdVIy5qGofxHIfVOZ4fbljpQ-T9aePftTUDCHP8SZqlKuU6pAMnUZD0mq-45MVtH7x6u0t6dz89G_NsIxAmdDl3T2B0Q67A8ko0YPdlPtVIATaaCgYKATYSARMSFQFWKvPlxUi7FRsq_QbsUea4It9WKw0163"
+  ENVIRONMENT: "production"
   
