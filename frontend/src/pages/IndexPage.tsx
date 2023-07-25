@@ -22,7 +22,7 @@ const IndexPage = () => {
     }
 
     return (
-        <section className=" w-full bg-center bg-no-repeat bg-[url('https://images.unsplash.com/photo-1573588028698-f4759befb09a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80')] bg-gray-700 bg-blend-multiply">
+        <section className=" w-full bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1573588028698-f4759befb09a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80')] bg-gray-700 bg-blend-multiply">
             <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 h-full flex flex-col justify-center -mt-12">
                 <h1 className="text-4xl font-bold tracking-tight leading-none text-accent md:text-5xl lg:text-6xl">Welcome to Mars!</h1>
                 <div className="my-14">
