@@ -11,26 +11,22 @@ interface LoginCredentials {
 }
 
 const LoginUserPage = () => {
-    const [redirect] = useState(false);
+    const [redirect, setRedirect] = useState(false);
     const { setUser } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>();
 
     async function onSubmit(credentials: LoginCredentials) {
         try {
             const response = await axios.post<User>("/user/login", credentials, { headers: { "Content-Type": "application/json" } });
-            console.log(response.headers);
-            console.log(document.cookie);
             setUser(response.data);
-            // setRedirect(true);
+            setRedirect(true);
         } catch (error) {
             alert("Login failed");
             console.error(error);
         }
     }
 
-    if (redirect) {
-        return <Navigate to={'/'} />
-    }
+    if (redirect) return <Navigate to={'/'} />
 
     return (
         <div className="mt-4 grow flex items-center justify-around">

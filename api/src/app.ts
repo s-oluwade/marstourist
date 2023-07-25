@@ -27,13 +27,14 @@ app.use(cors({
     origin: [env.CLIENT_DOMAIN, env.CLIENT_DOMAIN_S, env.CLIENT_DOMAIN_NETLIFY],
 }));
 
+// Session cookie configuration
 let cookieSourceConfig : session.CookieOptions = { sameSite: 'lax' };
-
 if (env.ENVIRONMENT === "production") {
     app.set('trust proxy', 1);
     cookieSourceConfig = { sameSite: 'none', secure: true }
 }
 
+// Session configuration
 app.use(session({
     secret: env.SESSION_SECRET,
     resave: false,

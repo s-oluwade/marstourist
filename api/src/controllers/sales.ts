@@ -10,14 +10,9 @@ export const getCart: RequestHandler = async (req, res, next) => {
 
     const { token } = req.cookies;
 
-    console.log(token);
-    console.log("trying to get Cart");
-    
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
-
-            console.log("user verified");
 
             let cart = await CartModel.findOne({ owner: decodedUser.id }).exec();
             if (!cart) {

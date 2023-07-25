@@ -52,9 +52,6 @@ export const login: RequestHandler<unknown, unknown, AdminLoginBody, unknown> = 
         }
 
         req.session.adminId = admin._id;
-        
-        console.log(req.session);
-        console.log(req.session.cookie);
 
         res.status(201).json(admin);
 
@@ -109,7 +106,6 @@ export const register: RequestHandler<unknown, unknown, AdminRegisterBody, unkno
 };
 
 export const logout: RequestHandler = (req, res, next) => {
-    console.log("logging out admin");
     req.session.destroy(error => {
         if (error) {
             next(error);
