@@ -11,7 +11,7 @@ interface LoginCredentials {
 }
 
 const LoginUserPage = () => {
-    const [redirect, setRedirect] = useState(false);
+    const [redirect] = useState(false);
     const { setUser } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>();
 
