@@ -9,6 +9,7 @@ const userSchema = new Schema({
     photo: { type: String },
     bio: { type: String },
     location: { type: String },
+    friends: { type: [Schema.Types.ObjectId] },
 });
 
 type User = InferSchemaType<typeof userSchema>;

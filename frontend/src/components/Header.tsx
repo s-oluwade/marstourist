@@ -37,12 +37,6 @@ const Header = () => {
                 console.log(error);
             }
         }
-
-        // console.log(cart)
-        // if (cart) {
-        //     console.log(cart.products["total"]);
-        //     console.log(cart.products["total"].count)
-        // }
     }, [admin, logout, setUser, setAdmin, cart])
 
     // function isStorePage() {
@@ -73,11 +67,11 @@ const Header = () => {
                     </div>
                 }
                 <div className="flex-none gap-4 hidden lg:flex">
-                    {user ?
+                    {user &&
                         <>
-                            <ul className="menu menu-horizontal p-0 flex-nowrap gap-2">
-                                <li><Link to="/feeds">Feeds</Link></li>
-                                <li><Link to="/store">Store</Link></li>
+                            <ul className="menu menu-horizontal p-0 flex-nowrap">
+                                <li><Link className="uppercase" to="/feeds">Feeds</Link></li>
+                                <li><Link className="uppercase" to="/store">Shop</Link></li>
                             </ul>
                             <div className="badge">
                                 <span className="font-semibold font-chilanka">Credit: &nbsp;{user.credit ? user.credit.toFixed(3) : 0} mrs</span>
@@ -123,26 +117,34 @@ const Header = () => {
                                     </li>
                                 </ul>
                             </div>
-                        </> :
-                        <ul className="menu menu-horizontal p-0 flex-nowrap">
-                            <li><Link to="/feeds">Feeds</Link></li>
-                            <li><Link to="/store">Store</Link></li>
-                            <li><Link to='/login'>Sign in</Link></li>
-                        </ul>
+                        </>
                     }
                     {admin &&
-                        <div className="dropdown dropdown-end">
-                            Admin
-                            <label tabIndex={0} className="btn btn-neutral btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img src={userAvatar} />
-                                </div>
-                            </label>
-                            <ul tabIndex={0} className="menu menu-xs dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-28 gap-1">
-                                <li><Link to="/dashboard">Dashboard</Link></li>
-                                <li><a onClick={() => { setLogout(true) }}>Logout</a></li>
+                        <>
+                            <ul className="menu menu-horizontal p-0 flex-nowrap">
+                                <li><Link className="uppercase" to="/feeds">Feeds</Link></li>
+                                <li><Link className="uppercase" to="/store">Shop</Link></li>
                             </ul>
-                        </div>
+                            <div className="dropdown dropdown-end">
+                                Admin
+                                <label tabIndex={0} className="btn btn-neutral btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img src={userAvatar} />
+                                    </div>
+                                </label>
+                                <ul tabIndex={0} className="menu menu-xs dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-28 gap-1">
+                                    <li><Link to="/dashboard">Dashboard</Link></li>
+                                    <li><a onClick={() => { setLogout(true) }}>Logout</a></li>
+                                </ul>
+                            </div>
+                        </>
+                    }
+                    {!user && !admin &&
+                        <ul className="menu menu-horizontal p-0 flex-nowrap">
+                            <li><Link to="/feeds">Feeds</Link></li>
+                            <li><Link to="/store">Shop</Link></li>
+                            <li><Link to='/login'>Sign in</Link></li>
+                        </ul>
                     }
                 </div>
             </div>

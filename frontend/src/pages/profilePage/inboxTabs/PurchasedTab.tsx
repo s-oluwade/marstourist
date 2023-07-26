@@ -26,24 +26,22 @@ const PurchasedTab = () => {
             removeNotification(user._id);
         }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [setUserNotifications, user])
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[720px] overflow-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[650px] overflow-auto px-10">
             {purchased &&
                 purchased.map((purchase, index) => {
                     return <div key={index}>
-                        <img className="h-auto max-w-full rounded-lg" src={purchase.imageUrl} alt="" />
-                        <div>
-                            {purchase.title}
+                        <div className="h-48 mb-2">
+                            <img className="h-full rounded-lg w-full object-cover" src={purchase.imageUrl} alt="" />
                         </div>
-                        <div>
-                            {purchase.quantity}
+                        <div className="space-x-2">
+                            <span>{purchase.title}</span>
+                            <span className="badge badge-outline">{purchase.quantity}</span>
                         </div>
-                        <div>
-                            tags
-                        </div>
+
                     </div>
                 })}
         </div>

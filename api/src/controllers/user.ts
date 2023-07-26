@@ -5,11 +5,10 @@ import ProfileNames from "../models/profileNames";
 import ProfilePictures from "../models/profilePictures";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
+import mongoose from "mongoose";
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
-const imageDownloader = require('image-downloader');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-const bcryptSalt = bcrypt.genSaltSync(10);
 // Imports the Google Cloud client library
 const { Storage } = require('@google-cloud/storage');
 
@@ -327,9 +326,10 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
 }
 
 export const addCredit: RequestHandler<unknown, unknown, { credit: number }, unknown> = async (req, res, next) => {
-    const { token } = req.cookies;
-
+    
     if (!req.body.credit) throw new Error;
+
+    const { token } = req.cookies;
 
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
@@ -341,6 +341,46 @@ export const addCredit: RequestHandler<unknown, unknown, { credit: number }, unk
             userDoc.set({
                 credit: userDoc.credit + req.body.credit,
             });
+
+            res.status(200).json(await userDoc.save());
+        })
+    }
+    else {
+        res.json(null);
+    }
+}
+
+export const updateFriendship: RequestHandler<unknown, unknown, { friendId: string }, unknown> = async (req, res, next) => {
+    
+    if (!req.body.friendId) throw new Error;
+
+    const { token } = req.cookies;
+    
+    if (token) {
+        jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
+            if (err) throw err;
+
+            if (decodedUser.id === req.body.friendId) 
+                throw createHttpError(401, "User and friend cannot have the same id");
+
+            const userDoc = await UserModel.findById(decodedUser.id);
+            if (!userDoc) throw new Error;
+
+            const friendDoc = await UserModel.findById(req.body.friendId);
+            if (!friendDoc) throw new Error;
+
+            // remove friendship if already existing
+            if (userDoc.friends.includes(friendDoc._id)) {
+                userDoc.friends = userDoc.friends.filter(friend => friend.toString() !== friendDoc._id.toString());
+                friendDoc.friends = friendDoc.friends.filter(friend => friend.toString() !== userDoc._id.toString());
+            }
+            // else add friendship
+            else {
+                userDoc.friends.push(friendDoc._id);
+                friendDoc.friends.push(userDoc._id);
+            }
+
+            await friendDoc.save();
 
             res.status(200).json(await userDoc.save());
         })

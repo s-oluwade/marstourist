@@ -7,4 +7,5 @@ export interface User {
     photo: string;
     bio: string;
     location: string;
+    friends: string[];
 }

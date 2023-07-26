@@ -4,12 +4,13 @@ import { GlobalContext } from "../components/Providers/GlobalContext";
 import axios from "axios";
 import { ReceivedPost } from "../models/post";
 import { UserContext } from "../components/Providers/UserContext";
+import { User } from "../models/user";
 
 const FeedsPage = () => {
 
     const { postNames, postAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts } = useContext(UserContext);
-    const { user } = useContext(AuthContext)
+    const { user, setUser } = useContext(AuthContext)
 
     function getWhen(createdAt: string) {
         const then = new Date(createdAt);
@@ -101,10 +102,25 @@ const FeedsPage = () => {
         return false;
     }
 
+    function updateFriendship(friend: string) {
+
+        axios.put<User>("/user/update-friendship", { friendId: friend }, { headers: { "Content-Type": "application/json" } })
+            .then((res) => {
+                if (res.data) {
+                    setUser(res.data);
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+    }
+
     return (
         <div className="flex w-full justify-center">
             <div id="posts" className="p-6 inline-flex flex-col items-center min-h-full">
-
+                <h1 className="text-2xl mb-4 uppercase">
+                    mars forum
+                </h1>
                 {allPosts.map((post, index) => (
                     <div key={index} className="rounded-lg border p-3 shadow-md w-[32rem] bg-base-200 mb-4 border-neutral">
                         <div className="flex w-full items-center justify-between border-b border-accent pb-2">
@@ -122,6 +138,27 @@ const FeedsPage = () => {
                                     <div className="badge badge-outline">{post.topic}</div>
                                 )}
                                 <div className="text-xs text-base-content">{getWhen(post.createdAt)}</div>
+                                {user?._id !== post.owner &&
+
+                                    <div className="tooltip tooltip-close tooltip-right" data-tip={user?.friends.includes(post.owner) ? "Remove Friend" : "Add Friend"}>
+                                        <label className=" rounded-full swap bg-base-300 p-1">
+                                            {/* this hidden checkbox controls the state */}
+                                            <input type="checkbox"
+                                                checked={user?.friends.includes(post.owner)}
+                                                onChange={(e) => {
+                                                    e.currentTarget.checked = !e.currentTarget.checked;
+                                                    updateFriendship(post.owner)
+                                                }} />
+                                            <svg className="swap-on w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            {/* add user icon */}
+                                            <svg className="swap-off w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+                                            </svg>
+                                        </label>
+                                    </div>
+                                }
                             </div>
                         </div>
 

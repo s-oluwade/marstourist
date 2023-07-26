@@ -20,6 +20,8 @@ router.put("/profile", UserController.updateUserProfile);
 
 router.put("/add-credit", UserController.addCredit);
 
+router.put("/update-friendship", UserController.updateFriendship);
+
 // not in use
 // router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
 

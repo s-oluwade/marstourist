@@ -113,10 +113,14 @@ const UserHomeSubPage = () => {
         return false;
     }
 
+    if (!user) {
+        return "";
+    }
+
     return (
         <div className="flex min-h-[800px]">
             <div id="user_post" className="p-6 inline-flex grow flex-col items-center bg-base-200 rounded-md shadow-sm mx-6">
-                
+
                 <div id="user_poster" className="mb-8 rounded-lg">
                     <form className="w-[32rem]">
                         <div className="shadow-lg w-full border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
@@ -239,9 +243,11 @@ const UserHomeSubPage = () => {
             </div>
 
             <div className="mx-4 rounded-md bg-gray-300 shadow-md min-h-[800px] min-w-[200px] w-64">
-                <h3 className="rounded-t-md bg-base-100 p-4 font-normal text-md">Friends (1)</h3>
+                <h3 className="rounded-t-md bg-base-100 p-4 font-normal text-md">Friends ({user.friends ? user.friends.length : 0})</h3>
                 <div className="p-1">
-                <Friend id="1" />
+                    {user.friends.map((friend) => (
+                        <Friend id={friend} />
+                    ))}
                 </div>
             </div>
         </div>
