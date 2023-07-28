@@ -72,7 +72,7 @@ const RegisterAdminPage = () => {
                     }
                     <button className='btn btn-block btn-neutral'>CREATE ACCOUNT</button>
                     <div className="text-center pt-4">
-                        <span className="text-gray-400">Already a member?</span> <Link className="underline" to="/login/admin">SIGN IN</Link>
+                        <span className="text-sm text-neutral/80">Already a member?</span> <Link className="underline" to="/login/admin">SIGN IN</Link>
                     </div>
                 </form>
             </div>

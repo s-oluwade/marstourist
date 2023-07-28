@@ -40,7 +40,7 @@ const Layout = () => {
         '/login/user', '/login/user/', '/login/admin', '/login/admin/', 
         '/register/user', '/register/user/', 
         '/register/admin', '/register/admin/', 
-        '/feeds', '/feeds/'];
+        '/forum', '/forum/'];
 
         // if not signed in, redirect to home page
         if (userSignedOut && adminSignedOut && !signOutAddresses.includes(currentPath)) {

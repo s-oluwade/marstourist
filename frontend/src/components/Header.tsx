@@ -49,7 +49,7 @@ const Header = () => {
     return (
         <>
             <div className="navbar bg-base-100 border border-b-2 border-b-accent w-full relative z-10">
-                <div className="flex-none lg:hidden">
+                <div className="flex-none md:hidden">
                     <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </label>
@@ -66,11 +66,11 @@ const Header = () => {
                         </Link>
                     </div>
                 }
-                <div className="flex-none gap-4 hidden lg:flex">
+                <div className="flex-none gap-4 hidden md:flex">
                     {user &&
                         <>
                             <ul className="menu menu-horizontal p-0 flex-nowrap">
-                                <li><Link className="uppercase" to="/feeds">Feeds</Link></li>
+                                <li><Link className="uppercase" to="/forum">Forum</Link></li>
                                 <li><Link className="uppercase" to="/store">Shop</Link></li>
                             </ul>
                             <div className="badge">
@@ -122,7 +122,7 @@ const Header = () => {
                     {admin &&
                         <>
                             <ul className="menu menu-horizontal p-0 flex-nowrap">
-                                <li><Link className="uppercase" to="/feeds">Feeds</Link></li>
+                                <li><Link className="uppercase" to="/forum">Forum</Link></li>
                                 <li><Link className="uppercase" to="/store">Shop</Link></li>
                             </ul>
                             <div className="dropdown dropdown-end">
@@ -141,7 +141,7 @@ const Header = () => {
                     }
                     {!user && !admin &&
                         <ul className="menu menu-horizontal p-0 flex-nowrap">
-                            <li><Link to="/feeds">Feeds</Link></li>
+                            <li><Link to="/forum">Forum</Link></li>
                             <li><Link to="/store">Shop</Link></li>
                             <li><Link to='/login'>Sign in</Link></li>
                         </ul>

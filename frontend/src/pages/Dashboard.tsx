@@ -215,7 +215,7 @@ const Dashboard = () => {
                                 </div> :
                                 <div className='p-5 col-start-2 col-span-3 flex flex-col items-center gap-10 bg-base-100'>
                                     <header className='text-2xl text-center'>GLOBAL STATS</header>
-                                    <div className="stats stats-vertical lg:stats-horizontal shadow bg-base-200">
+                                    <div className="stats stats-vertical md:stats-horizontal shadow bg-base-200">
                                         <div className="stat">
                                             <div className="stat-title">Downloads</div>
                                             <div className="stat-value">31K</div>

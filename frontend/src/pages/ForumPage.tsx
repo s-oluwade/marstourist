@@ -6,7 +6,7 @@ import { ReceivedPost } from "../models/post";
 import { UserContext } from "../components/Providers/UserContext";
 import { User } from "../models/user";
 
-const FeedsPage = () => {
+const ForumPage = () => {
 
     const { postNames, postAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts } = useContext(UserContext);
@@ -21,6 +21,9 @@ const FeedsPage = () => {
             difference = difference * 24;
             if (Math.trunc(difference) < 1) {
                 difference = difference * 60;
+
+                console.log(difference);
+
                 if (Math.trunc(difference) < 1) {
                     difference = difference * 60;
 
@@ -138,8 +141,7 @@ const FeedsPage = () => {
                                     <div className="badge badge-outline">{post.topic}</div>
                                 )}
                                 <div className="text-xs text-base-content">{getWhen(post.createdAt)}</div>
-                                {user?._id !== post.owner &&
-
+                                {user && user?._id !== post.owner &&
                                     <div className="tooltip tooltip-close tooltip-right" data-tip={user?.friends.includes(post.owner) ? "Remove Friend" : "Add Friend"}>
                                         <label className=" rounded-full swap bg-base-300 p-1">
                                             {/* this hidden checkbox controls the state */}
@@ -168,7 +170,8 @@ const FeedsPage = () => {
                             </div>
                             {user && postNames &&
                                 <div
-                                    className="tooltip tooltip-close tooltip-right"
+                                
+                                    className={`${post.likes.length > 0? "tooltip":""} tooltip-close tooltip-right`}
                                     data-tip={post.likes.map(like => postNames[like]).join(", ")}
                                 >
                                     <div onClick={(e) => {
@@ -198,4 +201,4 @@ const FeedsPage = () => {
     );
 }
 
-export default FeedsPage;
+export default ForumPage;

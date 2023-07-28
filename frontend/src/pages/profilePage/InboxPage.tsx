@@ -10,7 +10,7 @@ const InboxSubPage = () => {
     return (
         <div>
             <div className="flex justify-center">
-                <ul className="menu bg-base-200 lg:menu-horizontal rounded-box mb-6">
+                <ul className="menu bg-base-200 menu-horizontal rounded-box mb-6">
                     <li>
                         <a id="purchasedTab" onClick={(e) => {
                             document.getElementById(selectedTab)?.classList.remove('active');

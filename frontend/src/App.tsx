@@ -21,7 +21,7 @@ import StorePage from './pages/StorePage';
 import RegisterPage from './pages/authPages/RegisterPage';
 import LoginPage from './pages/authPages/LoginPage';
 import ShoppingCartPage from './pages/ShoppingCartPage';
-import FeedsPage from './pages/FeedsPage';
+import ForumPage from './pages/ForumPage';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -50,7 +50,7 @@ function App() {
               <Route path="register/user" element={<RegisterUserPage />} />
               <Route path="register/admin" element={<RegisterAdminPage />} />
               <Route path="cart" element={<ShoppingCartPage />} />
-              <Route path="feeds" element={<FeedsPage />} />
+              <Route path="forum" element={<ForumPage />} />
               <Route path="profile" element={<ProfilePage />} />
               <Route path="profile/home" element={<ProfilePage />} />
               <Route path="profile/inbox" element={<ProfilePage />} />

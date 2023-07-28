@@ -84,7 +84,7 @@ const SignUpUserPage = () => {
                     }
                     <button className='btn btn-block btn-accent'>CREATE ACCOUNT</button>
                     <div className="text-center pt-4">
-                        <span className="text-gray-400">Already a member?</span> <Link className="underline" to="/login/user">Sign In</Link>
+                        <span className="text-sm text-neutral/80">Already a member?</span> <Link className="underline" to="/login/user">Sign In</Link>
                     </div>
                 </form>
             </div>

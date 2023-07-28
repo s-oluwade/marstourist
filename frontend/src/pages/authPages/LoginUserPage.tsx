@@ -53,7 +53,7 @@ const LoginUserPage = () => {
                     }
                     <button className='btn btn-block btn-accent'>Sign In</button>
                     <div className="text-center pt-4">
-                        <span className="text-gray-400">Dont have an account?</span> <Link className="underline" to="/register/user">Create Account</Link>
+                        <span className="text-sm text-neutral/80">Dont have an account?</span> <Link className="underline" to="/register/user">Create Account</Link>
                     </div>
                 </form>
             </div>
