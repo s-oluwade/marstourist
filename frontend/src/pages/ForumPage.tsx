@@ -17,7 +17,7 @@ const ForumPage = () => {
         const now = new Date();
         let difference = Math.abs(now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24);
 
-        if (userPost.owner === '648197120e2f8305cf79cff0' && userPost.content === 'wassup') {
+        if (userPost.owner === '648197120e2f8305cf79cff0' && userPost.content === 'wass') {
             console.log(then);
             console.log(now);
         }
