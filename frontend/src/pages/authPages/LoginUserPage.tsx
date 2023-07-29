@@ -18,6 +18,7 @@ const LoginUserPage = () => {
     async function onSubmit(credentials: LoginCredentials) {
         try {
             const response = await axios.post<User>("/user/login", credentials, { headers: { "Content-Type": "application/json" } });
+            console.log(document.cookie);
             setUser(response.data);
             setRedirect(true);
         } catch (error) {
