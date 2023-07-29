@@ -12,20 +12,20 @@ const ForumPage = () => {
     const { userPosts, setUserPosts } = useContext(UserContext);
     const { user, setUser } = useContext(AuthContext)
 
-    function getWhen(createdAt: string) {
-        const then = new Date(createdAt);
+    function getWhen(userPost: ReceivedPost) {
+        const then = new Date(userPost.createdAt);
         const now = new Date();
         let difference = Math.abs(now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24);
 
+        if (userPost.owner === '648197120e2f8305cf79cff0' && userPost.content === 'wassup') {
+            console.log(then);
+            console.log(now);
+        }
+        
         if (Math.trunc(difference) < 1) {
             difference = difference * 24;
             if (Math.trunc(difference) < 1) {
                 difference = difference * 60;
-
-                if (difference < 10) {
-                    console.log(then)
-                    console.log(now)
-                }
 
                 if (Math.trunc(difference) < 1) {
                     difference = difference * 60;
@@ -144,7 +144,7 @@ const ForumPage = () => {
                                     {!!post.topic && (
                                         <div className="badge badge-outline">{post.topic}</div>
                                     )}
-                                    <div className="text-xs text-base-content">{getWhen(post.createdAt)}</div>
+                                    <div className="text-xs text-base-content">{getWhen(post)}</div>
                                     {user && user?._id !== post.owner &&
                                         <div className="tooltip tooltip-close tooltip-right" data-tip={user?.friends.includes(post.owner) ? "Remove Friend" : "Add Friend"}>
                                             <label className=" rounded-full swap bg-base-300 p-1">
