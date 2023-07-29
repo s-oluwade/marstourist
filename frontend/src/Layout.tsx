@@ -48,9 +48,8 @@ const Layout = () => {
         const adminSignedOut = !loadingAdmin && !admin;
         const signOutAddresses = ['/', '/login', '/login', '/register', '/register/',
             '/login/user', '/login/user/', '/login/admin', '/login/admin/',
-            '/register/user', '/register/user/',
-            '/register/admin', '/register/admin/',
-            '/forum', '/forum/'];
+            '/register/user', '/register/user/', '/register/admin', '/register/admin/',
+            '/forum', '/forum/', '/store', '/store/'];
 
         // if not signed in, redirect to home page
         if (userSignedOut && adminSignedOut && !signOutAddresses.includes(currentPath)) {

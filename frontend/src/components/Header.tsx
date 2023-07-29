@@ -5,7 +5,7 @@ import { AuthContext } from "./Providers/AuthContext";
 import { UserContext } from "./Providers/UserContext";
 
 const Header = () => {
-    const { user, setUser, admin, setAdmin } = useContext(AuthContext);
+    const { user, admin } = useContext(AuthContext);
     const { cart, userAvatar, userNotifications } = useContext(UserContext);
     const [logout, setLogout] = useState(false);
 
