@@ -28,36 +28,17 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
             }).catch(() => {
                 setLoadingAdmin(false);
                 // else grab user if authenticated
-                let cookie = string_to_object(document.cookie);
-                console.log("content of cookie.token is " + cookie.token);
-                console.log(typeof cookie.token);
-                if (cookie.token && cookie.token !== "") {
-                    axios.get<User>("/user").then(res => {
-                        setUser(res.data);
-                    }).finally(() => {
-                        setLoadingUser(false);
-                    })
-                }
-                else {
+                axios.get<User>("/user").then(res => {
+                    setUser(res.data);
+                }).finally(() => {
                     setLoadingUser(false);
-                }
+                })
             })
         }
         else {
             setLoadingUser(false);
             setLoadingAdmin(false);
         }
-
-        function string_to_object(str: string) {
-            const string = str.split(', ');
-            var result = {} as { [key: string]: string };
-            for (var i = 0; i < string.length; i++) {
-                var cur = string[i].split('=');
-                result[cur[0]] = cur[1];
-            }
-            return result;
-        }
-
     }, [user, admin]);
 
     async function logoutUser() {

@@ -23,7 +23,8 @@ const ForumPage = () => {
                 difference = difference * 60;
 
                 if (difference < 10) {
-                    console.log(createdAt)
+                    console.log(then)
+                    console.log(now)
                 }
 
                 if (Math.trunc(difference) < 1) {
