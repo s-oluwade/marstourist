@@ -5,6 +5,7 @@ import { UserContext } from "../../components/Providers/UserContext";
 import InboxSubPage from "./InboxPage";
 import SettingsSubPage from "./SettingsPage";
 import UserHomeSubPage from "./UserHomePage";
+import Friend from "../../components/Friend";
 
 const homepaths = ['/profile/home', '/profile/home/', '/profile', '/profile/'];
 const inboxpaths = ['/profile/inbox', '/profile/inbox/'];
@@ -25,11 +26,15 @@ const ProfilePage = () => {
     const { userAvatar, userNotifications } = useContext(UserContext);
     const currentPath = window.location.pathname;
 
+    if (!user) {
+        return "";
+    }
+
     return (
-        <div className="flex w-full justify-center pt-2">
-            <div className="flex flex-col lg:flex-row w-full max-w-screen-xl">
-                <div className="hidden lg:block basis-1/4">
-                    <div id="side-nav" className="bg-base-100 m-4 rounded-md shadow-md min-h-[800px] border-2 border-accent">
+        <div className="mx-auto w-[70rem] mt-4">
+            <div className="flex overflow-x-hidden w-full max-w-screen-xl">
+                <div className="hidden md:block md:basis-1/4">
+                    <div id="side-nav" className="bg-base-100 m-4 rounded-md shadow-md min-h-[780px] min-w-[12rem] border-2 border-accent">
                         <div id="user_detail" className="flex flex-col items-center justify-evenly pt-6">
                             <div id="user_brief" className="flex flex-col w-full justify-center gap-2 items-center">
                                 <div className="avatar">
@@ -94,14 +99,37 @@ const ProfilePage = () => {
                                 </li>
                             </ul>
                         </div>
+                        <div className="lg:hidden m-4 bg-base-300 rounded">
+                            <h3 className="rounded-t-md p-4 font-normal text-sm">Friends ({user.friends ? user.friends.length : 0})</h3>
+                            <div className="p-1">
+                                {user.friends.map((friend) => (
+                                    <Friend key={friend} id={friend} />
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="basis-3/4 mt-4">
+                <div className="w-full md:basis-3/4">
                     {homepaths.includes(currentPath) && <UserHomeSubPage />}
                     {settingspaths.includes(currentPath) && <SettingsSubPage />}
                     {inboxpaths.includes(currentPath) && <InboxSubPage />}
                 </div>
             </div>
+            <footer className="w-full bg-transparent mt-6 mb-4">
+                <div className="w-full mx-auto max-w-screen-xl md:flex md:items-center md:justify-end gap-6">
+                    <span className="text-xs text-neutral/80 sm:text-center">
+                        © 2023 Samuel Oluwade
+                    </span>
+                    <ul className="flex flex-wrap items-center mt-3 text-xs font-medium text-neutral/50 sm:mt-0">
+                        <li>
+                            <a href="https://github.com/s-oluwade" className="mr-4 hover:underline md:mr-6 ">Github</a>
+                        </li>
+                        <li>
+                            <a href="#" className="mr-4 hover:underline md:mr-6">Cookie Policy</a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
         </div>
     );
 }

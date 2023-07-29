@@ -82,6 +82,21 @@ const IndexPage = () => {
                 }
 
             </div>
+            <footer className="w-full bg-transparent">
+                <div className="w-full mx-auto max-w-screen-xl md:flex md:items-center md:justify-end md:gap-6">
+                    <span className="text-sm text-neutral-content/50 sm:text-center">
+                        © 2023 Samuel Oluwade
+                    </span>
+                    <ul className="flex flex-wrap items-center text-sm font-medium text-neutral-content/40 sm:mt-0">
+                        <li>
+                            <a href="https://github.com/s-oluwade" className="mr-4 hover:underline md:mr-6 ">Github</a>
+                        </li>
+                        <li>
+                            <a href="#" className="mr-4 hover:underline md:mr-6">Cookie Policy</a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
         </section>
     );
 }

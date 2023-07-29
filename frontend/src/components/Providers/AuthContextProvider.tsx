@@ -9,7 +9,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [loadingUser, setLoadingUser] = useState<boolean>(true);
     const [admin, setAdmin] = useState<Admin | null>(null);
     const [loadingAdmin, setLoadingAdmin] = useState<boolean>(true);
-    
+
     useEffect(() => {
         // If no logged in state
         if (!user && !admin) {
@@ -28,16 +28,32 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
             }).catch(() => {
                 setLoadingAdmin(false);
                 // else grab user if authenticated
-                axios.get<User>("/user").then(res => {
-                    setUser(res.data);
-                }).finally(() => {
+                let cookie = string_to_object(document.cookie);
+                if (cookie.token && cookie.token !== "") {
+                    axios.get<User>("/user").then(res => {
+                        setUser(res.data);
+                    }).finally(() => {
+                        setLoadingUser(false);
+                    })
+                }
+                else {
                     setLoadingUser(false);
-                })
+                }
             })
         }
         else {
             setLoadingUser(false);
             setLoadingAdmin(false);
+        }
+
+        function string_to_object(str: string) {
+            const string = str.split(', ');
+            var result = {} as { [key: string]: string };
+            for (var i = 0; i < string.length; i++) {
+                var cur = string[i].split('=');
+                result[cur[0]] = cur[1];
+            }
+            return result;
         }
 
     }, [user, admin]);

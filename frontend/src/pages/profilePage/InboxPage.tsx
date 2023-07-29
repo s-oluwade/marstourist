@@ -8,8 +8,8 @@ const InboxSubPage = () => {
     const [selectedTab, setSelectedTab] = useState("purchasedTab");
 
     return (
-        <div>
-            <div className="flex justify-center">
+        <div className="max-h-[790px] overflow-auto">
+            <div className="flex justify-center p-4">
                 <ul className="menu bg-base-200 menu-horizontal rounded-box mb-6">
                     <li>
                         <a id="purchasedTab" onClick={(e) => {

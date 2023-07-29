@@ -20,15 +20,7 @@ const Layout = () => {
         })
 
         if (admin) {
-            localStorage.setItem('themeStorage', 'luxury');
-        }
-        else {
-            localStorage.setItem('themeStorage', 'light');
-        }
-
-        const theme = localStorage.getItem('themeStorage');
-        if (theme) {
-            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.setAttribute('data-theme', 'luxury');
         }
         else {
             document.documentElement.setAttribute('data-theme', DEFAULT_THEME);
@@ -36,11 +28,11 @@ const Layout = () => {
 
         const userSignedOut = !loadingUser && !user;
         const adminSignedOut = !loadingAdmin && !admin;
-        const signOutAddresses = ['/', '/login', '/login', '/register', '/register/', 
-        '/login/user', '/login/user/', '/login/admin', '/login/admin/', 
-        '/register/user', '/register/user/', 
-        '/register/admin', '/register/admin/', 
-        '/forum', '/forum/'];
+        const signOutAddresses = ['/', '/login', '/login', '/register', '/register/',
+            '/login/user', '/login/user/', '/login/admin', '/login/admin/',
+            '/register/user', '/register/user/',
+            '/register/admin', '/register/admin/',
+            '/forum', '/forum/'];
 
         // if not signed in, redirect to home page
         if (userSignedOut && adminSignedOut && !signOutAddresses.includes(currentPath)) {
@@ -55,14 +47,14 @@ const Layout = () => {
                 <>
                     <div className="drawer">
                         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-                        <div className="drawer-content flex flex-col min-h-screen">
-                            
-                        <Header />
-                            <div className="bg-base-300 flex grow font-rubik font-light">
+                        <div className="drawer-content flex flex-col min-h-screen font-rubik font-light">
+
+                            <Header />
+                            <div className="bg-base-300 flex grow">
                                 <Outlet />
                             </div>
                         </div>
-                        <div className="drawer-side">
+                        <div className="drawer-side z-20">
                             <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
                             <ul className="menu p-4 w-80 h-full bg-base-200">
                                 {/* Sidebar content here */}

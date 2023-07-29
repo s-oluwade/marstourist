@@ -81,7 +81,7 @@ const StorePage = () => {
                 ))}
 
             </div>
-            <div className="mx-auto">
+            <div className="mx-auto min-h-[44rem]">
                 <h2 className="sr-only">Products</h2>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -125,6 +125,21 @@ const StorePage = () => {
                     </div>
                 </div>
             </div>
+            <footer className="w-full bg-transparent my-4">
+                <div className="w-full mx-auto max-w-screen-xl md:flex md:items-center md:justify-end md:gap-6">
+                    <span className="text-xs text-neutral sm:text-center">
+                        © 2023 Samuel Oluwade
+                    </span>
+                    <ul className="flex flex-wrap items-center mt-3 text-xs font-medium text-neutral/60 sm:mt-0">
+                        <li>
+                            <a href="https://github.com/s-oluwade" className="mr-4 hover:underline md:mr-6 ">Github</a>
+                        </li>
+                        <li>
+                            <a href="#" className="mr-4 hover:underline md:mr-6">Cookie Policy</a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
         </div>
     );
 }

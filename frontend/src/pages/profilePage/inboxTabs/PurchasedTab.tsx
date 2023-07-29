@@ -30,7 +30,7 @@ const PurchasedTab = () => {
     }, [setUserNotifications, user])
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[650px] overflow-auto px-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 px-10">
             {purchased &&
                 purchased.map((purchase, index) => {
                     return <div key={index}>
