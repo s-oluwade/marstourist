@@ -8,7 +8,7 @@ env_variables:
   S3_SECRET_ACCESS_KEY: "xFhRQY7prV5H5cd6EvFzJssmmWBdNAqyVpQWwlw2"
   CLIENT_DOMAIN: "https://www.marstourist.co"
   CLIENT_DOMAIN_S: "https://marstourist.co"
-  CLIENT_DOMAIN_NETLIFY: "https://main--tourmaline-rabanadas-7b2ad8.netlify.app"
+  CLIENT_DOMAIN_NETLIFY: "https://marstourist.netlify.app"
   CLIENT_ASSIGNED_DOMAIN: "https://main.d1una5jkr2zdiy.amplifyapp.com"
   GOOGLE_CLOUD_PROJECT: "neat-tempo-393404"
   GCLOUD_STORAGE_BUCKET: "neat-tempo-393404.appspot.com"
