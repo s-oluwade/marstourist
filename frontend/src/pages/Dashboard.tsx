@@ -144,7 +144,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <div id="dash" className='mt-20 max-h-[600px] w-[900px] min-w-[750px] mx-auto'>
+            <div id="dash" className='mt-20 max-h-[37.5rem] w-[56.25rem] min-w-[46.875rem] mx-auto'>
                 <section className='h-full'>
                     <div id="users" className="grid grid-cols-4 h-full">
                         {sideMenu(null, 'secondary')}

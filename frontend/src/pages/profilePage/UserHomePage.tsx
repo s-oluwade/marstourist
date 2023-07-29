@@ -120,7 +120,7 @@ const UserHomeSubPage = () => {
     return (
         <>
             <div className="flex">
-                <div id="user_post" className="m-4 md:max-h-[780px] md:overflow-y-auto md:overflow-x-hidden p-6 grow items-center bg-base-200 shadow-sm">
+                <div id="user_post" className="m-4 md:max-h-[48.75rem] md:overflow-y-auto md:overflow-x-hidden p-6 grow items-center bg-base-200 shadow-sm">
 
                     <div id="user_poster" className="rounded-lg">
                         <form>
@@ -243,7 +243,7 @@ const UserHomeSubPage = () => {
                     </dialog>
                 </div>
 
-                <div className="hidden lg:block m-4 max-h-[830px] rounded-md bg-neutral/50 shadow-md min-w-[200px] w-64">
+                <div className="hidden lg:block m-4 max-h-[51.875rem] rounded-md bg-neutral/50 shadow-md min-w-[12.5rem] w-64">
                     <h3 className="rounded-t-md bg-base-100 p-4 font-normal text-md">Friends ({user.friends ? user.friends.length : 0})</h3>
                     <div className="p-1">
                         {user.friends.map((friend) => (

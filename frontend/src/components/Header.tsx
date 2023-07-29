@@ -37,7 +37,7 @@ const Header = () => {
                 console.log(error);
             }
         }
-    }, [admin, logout, setUser, setAdmin, cart])
+    }, [admin, logout])
 
     // function isStorePage() {
     //     const storepath = '/store';

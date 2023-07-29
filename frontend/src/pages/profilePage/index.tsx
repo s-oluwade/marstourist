@@ -31,10 +31,10 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className="mx-auto w-[70rem] mt-4">
+        <div className="mx-auto md:w-[50rem] lg:w-[70rem] mt-4">
             <div className="flex overflow-x-hidden w-full max-w-screen-xl">
                 <div className="hidden md:block md:basis-1/4">
-                    <div id="side-nav" className="bg-base-100 m-4 rounded-md shadow-md min-h-[780px] min-w-[12rem] border-2 border-accent">
+                    <div id="side-nav" className="bg-base-100 m-4 rounded-md shadow-md min-h-[48.75rem] min-w-[12rem] border-2 border-accent">
                         <div id="user_detail" className="flex flex-col items-center justify-evenly pt-6">
                             <div id="user_brief" className="flex flex-col w-full justify-center gap-2 items-center">
                                 <div className="avatar">
@@ -116,7 +116,7 @@ const ProfilePage = () => {
                 </div>
             </div>
             <footer className="w-full bg-transparent mt-6 mb-4">
-                <div className="w-full mx-auto max-w-screen-xl md:flex md:items-center md:justify-end gap-6">
+                <div className="w-full pl-6 md:flex md:items-center md:justify-end gap-6">
                     <span className="text-xs text-neutral/80 sm:text-center">
                         © 2023 Samuel Oluwade
                     </span>

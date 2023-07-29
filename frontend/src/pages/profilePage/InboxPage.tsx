@@ -8,7 +8,7 @@ const InboxSubPage = () => {
     const [selectedTab, setSelectedTab] = useState("purchasedTab");
 
     return (
-        <div className="max-h-[790px] overflow-auto">
+        <div className="md:max-h-[49.5rem] md:overflow-y-auto">
             <div className="flex justify-center p-4">
                 <ul className="menu bg-base-200 menu-horizontal rounded-box mb-6">
                     <li>

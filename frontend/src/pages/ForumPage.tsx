@@ -203,16 +203,27 @@ const ForumPage = () => {
 
             </div>
             <footer className="w-full bg-transparent my-4">
-                <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-end md:gap-6">
+                <div className="w-full pl-12 p-4 md:flex md:items-center md:justify-end md:gap-6">
                     <span className="text-xs text-neutral/90 sm:text-center">
                         © 2023 Samuel Oluwade
                     </span>
                     <ul className="flex flex-wrap items-center mt-3 text-xs font-medium text-neutral/50 sm:mt-0">
                         <li>
-                            <a href="https://github.com/s-oluwade" className="mr-4 hover:underline md:mr-6 ">Github</a>
+                            <a target="_blank" href="https://github.com/s-oluwade" className="mr-4 hover:underline md:mr-6 flex items-center">
+                                Github
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                </svg>
+                            </a>
                         </li>
                         <li>
-                            <a href="#" className="mr-4 hover:underline md:mr-6">Cookie Policy</a>
+                            <a target="_blank" href="https://www.cookiepolicygenerator.com/live.php?token=13A7pWhd9KInJXDPINssDYTkGQ2Q5ghI" className="mr-4 hover:underline md:mr-6 flex items-center">
+                                Cookie Policy
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                </svg>
+
+                            </a>
                         </li>
                     </ul>
                 </div>
