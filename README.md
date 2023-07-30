@@ -1,6 +1,6 @@
-# Mars-Effect
+# marstourist.co
 First major website built with MERN stack
 
-I will add a link to a video soon that showcases the features of the website.
+URL
+[marstourist.co](https://www.marstourist.co)
 
-Currently trying to deploy the website online.
