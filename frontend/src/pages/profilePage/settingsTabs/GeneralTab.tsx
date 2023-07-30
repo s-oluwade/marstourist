@@ -110,14 +110,14 @@ export default function GeneralSubPage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-4" action="">
                 <div>
                     <label htmlFor="fullname" className="block mb-2 text-sm font-medium base-content">Name</label>
-                    <input onChange={(e => setFullname(e.target.value))} type="text" id="fullname" className="bg-base-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John Doe" defaultValue={user?.fullname} required />
+                    <input onChange={(e => setFullname(e.target.value))} type="text" id="fullname" className="bg-base-100 text-gray-900 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-sm rounded-lg focus:ring-neutral block w-full p-2.5" placeholder="John Doe" defaultValue={user?.fullname} required />
                 </div>
                 <div>
                     <label htmlFor="username" className="block mb-2 text-sm font-medium base-content">Username</label>
-                    <input onChange={(e) => setUsername(e.target.value)} type="text" id="username" className="bg-base-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="johndoe" defaultValue={user?.username} required />
+                    <input onChange={(e) => setUsername(e.target.value)} type="text" id="username" className="bg-base-100 text-gray-900 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-sm rounded-lg focus:ring-neutral block w-full p-2.5" placeholder="johndoe" defaultValue={user?.username} required />
                 </div>
                 <div className="">
-                    <button className="btn btn-neutral btn-sm btn-block">Save</button>
+                    <button className="btn btn-neutral btn-sm btn-block dark:btn-accent">Save</button>
                 </div>
                 <p role="alert" id="alert-nochange" className="hidden opacity-70 text-xs italic text-center">No changes made.</p>
                 <p role="alert" id="alert-change" className="hidden opacity-70 text-xs italic text-center">Updated!</p>

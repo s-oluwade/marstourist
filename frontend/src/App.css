@@ -88,3 +88,6 @@ html {
     color: hsl(var(--ac));
     background: hsl(var(--a));
 }
+#shopping-categories-tabs a:not(.tab-active) {
+    @apply dark:text-neutral-content;
+}

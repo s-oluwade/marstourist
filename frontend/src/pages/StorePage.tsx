@@ -34,7 +34,7 @@ const StorePage = () => {
                     }
                 }
 
-                // category has changed
+                // category has changed, switch tab class
                 if (!selectedTab.includes(category)) {
                     document.getElementById(selectedTab)?.classList.remove("tab-active");
                     document.getElementById(`tab-${category}`)?.classList.add("tab-active");
@@ -57,10 +57,13 @@ const StorePage = () => {
         setCart(data);
     }
 
-    function closeImageModal() {
+    function closeImageModal(e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>) {
         const modal = document.getElementById("image-modal");
+        const modalImg = document.getElementById("modal-image");
 
-        if (modal) modal.classList.add('hidden');
+        if (e.target !== modalImg) {
+            if (modal) modal.classList.add('hidden');
+        }
     }
 
     function showImageModal(src: string) {
@@ -74,7 +77,7 @@ const StorePage = () => {
 
     return (
         <div className="flex flex-col w-full items-center gap-5 mt-2">
-            <div className="tabs">
+            <div id="shopping-categories-tabs" className="tabs">
                 <a onClick={() => setCategory("all")} id={`tab-all`} key={0} className="tab tab-lg tab-lifted tab-active">All categories</a>
                 {!!categories.length && categories.map((category, index) => (
                     <a onClick={() => setCategory(category)} id={`tab-${category}`} key={index} className="tab tab-lg tab-lifted capitalize">{category}</a>
@@ -87,7 +90,7 @@ const StorePage = () => {
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {filteredProducts.map((product, index) => (
                         <div key={index}
-                            className="w-80 card card-compact bg-base-100 shadow-sm transition-shadow hover:shadow-md">
+                            className="w-80 card card-compact bg-base-100 dark:bg-gray-800 shadow-sm transition-shadow hover:shadow-md">
                             <figure className="h-48" onClick={() => { showImageModal(product.images[0]) }}>
                                 <img src={product.images[0]} alt="Shoes" className="cursor-pointer" />
                             </figure>
@@ -95,8 +98,8 @@ const StorePage = () => {
                                 <h2 className="card-title font-normal">{product.title}</h2>
                                 <p>{product.description}</p>
                                 {/* If a dog chews shoes whose shoes does he choose? */}
-                                <div className="card-actions justify-between items-center my-2">
-                                    <div className="badge">
+                                <div className="card-actions justify-between items-center">
+                                    <div className="badge bg-transparent dark:text-neutral-content">
                                         {product.price.toLocaleString("en-US", {
                                             style: "currency",
                                             currency: "USD",
@@ -113,9 +116,10 @@ const StorePage = () => {
                         </div>
                     ))}
                     <div id="image-modal"
+                        onClick={(e) => { closeImageModal(e) }}
                         className="hidden fixed top-0 left-0 z-40 w-screen bg-black/70">
                         <div className="flex justify-center items-center h-screen">
-                            <a onClick={() => closeImageModal()} className="fixed z-50 top-10 right-20 text-white text-5xl font-bold cursor-pointer">
+                            <a onClick={(e) => closeImageModal(e)} className="fixed z-50 top-10 right-20 text-white text-5xl font-bold cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -127,10 +131,10 @@ const StorePage = () => {
             </div>
             <footer className="w-full bg-transparent my-4">
                 <div className="w-full pl-12 md:flex md:items-center md:justify-end md:gap-6">
-                    <span className="text-xs text-neutral sm:text-center">
+                    <span className="text-xs text-neutral sm:text-center dark:text-neutral-content/90">
                         © 2023 Samuel Oluwade
                     </span>
-                    <ul className="flex flex-wrap items-center mt-3 text-xs font-medium text-neutral/60 sm:mt-0">
+                    <ul className="flex flex-wrap items-center mt-3 text-xs font-medium text-neutral/60 dark:text-neutral-content/90 sm:mt-0">
                         <li>
                             <a target="_blank" href="https://github.com/s-oluwade" className="mr-4 hover:underline md:mr-6 flex items-center">
                                 Github

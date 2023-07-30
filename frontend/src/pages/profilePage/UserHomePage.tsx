@@ -120,7 +120,7 @@ const UserHomeSubPage = () => {
     return (
         <>
             <div className="flex">
-                <div id="user_post" className="m-4 md:max-h-[48.75rem] md:overflow-y-auto md:overflow-x-hidden p-6 grow items-center bg-base-200 shadow-sm">
+                <div id="user_post" className="m-4 md:max-h-[48.75rem] md:overflow-y-auto md:overflow-x-hidden p-6 grow items-center bg-base-200 dark:bg-gray-800 shadow-sm">
 
                     <div id="user_poster" className="rounded-lg">
                         <form>
@@ -174,23 +174,22 @@ const UserHomeSubPage = () => {
                     </div>
                     <div id="user_posts" className="">
                         {userPosts.map((post, index) => (
-                            <div key={index} className="rounded-lg border p-3 shadow-md bg-base-100 my-4">
-                                <div className="flex w-full items-center justify-between border-b pb-2">
+                            <div key={index} className="rounded-lg border p-3 shadow-md bg-base-100 dark:bg-gray-700 dark:border-neutral my-4">
+                                <div className="flex w-full items-center justify-between border-b border-b-accent pb-2">
                                     <div className="flex items-center space-x-3">
                                         <div className="avatar">
                                             <div className="w-8 rounded-full">
                                                 <img src={userAvatar} />
                                             </div>
                                         </div>
-                                        {/* https://i.pravatar.cc/32 */}
-                                        <div className="text-md font-normal text-neutral capitalize">{user?.fullname}</div>
+                                        <div className="text-md font-normal text-neutral dark:text-neutral-content capitalize">{user?.fullname}</div>
                                     </div>
                                     <div className="flex space-x-2 items-center">
                                         {!!post.topic && (
                                             <div className="badge badge-outline">{post.topic}</div>
                                         )}
 
-                                        <div className="text-xs text-neutral-500">{getWhen(post.createdAt)}</div>
+                                        <div className="text-xs text-base-content/70 dark:text-neutral-content/70">{getWhen(post.createdAt)}</div>
                                         <a onClick={() => { showDeleteModal(); setIdOfPostToDelete(post._id) }} className="cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -200,12 +199,12 @@ const UserHomeSubPage = () => {
                                 </div>
 
                                 <div className="mt-4 mb-2 flex justify-between gap-8">
-                                    <div className="text-sm text-neutral-600">
+                                    <div className="text-sm text-base-content dark:text-neutral-content">
                                         <p>{post.content}</p>
                                     </div>
                                     {postNames &&
                                         <div
-                                            className="tooltip tooltip-close tooltip-right"
+                                            className={`${post.likes.length > 0 ? "tooltip" : ""} z-[100000] tooltip-close tooltip-left`}
                                             data-tip={post.likes.map(like => postNames[like]).join(", ")}
                                         >
                                             <div onClick={(e) => {
@@ -219,7 +218,7 @@ const UserHomeSubPage = () => {
                                                 }
                                                 likePost(post._id);
                                             }}
-                                                className={`flex cursor-pointer gap-1 items-center transition select-none ${isLikedPost(post) ? "text-accent" : "text-neutral"}`}>
+                                                className={`flex cursor-pointer gap-1 items-center transition select-none ${isLikedPost(post) ? "text-accent" : "text-neutral dark:text-neutral-content/70"}`}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
                                                 </svg>
@@ -243,8 +242,8 @@ const UserHomeSubPage = () => {
                     </dialog>
                 </div>
 
-                <div className="hidden lg:block m-4 max-h-[51.875rem] rounded-md bg-neutral/50 shadow-md min-w-[12.5rem] w-64">
-                    <h3 className="rounded-t-md bg-base-100 p-4 font-normal text-md">Friends ({user.friends ? user.friends.length : 0})</h3>
+                <div className="hidden lg:block m-4 max-h-[51.875rem] overflow-y-auto overflow-x-hidden rounded-md bg-neutral/50 dark:bg-gray-800 shadow-md min-w-[12.5rem] w-64">
+                    <h3 className="rounded-t-md bg-base-100 dark:bg-gray-900 p-4 font-normal text-md">Friends ({user.friends ? user.friends.length : 0})</h3>
                     <div className="p-1">
                         {user.friends.map((friend) => (
                             <Friend key={friend} id={friend} />

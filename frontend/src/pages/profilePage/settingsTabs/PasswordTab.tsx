@@ -27,36 +27,40 @@ export default function GeneralSubPage() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4" action="">
             <div>
                 <label htmlFor="password" className="block mb-2 text-sm font-medium base-content">Password</label>
-                <input 
-                value={password} 
-                onChange={(e) => { setPassword(e.target.value); }}
-                type="password" 
-                id="password" 
-                className="bg-base-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                placeholder="Password" required />
+                <input
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); }}
+                    type="password"
+                    id="password"
+                    className="bg-base-100 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-gray-900 text-sm rounded-lg focus:ring-neutral block w-full p-2.5"
+                    placeholder="Password" required />
             </div>
             <div>
-                <label htmlFor="new_password" className="block mb-2 text-sm font-medium base-content">New Password</label>
-                <input 
-                value={newPassword}
-                onChange={(e) => { setNewPassword(e.target.value); }}
-                type="password" 
-                id="new_password" 
-                className="bg-base-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                placeholder="New Password" required />
+                <label htmlFor="new_password" className="block mb-2 text-sm font-medium">New Password</label>
+                <input
+                    value={newPassword}
+                    onChange={(e) => { setNewPassword(e.target.value); }}
+                    type="password"
+                    id="new_password"
+                    className="bg-base-100 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-gray-900 text-sm rounded-lg focus:ring-neutral block w-full p-2.5"
+                    placeholder="New Password" required />
             </div>
             <div>
-                <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium base-content">New Password (Re-enter)</label>
-                <input 
-                value={newPasswordConfirm} 
-                onChange={(e) => { setNewPasswordConfirm(e.target.value) }} 
-                type="password" 
-                id="confirm_password" 
-                className="bg-base-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                placeholder="Confirm Password" required />
+                <label htmlFor="confirm_password"
+                    className="block mb-2 text-sm font-medium">New Password (Re-enter)</label>
+                <input
+                    value={newPasswordConfirm}
+                    onChange={(e) => { setNewPasswordConfirm(e.target.value) }}
+                    type="password"
+                    id="confirm_password"
+                    className="bg-base-100 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-gray-900 text-sm rounded-lg focus:ring-neutral block w-full p-2.5"
+                    placeholder="Confirm Password" required />
             </div>
-            <button className="btn btn-neutral btn-sm btn-block">Submit</button>
-            <Link className="underline" to="/settings/forgot-password">Forgot password?</Link>
+            <button className="btn btn-neutral btn-sm btn-block dark:btn-accent">Submit</button>
+            <div className="tooltip tooltip-close tooltip-bottom tooltip-info" data-tip="not yet implemented">
+                <Link className="underline text-sm" to="#">Forgot password?</Link>
+            </div>
+
             {/* <p role="alert" className="confirmation text-xs italic text-center">No changes made.</p> */}
             {/* <p role="alert" className="confirmation text-xs italic text-center">Updated!</p> */}
         </form>

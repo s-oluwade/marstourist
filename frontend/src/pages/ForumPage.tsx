@@ -16,11 +16,6 @@ const ForumPage = () => {
         const then = new Date(userPost.createdAt);
         const now = new Date();
         let difference = Math.abs(now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24);
-
-        if (userPost.owner === '648197120e2f8305cf79cff0' && userPost.content === 'wass') {
-            console.log(then);
-            console.log(now);
-        }
         
         if (Math.trunc(difference) < 1) {
             difference = difference * 24;
@@ -124,12 +119,12 @@ const ForumPage = () => {
     return (
         <div className="flex flex-col grow">
             <div className="mx-auto">
-                <div id="posts" className="p-6 inline-flex flex-col items-center min-h-full">
+                <div id="posts" className="p-6 inline-flex flex-col items-center min-h-full grow bg-base-200 dark:bg-gray-800 shadow-sm">
                     <h1 className="text-2xl mb-4 uppercase">
                         mars forum
                     </h1>
                     {allPosts.map((post, index) => (
-                        <div key={index} className="rounded-lg border p-3 shadow-md w-[32rem] bg-base-200 mb-4 border-neutral">
+                        <div key={index} className="rounded-lg border p-3 shadow-md w-[32rem] bg-base-100 mb-4 dark:bg-gray-700 dark:border-neutral">
                             <div className="flex w-full items-center justify-between border-b border-accent pb-2">
                                 <div className="flex items-center space-x-3">
                                     <div className="avatar">
@@ -137,17 +132,16 @@ const ForumPage = () => {
                                             <img src={getPicture(post.owner)} />
                                         </div>
                                     </div>
-                                    {/* https://i.pravatar.cc/32 */}
-                                    <div className="text-md font-normal text-base-content">{getName(post.owner)}</div>
+                                    <div className="text-md font-normal text-base-content dark:text-neutral-content capitalize">{getName(post.owner)}</div>
                                 </div>
                                 <div className="flex space-x-2 items-center">
                                     {!!post.topic && (
                                         <div className="badge badge-outline">{post.topic}</div>
                                     )}
-                                    <div className="text-xs text-base-content">{getWhen(post)}</div>
+                                    <div className="text-xs text-base-content/70 dark:text-neutral-content/70">{getWhen(post)}</div>
                                     {user && user?._id !== post.owner &&
                                         <div className="tooltip tooltip-close tooltip-right" data-tip={user?.friends.includes(post.owner) ? "Remove Friend" : "Add Friend"}>
-                                            <label className=" rounded-full swap bg-base-300 p-1">
+                                            <label className=" rounded-full swap bg-base-300 dark:bg-neutral p-1">
                                                 {/* this hidden checkbox controls the state */}
                                                 <input type="checkbox"
                                                     checked={user?.friends.includes(post.owner)}
@@ -169,7 +163,7 @@ const ForumPage = () => {
                             </div>
 
                             <div className="mt-4 mb-2 flex justify-between gap-8">
-                                <div className="text-sm text-base-content">
+                                <div className="text-sm text-base-content dark:text-neutral-content">
                                     <p>{post.content}</p>
                                 </div>
                                 {user && postNames &&
@@ -189,7 +183,7 @@ const ForumPage = () => {
                                             }
                                             likePost(post._id);
                                         }}
-                                            className={`flex cursor-pointer gap-1 items-center transition select-none ${isLikedPost(post) ? "text-accent" : "text-neutral"}`}>
+                                            className={`flex cursor-pointer gap-1 items-center transition select-none ${isLikedPost(post) ? "text-accent" : "text-neutral dark:text-neutral-content/70"}`}>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
                                             </svg>
@@ -205,10 +199,10 @@ const ForumPage = () => {
             </div>
             <footer className="w-full bg-transparent my-4">
                 <div className="w-full pl-12 p-4 md:flex md:items-center md:justify-end md:gap-6">
-                    <span className="text-xs text-neutral/90 sm:text-center">
+                    <span className="text-xs text-neutral dark:text-neutral-content/90 sm:text-center">
                         © 2023 Samuel Oluwade
                     </span>
-                    <ul className="flex flex-wrap items-center mt-3 text-xs font-medium text-neutral/50 sm:mt-0">
+                    <ul className="flex flex-wrap items-center mt-3 text-xs font-medium text-neutral/60 dark:text-neutral-content/90 sm:mt-0">
                         <li>
                             <a target="_blank" href="https://github.com/s-oluwade" className="mr-4 hover:underline md:mr-6 flex items-center">
                                 Github

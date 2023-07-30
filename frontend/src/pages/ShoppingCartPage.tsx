@@ -157,20 +157,20 @@ const ShoppingCartPage = () => {
     }
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto my-auto">
 
             <div className="flex shadow-md my-10 min-w-max max-w-7xl mx-auto">
-                <div className="w-3/4 px-10 py-10 bg-base-100 rounded-l">
+                <div className="w-3/4 px-10 py-10 bg-base-100 dark:bg-gray-800 rounded-l">
                     <div className="flex justify-between border-b pb-8">
                         <h1 className="font-normal text-2xl">Cart</h1>
                     </div>
                     {products.length > 0 && cart && cart.products["total"] && cart.products["total"].count > 0 &&
                         <>
                             <div className="flex mt-10 mb-5">
-                                <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
-                                <h3 className="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
-                                <h3 className="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
-                                <h3 className="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+                                <h3 className="font-semibold text-xs uppercase w-2/5">Product Details</h3>
+                                <h3 className="font-semibold text-xs uppercase w-1/5 text-center">Quantity</h3>
+                                <h3 className="font-semibold text-xs uppercase w-1/5 text-center">Price</h3>
+                                <h3 className="font-semibold text-xs uppercase w-1/5 text-center">Total</h3>
                             </div>
 
                             {Object.keys(cart.products).map(function (productId, idx) {
@@ -180,7 +180,7 @@ const ShoppingCartPage = () => {
                                 const item = products.filter((product) => product._id === productId)[0];
 
                                 return (
-                                    <div key={idx} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+                                    <div key={idx} className="flex items-center bg-base-200 dark:bg-neutral -mx-8 px-6 py-5">
                                         <div className="flex w-2/5">
                                             <div className="w-20">
                                                 <img className="h-24" src={item.images[0]} alt="" />
@@ -195,13 +195,13 @@ const ShoppingCartPage = () => {
                                         </div>
                                         <div className="flex justify-center w-1/5">
                                             <a onClick={(e) => reduceFromCart(e, productId)} className="flex cursor-pointer">
-                                                <svg className="fill-current text-gray-600 w-3" viewBox="0 0 448 512"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                                                <svg className="fill-current w-3" viewBox="0 0 448 512"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                                                 </svg>
                                             </a>
-                                            <input className="mx-2 border text-center w-8" type="text" readOnly value={cart.products[productId].count} />
+                                            <input className="mx-2 border text-center w-8 dark:text-neutral" type="text" readOnly value={cart.products[productId].count} />
 
                                             <a onClick={(e) => addToCart(e, productId)} className="flex cursor-pointer">
-                                                <svg className="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
+                                                <svg className="fill-current w-3" viewBox="0 0 448 512">
                                                     <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                                                 </svg>
                                             </a>
@@ -230,23 +230,28 @@ const ShoppingCartPage = () => {
                     </Link>
                 </div>
 
-                <div id="summary" className="w-1/4 px-8 py-10 bg-base-200 rounded-r">
-                    <h1 className="font-normal text-2xl border-b pb-8">Payment Details</h1>
-                    <div className="flex justify-between mt-10 mb-5">
-                        <span className="font-medium text-sm uppercase">Items {cart && cart.products["total"] && cart.products["total"].count}</span>
-                        <span className="font-medium text-sm">{totalCost}$</span>
+                <div id="summary" className="w-1/4 px-8 py-10 bg-base-200 dark:bg-gray-700 rounded-r">
+                    <div className="h-full flex flex-col">
+                        <h1 className="font-normal text-2xl border-b pb-8">Payment Details</h1>
+                        <div className="flex justify-between mt-10 mb-5">
+                            <span className="font-medium text-sm uppercase">Items {cart && cart.products["total"] && cart.products["total"].count}</span>
+                            <span className="font-medium text-sm">{totalCost}$</span>
+                        </div>
+                        <div className="flex flex-col gap-2 grow justify-center">
+                            <p>Pay with mars credit</p>
+                            <p>1 mars credit = $1,000</p>
+                            <button onClick={() => setShowConfirmationModal(true)} className="btn btn-block btn-accent btn-sm mt-8">
+                                Pay with {totalCost > 0 ? ((totalCost) / 1000).toFixed(3) : 0} Mars credit
+                            </button>
+                        </div>
+                        <div className="toast toast-start">
+                            {purchaseAlerts.map((purchaseAlert) => purchaseAlert)}
+                        </div>
+                        <ConfirmationModal message={`Buy ${numberOfItems} items with ${totalCost > 0 ? (totalCost / 1000).toFixed(3) : 0} mrs?`} title={purchaseConfirmationTitle} />
                     </div>
-                    <div className="flex flex-col gap-2 mt-10">
-                        <p>Pay with mars credit</p>
-                        <p>1 mars credit = $1,000</p>
-                        <button onClick={() => setShowConfirmationModal(true)} className="btn btn-block btn-accent btn-sm mt-5">
-                            Pay with {totalCost > 0 ? ((totalCost) / 1000).toFixed(3) : 0} Mars credit
-                        </button>
+                    <div className="text-center">
+                        Credit: {user?.credit ? user.credit.toFixed(3) : 0} MARS
                     </div>
-                    <div className="toast toast-start">
-                        {purchaseAlerts.map((purchaseAlert) => purchaseAlert)}
-                    </div>
-                    <ConfirmationModal message={`Buy ${numberOfItems} items with ${totalCost > 0 ? (totalCost / 1000).toFixed(3) : 0} mrs?`} title={purchaseConfirmationTitle} />
                 </div>
             </div>
         </div>
