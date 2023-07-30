@@ -186,7 +186,7 @@ const UserHomeSubPage = () => {
                                     </div>
                                     <div className="flex space-x-2 items-center">
                                         {!!post.topic && (
-                                            <div className="badge badge-outline">{post.topic}</div>
+                                            <div className="badge badge-outline h-fit w-min md:w-max">{post.topic}</div>
                                         )}
 
                                         <div className="text-xs text-base-content/70 dark:text-neutral-content/70">{getWhen(post.createdAt)}</div>
