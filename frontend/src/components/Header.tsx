@@ -63,10 +63,10 @@ const Header = () => {
 
     return (
         <>
-            <div className="navbar bg-base-100 border border-b-2 border-b-accent w-full relative z-10 dark:bg-gray-900 dark:text-base-100">
+            <div className="navbar bg-base-100 border border-b-2 border-b-accent w-full relative z-10 dark:bg-gray-900 dark:text-base-100 -0">
                 <div className="flex-none md:hidden">
-                    <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </label>
                 </div>
                 <div className="flex-1">
