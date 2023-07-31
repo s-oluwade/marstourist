@@ -179,7 +179,6 @@ const Header = () => {
                     {!user && !admin &&
                         <ul className="flex flex-nowrap gap-6 text-sm px-4">
                             <li><Link to="/forum">Forum</Link></li>
-                            <li><Link to="/store">Shop</Link></li>
                             <li><Link to='/login'>Sign in</Link></li>
                         </ul>
                     }
