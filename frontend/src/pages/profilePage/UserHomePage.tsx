@@ -231,12 +231,12 @@ const UserHomeSubPage = () => {
                         ))}
                     </div>
                     <dialog id="delete_modal" className="modal modal-bottom sm:modal-middle">
-                        <form method="dialog" className="modal-box py-8 gap-2 flex flex-col items-center">
-                            <button onClick={() => setIdOfPostToDelete("")} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                            <h3 className="font-bold text-lg">Are you sure?</h3>
-                            <div className="modal-action gap-6">
-                                <button onClick={deletePost} className="btn btn-wide">Yes</button>
-                                <button onClick={() => setIdOfPostToDelete("")} className="btn">Cancel</button>
+                        <form method="dialog" className="modal-box bg-base-300 dark:bg-gray-700 py-8 gap-2 flex flex-col items-center">
+                            <button onClick={() => setIdOfPostToDelete("")} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-neutral-content text-lg">✕</button>
+                            <h3 className="font-bold text-lg dark:text-neutral-content">Are you sure?</h3>
+                            <div className="modal-action justify-center">
+                                <button onClick={deletePost} className="btn btn-neutral btn-block">Yes</button>
+                                <button onClick={() => setIdOfPostToDelete("")} className="btn btn-ghost btn-block dark:text-neutral-content">Cancel</button>
                             </div>
                         </form>
                     </dialog>
@@ -245,7 +245,7 @@ const UserHomeSubPage = () => {
                 <div className="hidden lg:block m-4 max-h-[51.875rem] overflow-y-auto overflow-x-hidden rounded-md bg-neutral/50 dark:bg-gray-800 shadow-md min-w-[12.5rem] w-64">
                     <h3 className="rounded-t-md bg-base-100 dark:bg-gray-900 p-4 font-normal text-md">Friends ({user.friends ? user.friends.length : 0})</h3>
                     <div className="p-1">
-                        {user.friends.map((friend) => (
+                        {user.friends?.map((friend) => (
                             <Friend key={friend} id={friend} />
                         ))}
                     </div>

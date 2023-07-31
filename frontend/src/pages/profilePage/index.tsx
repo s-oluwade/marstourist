@@ -107,7 +107,7 @@ const ProfilePage = () => {
                         <div className="lg:hidden m-4 bg-base-300 rounded">
                             <h3 className="rounded-t-md p-4 font-normal text-sm">Friends ({user.friends ? user.friends.length : 0})</h3>
                             <div className="p-1">
-                                {user.friends.map((friend) => (
+                                {user.friends?.map((friend) => (
                                     <Friend key={friend} id={friend} />
                                 ))}
                             </div>

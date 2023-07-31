@@ -22,6 +22,8 @@ router.put("/add-credit", UserController.addCredit);
 
 router.put("/update-friendship", UserController.updateFriendship);
 
+router.post("/delete-account", UserController.deleteAccount);
+
 // not in use
 // router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
 

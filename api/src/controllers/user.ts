@@ -117,7 +117,7 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
             email: newUser.email,
             id: newUser._id,
         }, env.JWT_SECRET, {}, async (err: any, token: any) => {
-            if (err) throw err;
+            if (err) throw createHttpError(401, "Could not verify token.");
             const user = {
                 id: newUser._id,
                 email: newUser.email,
@@ -142,7 +142,7 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
     const { token } = req.cookies;
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
-            if (err) throw err;
+            if (err) throw createHttpError(401, "Could not verify token.");
 
             let uploadedFiles = [];
             if (typeof req.files === 'object') {
@@ -262,7 +262,7 @@ export const updateUserCredentials: RequestHandler<unknown, unknown, UserCredBod
 
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
-            if (err) throw err;
+            if (err) throw createHttpError(401, "Could not verify token.");
 
             const userDoc = await UserModel.findById(decodedUser.id);
             if (!userDoc) throw new Error;
@@ -307,7 +307,7 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
 
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
-            if (err) throw err;
+            if (err) throw createHttpError(401, "Could not verify token.");
 
             const userDoc = await UserModel.findById(decodedUser.id);
             if (!userDoc) throw new Error;
@@ -333,7 +333,7 @@ export const addCredit: RequestHandler<unknown, unknown, { credit: number }, unk
 
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
-            if (err) throw err;
+            if (err) throw createHttpError(401, "Could not verify token.");
 
             const userDoc = await UserModel.findById(decodedUser.id);
             if (!userDoc) throw new Error;
@@ -358,7 +358,7 @@ export const updateFriendship: RequestHandler<unknown, unknown, { friendId: stri
     
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
-            if (err) throw err;
+            if (err) throw createHttpError(401, "Could not verify token.");
 
             if (decodedUser.id === req.body.friendId) 
                 throw createHttpError(401, "User and friend cannot have the same id");
@@ -388,4 +388,23 @@ export const updateFriendship: RequestHandler<unknown, unknown, { friendId: stri
     else {
         res.json(null);
     }
+}
+
+export const deleteAccount: RequestHandler = async (req, res, next) => {
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
+            if (err) throw createHttpError(401, "Could not verify token.");
+
+            const user = await UserModel.findById(decodedUser.id).select("+email").exec();
+            user?.deleteOne();
+
+            res.sendStatus(202);
+        })
+    }
+    else {
+        console.log("User token not found");
+        res.status(401);
+    }
+
 }

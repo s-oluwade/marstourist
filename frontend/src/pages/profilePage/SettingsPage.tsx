@@ -45,14 +45,14 @@ export default function SettingsSubPage() {
                 </div>
             </div>
             <hr className="h-px my-8 bg-neutral/50 border-0 dark:bg-gray-700"/>
-            <div className="grid grid-cols-5 pt-10 px-15">
-                <ul id="profile-submenu" className="col-start-2 px-4">
+            <div className="flex flex-col gap-10 md:flex-row justify-center">
+                <ul id="profile-submenu" className="px-4 md:w-40 flex gap-4 md:block">
                     <li><Link className={subpage === "general" ? "font-medium text-accent" : ""} to="/profile/settings/general">General</Link></li>
                     <li><Link className={["edit-profile", undefined].includes(subpage) ? "font-medium dark:text-accent" : ""} to="/profile/settings/edit-profile">Edit Profile</Link></li>
                     <li><Link className={subpage === "password" ? "font-medium text-accent" : ""} to="/profile/settings/password">Password</Link></li>
                     <li><Link className={subpage === "account" ? "font-medium text-accent" : ""} to="/profile/settings/account">Account</Link></li>
                 </ul>
-                <div className="col-span-2 col-start-3 px-10">
+                <div className="px-10 w-80">
                     {subtitle == "General" && <GeneralSubPage />}
                     {subtitle == "Edit Profile" && <EditProfileSubPage />}
                     {subtitle == "Password" && <PasswordSubPage />}

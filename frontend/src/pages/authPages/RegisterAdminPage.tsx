@@ -39,8 +39,8 @@ const RegisterAdminPage = () => {
     return (
         <div className="flex flex-col mx-auto">
             <div className="mt-4 grow flex items-center justify-around">
-                <div className="mb-24 p-8 border rounded-2xl shadow-2xl bg-base-100">
-                    <h1 className="text-2xl font-medium text-center text-neutral">ADMIN CREATE ACCOUNT</h1>
+                <div className="mb-24 p-8 border rounded-2xl shadow-2xl bg-base-100 dark:bg-gray-800">
+                    <h1 className="text-2xl font-medium text-center text-neutral dark:text-neutral-content">ADMIN CREATE ACCOUNT</h1>
                     <form className="max-w-sm mx-auto mt-4" onSubmit={handleSubmit(onSubmit)}>
                         <input type="text"
                             id="admin-name"
@@ -73,7 +73,7 @@ const RegisterAdminPage = () => {
                         }
                         <button className='btn btn-block btn-neutral'>CREATE ACCOUNT</button>
                         <div className="text-center pt-4">
-                            <span className="text-sm text-neutral/80">Already a member?</span> <Link className="underline" to="/login/admin">SIGN IN</Link>
+                            <span className="text-sm text-neutral/80 dark:text-neutral-content/80">Already a member?</span> <Link className="underline" to="/login/admin">SIGN IN</Link>
                         </div>
                     </form>
                 </div>

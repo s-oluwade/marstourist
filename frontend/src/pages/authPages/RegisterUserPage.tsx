@@ -13,10 +13,6 @@ interface RegisterCredentials {
 }
 
 const SignUpUserPage = () => {
-    const [fullname, setFullname] = useState("");
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [redirect, setRedirect] = useState(false);
 
     const { setUser } = useContext(AuthContext);
@@ -34,58 +30,50 @@ const SignUpUserPage = () => {
     }
 
     if (redirect) {
-        return <Navigate to={'/account'} />
+        return <Navigate to={'/'} />
     }
 
     return (
         <div className="flex flex-col mx-auto">
             <div className="mt-4 grow flex items-center justify-around">
-                <div className="mb-24 p-8 border rounded-2xl shadow-2xl bg-base-100">
+                <div className="mb-24 p-8 border rounded-2xl shadow-2xl bg-base-100 dark:bg-gray-800">
                     <h1 className="text-2xl font-medium text-center text-accent">CREATE ACCOUNT</h1>
                     <form className="max-w-sm mx-auto mt-4" onSubmit={handleSubmit(onSubmit)}>
                         <input type="text"
+                            {...register("fullname", { required: true })}
                             id="fullname"
                             className="input input-bordered input-accent w-full"
-                            value={fullname}
-                            aria-invalid={errors.fullname ? "true" : "false"}
-                            {...register("fullname", { required: true })}
-                            onChange={e => setFullname(e.target.value)}
+                            aria-invalid={!!errors.fullname}
                             placeholder="John Doe" />
                         {!!errors.fullname &&
-                            <p role="alert" className="alert text-red-900 text-xs italic">Please fill out this field.</p>
+                            <p role="alert" className="alert text-red-500 text-xs italic">Please fill out this field.</p>
                         }
                         <input type="text"
+                            {...register("username", { required: false })}
                             id="username"
                             className="input input-bordered input-accent w-full"
-                            value={username}
-                            {...register("username", { required: false })}
-                            onChange={e => setUsername(e.target.value)}
                             placeholder="username (optional)" />
                         <input type="email"
+                            {...register("email", { required: true })}
                             id="email"
                             className="input input-bordered input-accent w-full"
-                            value={email}
-                            aria-invalid={errors.email ? "true" : "false"}
-                            {...register("email", { required: true })}
-                            onChange={e => setEmail(e.target.value)}
+                            aria-invalid={!!errors.email}
                             placeholder="your@email.com" />
                         {!!errors.email &&
-                            <p role="alert" className="alert text-red-900 text-xs italic">Please fill out this field.</p>
+                            <p role="alert" className="alert text-red-500 text-xs italic">Please fill out this field.</p>
                         }
                         <input type="password"
+                            {...register("password", { required: true })}
                             id="password"
                             className="input input-bordered input-accent w-full"
-                            value={password}
-                            aria-invalid={errors.password ? "true" : "false"}
-                            {...register("password", { required: true })}
-                            onChange={e => setPassword(e.target.value)}
+                            aria-invalid={!!errors.password}
                             placeholder="Password" />
                         {!!errors.password &&
-                            <p role="alert" className="alert text-red text-xs italic">Please choose a password.</p>
+                            <p role="alert" className="alert text-red-500 text-xs italic">Please choose a password.</p>
                         }
                         <button className='btn btn-block btn-accent'>CREATE ACCOUNT</button>
                         <div className="text-center pt-4">
-                            <span className="text-sm text-neutral/80">Already a member?</span> <Link className="underline" to="/login/user">Sign In</Link>
+                            <span className="text-sm text-neutral/80 dark:text-neutral-content/80">Already a member?</span> <Link className="underline" to="/login/user">Sign In</Link>
                         </div>
                     </form>
                 </div>

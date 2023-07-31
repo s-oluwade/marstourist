@@ -119,12 +119,12 @@ const ForumPage = () => {
     return (
         <div className="flex flex-col grow">
             <div className="mx-auto">
-                <div id="posts" className="p-6 inline-flex flex-col items-center min-h-full grow bg-base-200 dark:bg-gray-800 shadow-sm">
+                <div id="posts" className="p-6 flex flex-col items-center min-h-full grow bg-base-200 dark:bg-gray-800 shadow-sm">
                     <h1 className="text-2xl mb-4 uppercase">
                         mars forum
                     </h1>
                     {allPosts.map((post, index) => (
-                        <div key={index} className="rounded-lg border p-3 shadow-md w-[32rem] bg-base-100 mb-4 dark:bg-gray-700 dark:border-neutral">
+                        <div key={index} className="rounded-lg border p-3 shadow-md w-[26rem] bg-base-100 mb-4 dark:bg-gray-700 dark:border-neutral">
                             <div className="flex w-full items-center justify-between border-b border-accent pb-2">
                                 <div className="flex items-center space-x-3">
                                     <div className="avatar">

@@ -71,7 +71,7 @@ const Header = () => {
                 </div>
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
-                        <img src="https://fontmeme.com/permalink/230708/6b945069c771cf0931a7814ea2e154d5.png" width={300} alt="mass-effect-font" />
+                        <img className="w-72 md:w-80" src="https://fontmeme.com/permalink/230708/6b945069c771cf0931a7814ea2e154d5.png" alt="mass-effect-font" />
                     </Link>
                 </div>
                 {admin &&
@@ -158,7 +158,7 @@ const Header = () => {
                     }
                     {admin &&
                         <>
-                            <ul className="menu menu-horizontal p-0 flex-nowrap">
+                            <ul className="flex flex-nowrap gap-6 text-sm px-4">
                                 <li><Link className="uppercase" to="/forum">Forum</Link></li>
                                 <li><Link className="uppercase" to="/store">Shop</Link></li>
                             </ul>
@@ -177,7 +177,7 @@ const Header = () => {
                         </>
                     }
                     {!user && !admin &&
-                        <ul className="menu menu-horizontal p-0 flex-nowrap">
+                        <ul className="flex flex-nowrap gap-6 text-sm px-4">
                             <li><Link to="/forum">Forum</Link></li>
                             <li><Link to="/store">Shop</Link></li>
                             <li><Link to='/login'>Sign in</Link></li>

@@ -31,30 +31,30 @@ const LoginUserPage = () => {
     return (
         <div className="flex flex-col mx-auto">
             <div className="mt-4 grow flex items-center justify-around">
-                <div className="mb-24 p-8 border rounded-2xl shadow-2xl bg-base-100">
+                <div className="mb-24 p-8 border rounded-2xl shadow-2xl bg-base-100 dark:bg-gray-800">
                     <h1 className="text-2xl font-medium text-center text-accent">SIGN IN</h1>
                     <form className="max-w-sm mx-auto mt-4" onSubmit={handleSubmit(onSubmit)}>
                         <input type="email"
+                            {...register("email", { required: true })}
                             className="input input-bordered input-accent w-full"
                             id="email"
-                            aria-invalid={errors.email ? "true" : "false"}
-                            {...register("email", { required: true })}
+                            aria-invalid={!!errors.email}
                             placeholder="your@email.com" />
                         {!!errors.email &&
                             <p role="alert" className="text-red-500 text-xs italic">Please fill out this field.</p>
                         }
                         <input type="password"
+                            {...register("password", { required: true })}
                             className="input input-bordered input-accent w-full"
                             id="password"
-                            aria-invalid={errors.password ? "true" : "false"}
-                            {...register("password", { required: true })}
+                            aria-invalid={!!errors.password}
                             placeholder="Password" />
                         {!!errors.password &&
                             <p role="alert" className="text-red-500 text-xs italic">Please choose a password.</p>
                         }
                         <button className='btn btn-block btn-accent'>Sign In</button>
                         <div className="text-center pt-4">
-                            <span className="text-sm text-neutral/80">Dont have an account?</span> <Link className="underline" to="/register/user">Create Account</Link>
+                            <span className="text-sm text-neutral/80 dark:text-neutral-content/80">Dont have an account?</span> <Link className="underline" to="/register/user">Create Account</Link>
                         </div>
                     </form>
                 </div>
