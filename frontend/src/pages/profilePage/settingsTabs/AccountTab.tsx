@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GlobalContext } from "../../../components/Providers/GlobalContext";
 import { useContext, useEffect } from "react";
 import ConfirmationModal from "../../../components/ConfirmationModal";
@@ -7,7 +7,6 @@ import axios from "axios";
 export default function AccountSettingsSubPage() {
     const { modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
     const message="Are you sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone.";
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (modalResponse == "Delete Account") {
