@@ -76,7 +76,7 @@ const Header = () => {
                 </div>
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
-                        <img className="w-72 md:w-80" src="https://fontmeme.com/permalink/230708/6b945069c771cf0931a7814ea2e154d5.png" alt="mass-effect-font" />
+                        <img className="w-[64vw] max-w-[20rem]" src="https://fontmeme.com/permalink/230708/6b945069c771cf0931a7814ea2e154d5.png" alt="mass-effect-font" />
                     </Link>
                 </div>
                 {admin &&
