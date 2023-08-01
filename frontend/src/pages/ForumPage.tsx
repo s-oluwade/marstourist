@@ -140,7 +140,7 @@ const ForumPage = () => {
                                     )}
                                     <div className="text-xs text-base-content/70 dark:text-neutral-content/70">{getWhen(post)}</div>
                                     {user && user?._id !== post.owner &&
-                                        <div className="tooltip tooltip-close tooltip-right" data-tip={user?.friends.includes(post.owner) ? "Remove Friend" : "Add Friend"}>
+                                        <div className="tooltip tooltip-close tooltip-left md:tooltip-top" data-tip={user?.friends.includes(post.owner) ? "Remove Friend" : "Add Friend"}>
                                             <label className=" rounded-full swap bg-base-300 dark:bg-neutral p-1">
                                                 {/* this hidden checkbox controls the state */}
                                                 <input type="checkbox"
@@ -169,7 +169,7 @@ const ForumPage = () => {
                                 {user && postNames &&
                                     <div
 
-                                        className={`${post.likes.length > 0 ? "tooltip" : ""} tooltip-close tooltip-right`}
+                                        className={`${post.likes.length > 0 ? "tooltip" : ""} tooltip-close tooltip-left md:tooltip-top`}
                                         data-tip={post.likes.map(like => postNames[like]).join(", ")}
                                     >
                                         <div onClick={(e) => {

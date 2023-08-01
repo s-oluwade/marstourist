@@ -85,7 +85,7 @@ const Layout = () => {
                             <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
                             <ul className="menu p-4 h-full bg-base-200 dark:bg-neutral">
                                 {/* Sidebar content here */}
-                                <div className="flex flex-col w-full justify-center gap-6 items-center">
+                                <div className="flex flex-col w-full justify-center gap-6 items-center h-full">
                                     {user &&
                                         <Link to={"/profile"}>
                                             <div className="avatar">
@@ -141,7 +141,7 @@ const Layout = () => {
                                         </div>
                                     }
 
-                                    <ul className='space-y-2 font-medium w-full'>
+                                    <ul className='space-y-2 font-medium w-full flex flex-col flex-1'>
                                         <li>
                                             <Link to={'/forum'} className="flex items-center p-2 text-neutral rounded-lg dark:text-base-300 hover:bg-gray-100 group">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">
@@ -185,7 +185,7 @@ const Layout = () => {
                                             </li>
                                         }
                                         {user &&
-                                            <li>
+                                            <li className='justify-end grow'>
                                                 <a onClick={userLogout} className="flex items-center p-2 text-neutral rounded-lg dark:text-base-300 hover:bg-gray-100 group">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
