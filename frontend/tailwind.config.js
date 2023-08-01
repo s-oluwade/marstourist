@@ -11,7 +11,6 @@ export default {
                 '26': '6.5rem',
             },
             fontFamily: {
-                'chilanka': 'Chilanka',
                 'open-sans': 'Open Sans',
                 'open-sans-condensed': 'Open Sans Condensed',
                 'roboto': 'Roboto',

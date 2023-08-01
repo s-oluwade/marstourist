@@ -24,7 +24,7 @@ const settingspaths = [
 const Layout = () => {
 
     const { user, loadingUser, admin, loadingAdmin } = useContext(AuthContext);
-    const { userAvatar, userNotifications } = useContext(UserContext);
+    const { userAvatar, userNotifications, cart } = useContext(UserContext);
     const currentPath = window.location.pathname;
     const DEFAULT_THEME = 'light';
     const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Layout = () => {
     useEffect(() => {
         WebFont.load({
             google: {
-                families: ['Chilanka', 'Open Sans', 'Open Sans Condensed', 'Roboto',
+                families: ['Open Sans', 'Open Sans Condensed', 'Roboto',
                     'Roboto Slab', 'Montserrat', 'Raleway', 'Rubik:300,400,500,700']
             }
         })
@@ -151,14 +151,28 @@ const Layout = () => {
                                             </Link>
                                         </li>
                                         {user &&
-                                            <li>
-                                                <Link to={'/store'} className="flex items-center p-2 text-neutral rounded-lg dark:text-base-300 hover:bg-gray-100 group">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                                                    </svg>
-                                                    <span className="flex-1 ml-3 whitespace-nowrap dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">Shop</span>
-                                                </Link>
-                                            </li>
+                                            <>
+                                                <li>
+                                                    <Link to={'/cart'} className="flex items-center p-2 text-neutral rounded-lg dark:text-base-300 hover:bg-gray-100 group">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                                        </svg>
+                                                        <div className="indicator">
+                                                            <span className="indicator-item badge badge-outline -right-10 top-3">{cart && cart.products["total"] && cart.products["total"].count}</span>
+                                                            <span className="flex-1 ml-3 whitespace-nowrap dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">Cart</span>
+                                                        </div>
+
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={'/store'} className="flex items-center p-2 text-neutral rounded-lg dark:text-base-300 hover:bg-gray-100 group">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                                        </svg>
+                                                        <span className="flex-1 ml-3 whitespace-nowrap dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200">Shop</span>
+                                                    </Link>
+                                                </li>
+                                            </>
                                         }
                                         {!user &&
                                             <li>

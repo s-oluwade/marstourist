@@ -10,7 +10,7 @@ const ForumPage = () => {
 
     const { postNames, postAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts } = useContext(UserContext);
-    const { user, setUser } = useContext(AuthContext)
+    const { user, setUser } = useContext(AuthContext);
 
     function getWhen(userPost: ReceivedPost) {
         const then = new Date(userPost.createdAt);
@@ -124,7 +124,7 @@ const ForumPage = () => {
                         mars forum
                     </h1>
                     {allPosts.map((post, index) => (
-                        <div key={index} className="rounded-lg border p-3 shadow-md w-[26rem] bg-base-100 mb-4 dark:bg-gray-700 dark:border-neutral">
+                        <div key={index} className="rounded-lg border p-3 shadow-md w-[22rem] md:w-[26rem] bg-base-100 mb-4 dark:bg-gray-700 dark:border-neutral">
                             <div className="flex w-full items-center justify-between border-b border-accent pb-2">
                                 <div className="flex items-center space-x-3">
                                     <div className="avatar">
@@ -136,7 +136,7 @@ const ForumPage = () => {
                                 </div>
                                 <div className="flex space-x-2 items-center">
                                     {!!post.topic && (
-                                        <div className="badge badge-outline">{post.topic}</div>
+                                        <div className="badge badge-outline h-fit w-min md:w-max">{post.topic}</div>
                                     )}
                                     <div className="text-xs text-base-content/70 dark:text-neutral-content/70">{getWhen(post)}</div>
                                     {user && user?._id !== post.owner &&

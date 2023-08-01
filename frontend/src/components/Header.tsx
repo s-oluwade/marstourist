@@ -65,9 +65,14 @@ const Header = () => {
         <>
             <div className="navbar bg-base-100 border border-b-2 border-b-accent w-full relative z-10 dark:bg-gray-900 dark:text-base-100 -0">
                 <div className="flex-none md:hidden">
-                    <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost btn-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    </label>
+                    <div className="indicator">
+                        {cart && cart.products["total"] && cart.products["total"].count > 0 &&
+                            <span className="indicator-item badge badge-xs badge-secondary right-2 top-2"></span>
+                        }
+                        <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        </label>
+                    </div>
                 </div>
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
