@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ReceivedPost } from '../../models/post';
 import { ProductWithId } from '../../models/product';
 import { GlobalContext } from './GlobalContext';
