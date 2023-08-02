@@ -27,7 +27,13 @@ const IndexPage = () => {
                 <h1 className="text-4xl font-bold tracking-tight leading-none text-accent md:text-5xl lg:text-6xl">Welcome to Mars!</h1>
                 <div className="my-14">
                     <p className="text-lg text-neutral-content sm:px-16 lg:px-48">Here on the red planet you will find others visitors hailing from different parts of the Galaxy.</p>
-                    <p className="text-lg text-neutral-content sm:px-16 lg:px-48">Get yourself prepared for the harsh Martian climate by grabbing items from our store, or visit the forum to connect with other Martians!</p>
+                    <p className="text-lg text-neutral-content sm:px-16 lg:px-48">Get yourself prepared for the harsh Martian climate by grabbing items from our store, or visit the forum to connect with other Martians.</p>
+                    {!user &&
+                        <>
+                            <br />
+                            <p className="text-lg text-neutral-content sm:px-16 lg:px-48">Sign in to access full site!</p>
+                        </>
+                    }
                 </div>
 
                 {(!loadingUser && !user && !loadingAdmin && !admin) ?
