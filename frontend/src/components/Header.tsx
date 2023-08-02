@@ -76,7 +76,6 @@ const Header = () => {
         if (visitorInfo) {
             axios.post('/visitor', { visitor: visitorInfo }, { headers: { "Content-Type": "application/json" } })
             .then(() => {
-                console.log("info sent to database");
                 setVisitorInfo(null);
             })
         }
