@@ -47,7 +47,6 @@ const Header = () => {
         fetch("https://ipapi.co/json/")
             .then(response => response.json())
             .then((responseJson => {
-                console.log(responseJson);
                 if (JSON.stringify(responseJson) !== JSON.stringify(visitorInfo)){
                     setVisitorInfo(responseJson);
                 }
