@@ -14,25 +14,35 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         // If no logged in state
         if (!user && !admin) {
 
-            // grab admin if authenticated
-            axios.get<Admin>("/admin", {
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Pragma': 'no-cache',
-                    'Expires': '0',
-                },
-            }).then(res => {
-                logoutUser();
-                setAdmin(res.data);
-                // unauthenticate/logout user
-            }).catch(() => {
-                setLoadingAdmin(false);
-                // else grab user if authenticated
-                axios.get<User>("/user").then(res => {
-                    setUser(res.data);
-                }).finally(() => {
-                    setLoadingUser(false);
-                })
+            // REMOVE ADMIN AUTHENTICATION FOR NOW
+            // // grab admin if authenticated
+            // axios.get<Admin>("/admin", {
+            //     headers: {
+            //         'Cache-Control': 'no-cache',
+            //         'Pragma': 'no-cache',
+            //         'Expires': '0',
+            //     },
+            // }).then(res => {
+            //     logoutUser();
+            //     setAdmin(res.data);
+            //     // unauthenticate/logout user
+            // }).catch(() => {
+            //     setLoadingAdmin(false);
+            //     // else grab user if authenticated
+            //     axios.get<User>("/user").then(res => {
+            //         setUser(res.data);
+            //     }).finally(() => {
+            //         setLoadingUser(false);
+            //     })
+            // })
+
+            // USE ONLY USER AUTHENTICATION FOR NOW
+            setLoadingAdmin(false);
+            // else grab user if authenticated
+            axios.get<User>("/user").then(res => {
+                setUser(res.data);
+            }).finally(() => {
+                setLoadingUser(false);
             })
         }
         else {
@@ -41,14 +51,14 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [user, admin]);
 
-    async function logoutUser() {
-        try {
-            await axios.post('/user/logout');
-            setUser(null);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // async function logoutUser() {
+    //     try {
+    //         await axios.post('/user/logout');
+    //         setUser(null);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     return (
         <AuthContext.Provider

@@ -15,58 +15,6 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     const [products, setProducts] = useState<ProductWithId[]>([]);
     const [showProductQuickview, setShowProductQuickview] = useState<boolean>(false);
 
-    useEffect(() => {
-        async function loadGlobalData() {
-            const { data } = await axios.get('/data/site-data');
-            setLocations(data.regions);
-            axios.get("/posts/profile-names")
-                .then((response) => {
-                    const names = response.data;
-                    if (names) setPostNames(names);
-                    else setPostNames(null);
-                })
-                .catch((error) => {
-                    setPostNames(null);
-                    console.log(error);
-                });
-            axios.get("/posts/profile-pictures")
-                .then((response) => {
-                    const pictures = response.data;
-                    if (pictures) setPostAvatars(pictures);
-                })
-                .catch((error) => {
-                    setPostAvatars(null);
-                    console.log(error);
-                });
-            axios.get<ReceivedPost[]>("/posts")
-                .then((response) => {
-                    const data = response.data;
-                    data.sort((a, b) =>
-                        new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
-                            ? 1
-                            : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
-                                ? -1
-                                : 0
-                    );
-                    setAllPosts(data);
-                })
-                .catch((error) => {
-                    setAllPosts([]);
-                    console.log(error);
-                });
-            axios.get("/products")
-                .then((response) => {
-                    const products = response.data;
-                    setProducts(products);
-                })
-                .catch((error) => {
-                    setProducts([]);
-                    console.log(error);
-                });
-        }
-        loadGlobalData();
-    }, [])
-
     return (
         <GlobalContext.Provider
             value={

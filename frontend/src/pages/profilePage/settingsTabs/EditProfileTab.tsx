@@ -6,7 +6,7 @@ import { User } from "../../../models/user";
 
 export default function EditProfileSubPage() {
     const { user, setUser } = useContext(AuthContext);
-    const { locations } = useContext(GlobalContext);
+    const { locations, setLocations } = useContext(GlobalContext);
     const [location, setLocation] = useState<string>("anon");
     const [bio, setBio] = useState<string>("");
 
@@ -16,6 +16,11 @@ export default function EditProfileSubPage() {
             setLocation(user.location);
             setBio(user.bio);
         }
+
+        axios.get('/data/site-data')
+        .then((response) => {
+            setLocations(response.data.regions);
+        });
     }, [user]);
 
     async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {

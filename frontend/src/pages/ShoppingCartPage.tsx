@@ -20,10 +20,9 @@ interface CartItem {
 }
 
 const ShoppingCartPage = () => {
-    const [products, setProducts] = useState<ProductWithId[]>([]);
     const { cart, setCart, setUserNotifications } = useContext(UserContext);
     const [totalCost, setTotalCost] = useState(0);
-    const { modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);
+    const { modalResponse, setModalResponse, setShowConfirmationModal, products, setProducts } = useContext(GlobalContext);
     const [numberOfItems, setNumberOfItems] = useState(0);
     const [purchaseAlerts, setPurchaseAlerts] = useState<JSX.Element[]>([]);
     const { user, setUser } = useContext(AuthContext);

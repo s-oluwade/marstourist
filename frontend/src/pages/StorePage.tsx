@@ -9,9 +9,21 @@ const StorePage = () => {
     const [filteredProducts, setFilteredProducts] = useState<ProductWithId[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [category, setCategory] = useState<string>("all");
-    const { products } = useContext(GlobalContext);
+    const { products, setProducts } = useContext(GlobalContext);
     const { cart, setCart } = useContext(UserContext);
     const [selectedTab, setSelectedTab] = useState("tab-all");
+
+    useEffect(() => {
+        axios.get("/products")
+        .then((response) => {
+            const products = response.data;
+            setProducts(products);
+        })
+        .catch((error) => {
+            setProducts([]);
+            console.log(error);
+        });
+    }, [])
 
     useEffect(() => {
         if (products.length > 0) {

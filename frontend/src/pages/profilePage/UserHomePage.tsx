@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../components/Providers/AuthContext";
 import { GlobalContext } from "../../components/Providers/GlobalContext";
 import { UserContext } from "../../components/Providers/UserContext";
@@ -10,9 +10,52 @@ const UserHomeSubPage = () => {
     const [content, setContent] = useState("");
     const [topic, setTopic] = useState("mars");
     const [idOfPostToDelete, setIdOfPostToDelete] = useState("");
-    const { locations, allPosts, setAllPosts, postNames } = useContext(GlobalContext);
+    const { locations, setLocations, allPosts, setAllPosts, postNames, setPostNames, setPostAvatars } = useContext(GlobalContext);
     const { userPosts, setUserPosts, userAvatar } = useContext(UserContext);
     const { user } = useContext(AuthContext);
+
+    useEffect(() => {
+        axios.get<ReceivedPost[]>("/posts")
+            .then((response) => {
+                const data = response.data;
+                data.sort((a, b) =>
+                    new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
+                        ? 1
+                        : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+                            ? -1
+                            : 0
+                );
+                setAllPosts(data);
+            })
+            .catch((error) => {
+                setAllPosts([]);
+                console.log(error);
+            });
+        axios.get("/posts/profile-names")
+            .then((response) => {
+                const names = response.data;
+                if (names) setPostNames(names);
+                else setPostNames(null);
+            })
+            .catch((error) => {
+                setPostNames(null);
+                console.log(error);
+            });
+        axios.get("/posts/profile-pictures")
+            .then((response) => {
+                const pictures = response.data;
+                if (pictures) setPostAvatars(pictures);
+            })
+            .catch((error) => {
+                setPostAvatars(null);
+                console.log(error);
+            });
+        axios.get('/data/site-data')
+            .then((response) => {
+                setLocations(response.data.regions);
+            });
+
+    }, []);
 
     async function deletePost() {
         const { data } = await axios.delete<ReceivedPost>("/posts/" + idOfPostToDelete);

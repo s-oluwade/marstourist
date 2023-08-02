@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../components/Providers/AuthContext";
 import { GlobalContext } from "../components/Providers/GlobalContext";
 import axios from "axios";
@@ -7,16 +7,55 @@ import { UserContext } from "../components/Providers/UserContext";
 import { User } from "../models/user";
 
 const ForumPage = () => {
-
-    const { postNames, postAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
+    const { postNames, setPostNames, postAvatars, setPostAvatars, allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts } = useContext(UserContext);
     const { user, setUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        axios.get<ReceivedPost[]>("/posts")
+        .then((response) => {
+            const data = response.data;
+            data.sort((a, b) =>
+                new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
+                    ? 1
+                    : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+                        ? -1
+                        : 0
+            );
+            setAllPosts(data);
+        })
+        .catch((error) => {
+            setAllPosts([]);
+            console.log(error);
+        });
+        axios.get("/posts/profile-names")
+            .then((response) => {
+                const names = response.data;
+                if (names) setPostNames(names);
+                else setPostNames(null);
+            })
+            .catch((error) => {
+                setPostNames(null);
+                console.log(error);
+            });
+        axios.get("/posts/profile-pictures")
+            .then((response) => {
+                const pictures = response.data;
+                if (pictures) setPostAvatars(pictures);
+            })
+            .catch((error) => {
+                setPostAvatars(null);
+                console.log(error);
+            });
+
+    }, []);
+
 
     function getWhen(userPost: ReceivedPost) {
         const then = new Date(userPost.createdAt);
         const now = new Date();
         let difference = Math.abs(now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24);
-        
+
         if (Math.trunc(difference) < 1) {
             difference = difference * 24;
             if (Math.trunc(difference) < 1) {
