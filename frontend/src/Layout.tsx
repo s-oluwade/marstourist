@@ -93,6 +93,9 @@ const Layout = () => {
                                                     <img src={userAvatar} />
                                                 </div>
                                             </div>
+                                            <div className='text-center mt-2 dark:text-neutral-content'>
+                                                {user.fullname}
+                                            </div>
                                         </Link>
                                     }
                                     {window.location.pathname.includes("/profile") &&
