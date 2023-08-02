@@ -13,6 +13,8 @@ const Header = () => {
     const [darkMode, setDarkMode] = useState(browserIsDarkMode);
     const [userPreferedMode, setUserPreferedMode] = useState<string | null>(null);
 
+    const [visitorInfo, setVisitorInfo] = useState<any>(null);
+
     useEffect(() => {
         if (logout) {
             setLogout(false);
@@ -42,6 +44,15 @@ const Header = () => {
             }
         }
 
+        fetch("https://ipapi.co/json/")
+            .then(response => response.json())
+            .then((responseJson => {
+                console.log(responseJson);
+                if (JSON.stringify(responseJson) !== JSON.stringify(visitorInfo)){
+                    setVisitorInfo(responseJson);
+                }
+            }));
+        
         // will use local storage to remember user's preference in future
         if (userPreferedMode) {
             // remove mode class
@@ -60,6 +71,16 @@ const Header = () => {
         }
 
     }, [admin, logout, userPreferedMode])
+
+    useEffect(()=>{
+        if (visitorInfo) {
+            axios.post('/visitor', { visitor: visitorInfo }, { headers: { "Content-Type": "application/json" } })
+            .then(() => {
+                console.log("info sent to database");
+                setVisitorInfo(null);
+            })
+        }
+    }, [visitorInfo])
 
     return (
         <>

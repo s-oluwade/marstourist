@@ -12,6 +12,7 @@ import createHttpError, { isHttpError } from "http-errors";
 import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
+import VisitorModel from "./models/visitor";
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = env.PORT;
@@ -28,7 +29,7 @@ app.use(cors({
 }));
 
 // Session cookie configuration
-let cookieSourceConfig : session.CookieOptions = { sameSite: 'lax' };
+let cookieSourceConfig: session.CookieOptions = { sameSite: 'lax' };
 if (env.ENVIRONMENT === "production") {
     app.set('trust proxy', 1);
     cookieSourceConfig = { sameSite: 'none', secure: true }
@@ -48,6 +49,20 @@ app.use(session({
         mongoUrl: env.MONGO_CONNECTION_STRING
     }),
 }));
+
+app.post('/api/visitor', async (req, res) => {
+    const { visitor } = req.body;
+
+    const record = await VisitorModel.findOne({ ip: visitor.ip }).exec();
+
+    if (!record) {
+        await VisitorModel.create({
+            ip: visitor.ip,
+            city: visitor.city,
+            country_name: visitor.country_name,
+        })
+    }
+});
 
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/admin", adminRoutes);
