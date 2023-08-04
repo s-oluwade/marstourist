@@ -145,7 +145,6 @@ const Layout = () => {
                                     }
 
                                     <ul className='space-y-2 font-medium w-full flex flex-col flex-1'>
-                                        
                                         {user &&
                                             <>
                                                 <li>

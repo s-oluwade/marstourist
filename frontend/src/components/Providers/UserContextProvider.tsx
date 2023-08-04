@@ -17,28 +17,6 @@ export default function UserContextProvider({ children }: { children: React.Reac
 
     useEffect(() => {
         if (user) {
-            axios.get<ReceivedPost[]>("/posts/" + user._id)
-                .then((response) => {
-                    const data = response.data;
-
-                    if (data) {
-                        data.sort((a, b) =>
-                            new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
-                                ? 1
-                                : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
-                                    ? -1
-                                    : 0
-                        );
-                        setUserPosts(data);
-                    }
-                    else {
-                        setUserPosts([]);
-                    }
-                })
-                .catch((error) => {
-                    setUserPosts([]);
-                    console.log(error);
-                });
             
             if (!cart) {
                 axios.get<Cart>('/sales/cart').then(res => {

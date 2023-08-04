@@ -44,13 +44,13 @@ const Header = () => {
             }
         }
 
-        fetch("https://ipapi.co/json/")
-            .then(response => response.json())
-            .then((responseJson => {
-                if (JSON.stringify(responseJson) !== JSON.stringify(visitorInfo)){
-                    setVisitorInfo(responseJson);
-                }
-            }));
+        // fetch("https://ipapi.co/json/")
+        //     .then(response => response.json())
+        //     .then((responseJson => {
+        //         if (JSON.stringify(responseJson) !== JSON.stringify(visitorInfo)){
+        //             setVisitorInfo(responseJson);
+        //         }
+        //     }));
         
         // will use local storage to remember user's preference in future
         if (userPreferedMode) {

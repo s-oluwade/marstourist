@@ -15,6 +15,28 @@ const UserHomeSubPage = () => {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
+        axios.get<ReceivedPost[]>("/posts/" + user?._id)
+        .then((response) => {
+            const data = response.data;
+
+            if (data) {
+                data.sort((a, b) =>
+                    new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
+                        ? 1
+                        : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+                            ? -1
+                            : 0
+                );
+                setUserPosts(data);
+            }
+            else {
+                setUserPosts([]);
+            }
+        })
+        .catch((error) => {
+            setUserPosts([]);
+            console.log(error);
+        });
         axios.get<ReceivedPost[]>("/posts")
             .then((response) => {
                 const data = response.data;
