@@ -230,7 +230,7 @@ const IndexPage = () => {
                         <li>
                             <a
                                 target='_blank'
-                                href='https://www.cookiepolicygenerator.com/live.php?token=13A7pWhd9KInJXDPINssDYTkGQ2Q5ghI'
+                                href='#'
                                 className='mr-4 flex items-center hover:underline md:mr-6'
                             >
                                 Cookie Policy
