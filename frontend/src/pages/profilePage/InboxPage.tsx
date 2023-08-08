@@ -1,11 +1,10 @@
-import { useState } from "react";
-import MessagesTab from "./inboxTabs/MessagesTab";
-import PurchasedTab from "./inboxTabs/PurchasedTab";
-import UpdatesTab from "./inboxTabs/UpdatesTab";
+import { useState } from 'react';
+import MessagesTab from './inboxTabs/MessagesTab';
+import PurchasedTab from './inboxTabs/PurchasedTab';
+import UpdatesTab from './inboxTabs/UpdatesTab';
 
 const InboxSubPage = () => {
-
-    const [selectedTab] = useState("purchasedTab");
+    const [selectedTab] = useState('purchasedTab');
 
     // function inboxTabs() {
     //     return (
@@ -55,18 +54,12 @@ const InboxSubPage = () => {
     // }
 
     return (
-        <div className="md:max-h-[49.5rem] md:overflow-y-auto py-6">
-            {selectedTab === "purchasedTab" &&
-                <PurchasedTab />
-            }
-            {selectedTab === "messagesTab" &&
-                <MessagesTab />
-            }
-            {selectedTab === "updatesTab" &&
-                <UpdatesTab />
-            }
+        <div className='py-6 md:max-h-[49.5rem] md:overflow-y-auto'>
+            {selectedTab === 'purchasedTab' && <PurchasedTab />}
+            {selectedTab === 'messagesTab' && <MessagesTab />}
+            {selectedTab === 'updatesTab' && <UpdatesTab />}
         </div>
     );
-}
+};
 
 export default InboxSubPage;

@@ -1,7 +1,5 @@
 const MessagesTab = () => {
-    return (
-        <div>Messages</div>
-    );
-}
- 
+    return <div>Messages</div>;
+};
+
 export default MessagesTab;

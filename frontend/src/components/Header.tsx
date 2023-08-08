@@ -51,7 +51,7 @@ const Header = () => {
         //             setVisitorInfo(responseJson);
         //         }
         //     }));
-        
+
         // will use local storage to remember user's preference in future
         if (userPreferedMode) {
             // remove mode class
@@ -71,12 +71,12 @@ const Header = () => {
 
     }, [admin, logout, userPreferedMode])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (visitorInfo) {
             axios.post('/visitor', { visitor: visitorInfo }, { headers: { "Content-Type": "application/json" } })
-            .then(() => {
-                setVisitorInfo(null);
-            })
+                .then(() => {
+                    setVisitorInfo(null);
+                })
         }
     }, [visitorInfo])
 
@@ -112,7 +112,7 @@ const Header = () => {
                         type="checkbox"
                         checked={darkMode}
                         onChange={() => {
-                            let mode = !darkMode;   // toggle dark mode
+                            const mode = !darkMode;   // toggle dark mode
                             if (mode) {
                                 setUserPreferedMode('dark');
                             }

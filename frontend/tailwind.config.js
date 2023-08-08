@@ -16,7 +16,6 @@ export default {
                 'roboto': 'Roboto',
                 'roboto-slab': 'Roboto Slab',
                 'montserrat': 'Montserrat',
-                'raleway': 'Raleway',
                 'rubik': 'Rubik',
             },
         },

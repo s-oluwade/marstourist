@@ -1,6 +1,6 @@
-import axios from "axios";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function GeneralSubPage() {
     const [password, setPassword] = useState<string>();
@@ -9,10 +9,7 @@ export default function GeneralSubPage() {
 
     async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
         ev.preventDefault();
-
-        await axios.post('', {
-
-        });
+        await axios.post('', {});
     }
 
     // function showAlerts(action: string) {
@@ -24,45 +21,67 @@ export default function GeneralSubPage() {
     // }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4" action="">
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4' action=''>
             <div>
-                <label htmlFor="password" className="block mb-2 text-sm font-medium base-content">Password</label>
+                <label htmlFor='password' className='mb-2 block text-sm font-medium'>
+                    Password
+                </label>
                 <input
                     value={password}
-                    onChange={(e) => { setPassword(e.target.value); }}
-                    type="password"
-                    id="password"
-                    className="bg-base-100 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-gray-900 text-sm rounded-lg focus:ring-neutral block w-full p-2.5"
-                    placeholder="Password" required />
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                    }}
+                    type='password'
+                    id='password'
+                    className='block w-full rounded-lg border bg-base-100 p-2.5 text-sm text-gray-900 focus:border-neutral focus:ring-neutral dark:bg-neutral dark:text-neutral-content dark:focus:border-accent'
+                    placeholder='Password'
+                    required
+                />
             </div>
             <div>
-                <label htmlFor="new_password" className="block mb-2 text-sm font-medium">New Password</label>
+                <label htmlFor='new_password' className='mb-2 block text-sm font-medium'>
+                    New Password
+                </label>
                 <input
                     value={newPassword}
-                    onChange={(e) => { setNewPassword(e.target.value); }}
-                    type="password"
-                    id="new_password"
-                    className="bg-base-100 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-gray-900 text-sm rounded-lg focus:ring-neutral block w-full p-2.5"
-                    placeholder="New Password" required />
+                    onChange={(e) => {
+                        setNewPassword(e.target.value);
+                    }}
+                    type='password'
+                    id='new_password'
+                    className='block w-full rounded-lg border bg-base-100 p-2.5 text-sm text-gray-900 focus:border-neutral focus:ring-neutral dark:bg-neutral dark:text-neutral-content dark:focus:border-accent'
+                    placeholder='New Password'
+                    required
+                />
             </div>
             <div>
-                <label htmlFor="confirm_password"
-                    className="block mb-2 text-sm font-medium">New Password (Re-enter)</label>
+                <label htmlFor='confirm_password' className='mb-2 block text-sm font-medium'>
+                    New Password (Re-enter)
+                </label>
                 <input
                     value={newPasswordConfirm}
-                    onChange={(e) => { setNewPasswordConfirm(e.target.value) }}
-                    type="password"
-                    id="confirm_password"
-                    className="bg-base-100 border focus:border-neutral dark:focus:border-accent dark:bg-neutral dark:text-neutral-content text-gray-900 text-sm rounded-lg focus:ring-neutral block w-full p-2.5"
-                    placeholder="Confirm Password" required />
+                    onChange={(e) => {
+                        setNewPasswordConfirm(e.target.value);
+                    }}
+                    type='password'
+                    id='confirm_password'
+                    className='block w-full rounded-lg border bg-base-100 p-2.5 text-sm text-gray-900 focus:border-neutral focus:ring-neutral dark:bg-neutral dark:text-neutral-content dark:focus:border-accent'
+                    placeholder='Confirm Password'
+                    required
+                />
             </div>
-            <button className="btn btn-neutral btn-sm btn-block dark:btn-accent">Submit</button>
-            <div className="tooltip tooltip-close tooltip-bottom tooltip-info" data-tip="not yet implemented">
-                <Link className="underline text-sm" to="#">Forgot password?</Link>
+            <button className='btn-neutral btn-block btn-sm btn dark:btn-accent'>Submit</button>
+            <div
+                className='tooltip-close tooltip-info tooltip tooltip-bottom'
+                data-tip='not yet implemented'
+            >
+                <Link className='text-sm underline' to='#'>
+                    Forgot password?
+                </Link>
             </div>
 
             {/* <p role="alert" className="confirmation text-xs italic text-center">No changes made.</p> */}
             {/* <p role="alert" className="confirmation text-xs italic text-center">Updated!</p> */}
         </form>
-    )
+    );
 }
