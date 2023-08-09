@@ -199,11 +199,6 @@ const ProfilePage = () => {
                                 Github
                             </a>
                         </li>
-                        <li>
-                            <a href='#' className='mr-4 hover:underline md:mr-6'>
-                                Cookie Policy
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </footer>
