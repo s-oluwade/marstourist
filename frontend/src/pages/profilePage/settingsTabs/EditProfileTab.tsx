@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../../components/Providers/AuthContext';
-import { GlobalContext } from '../../../components/Providers/GlobalContext';
+import { AuthContext } from '../../../components/Providers/AuthContextProvider';
+import { GlobalContext } from '../../../components/Providers/GlobalContextProvider';
 import { User } from '../../../models/user';
 
 export default function EditProfileSubPage() {

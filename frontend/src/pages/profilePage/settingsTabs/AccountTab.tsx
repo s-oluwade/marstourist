@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ConfirmationModal from '../../../components/ConfirmationModal';
-import { GlobalContext } from '../../../components/Providers/GlobalContext';
+import { GlobalContext } from '../../../components/Providers/GlobalContextProvider';
 
 export default function AccountSettingsSubPage() {
     const { modalResponse, setModalResponse, setShowConfirmationModal } = useContext(GlobalContext);

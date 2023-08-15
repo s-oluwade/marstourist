@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { GlobalContext } from "./Providers/GlobalContext";
-import { AuthContext } from "./Providers/AuthContext";
+import { GlobalContext } from "./Providers/GlobalContextProvider";
+import { AuthContext } from "./Providers/AuthContextProvider";
 import { User } from "../models/user";
 import axios from "axios";
 

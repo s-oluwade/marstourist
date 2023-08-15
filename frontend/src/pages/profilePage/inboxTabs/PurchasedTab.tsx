@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../../components/Providers/AuthContext';
-import { UserContext } from '../../../components/Providers/UserContext';
+import { AuthContext } from '../../../components/Providers/AuthContextProvider';
+import { UserContext } from '../../../components/Providers/UserContextProvider';
 
 const PurchasedTab = () => {
     const [purchased, setPurchased] = useState<Purchased[] | null>(null);

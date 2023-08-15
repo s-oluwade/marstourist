@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "./Providers/AuthContext";
-import { UserContext } from "./Providers/UserContext";
+import { AuthContext } from "./Providers/AuthContextProvider";
+import { UserContext } from "./Providers/UserContextProvider";
 
 const Header = () => {
     const browserIsDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;

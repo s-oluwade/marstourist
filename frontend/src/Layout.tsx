@@ -2,8 +2,8 @@ import { useContext, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 import WebFont from 'webfontloader';
 import Header from './components/Header';
-import { AuthContext } from './components/Providers/AuthContext';
-import { UserContext } from './components/Providers/UserContext';
+import { AuthContext } from './components/Providers/AuthContextProvider';
+import { UserContext } from './components/Providers/UserContextProvider';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 

@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../components/Providers/AuthContext";
-import { GlobalContext } from "../components/Providers/GlobalContext";
+import { AuthContext } from "../components/Providers/AuthContextProvider";
+import { GlobalContext } from "../components/Providers/GlobalContextProvider";
 import axios from "axios";
 import { ReceivedPost } from "../models/post";
-import { UserContext } from "../components/Providers/UserContext";
+import { UserContext } from "../components/Providers/UserContextProvider";
 import { User } from "../models/user";
 
 const ForumPage = () => {

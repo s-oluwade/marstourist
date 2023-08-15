@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import { AuthContext } from '../../../components/Providers/AuthContext';
+import { AuthContext } from '../../../components/Providers/AuthContextProvider';
 import { User } from '../../../models/user';
 
 export default function GeneralSubPage() {

@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal';
-import { AuthContext } from '../components/Providers/AuthContext';
-import { GlobalContext } from '../components/Providers/GlobalContext';
-import { UserContext } from '../components/Providers/UserContext';
+import { AuthContext } from '../components/Providers/AuthContextProvider';
+import { GlobalContext } from '../components/Providers/GlobalContextProvider';
+import { UserContext } from '../components/Providers/UserContextProvider';
 import { Cart } from '../models/cart';
 import { ProductWithId } from '../models/product';
 

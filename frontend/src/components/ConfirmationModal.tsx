@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useContext } from "react";
-import { GlobalContext } from "./Providers/GlobalContext";
+import { GlobalContext } from "./Providers/GlobalContextProvider";
 
 interface ConfirmationModalProps {
     title: string;

@@ -17,7 +17,7 @@ import { StarIcon } from '@heroicons/react/20/solid';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useContext, useState } from 'react';
 import { ProductWithId } from '../models/product';
-import { GlobalContext } from "./Providers/GlobalContext";
+import { GlobalContext } from "./Providers/GlobalContextProvider";
 import axios from 'axios';
 import { Cart } from '../models/cart';
 

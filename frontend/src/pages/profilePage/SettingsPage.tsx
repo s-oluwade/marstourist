@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AuthContext } from "../../components/Providers/AuthContext";
+import { AuthContext } from "../../components/Providers/AuthContextProvider";
 import AccountSubPage from "./settingsTabs/AccountTab";
 import EditProfileSubPage from "./settingsTabs/EditProfileTab";
 import GeneralSubPage from "./settingsTabs/GeneralTab";
 import PasswordSubPage from "./settingsTabs/PasswordTab";
-import { UserContext } from "../../components/Providers/UserContext";
+import { UserContext } from "../../components/Providers/UserContextProvider";
 
 export default function SettingsSubPage() {
     const { user } = useContext(AuthContext);

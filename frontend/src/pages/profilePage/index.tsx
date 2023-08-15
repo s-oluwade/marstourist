@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Friend from '../../components/Friend';
-import { AuthContext } from '../../components/Providers/AuthContext';
-import { UserContext } from '../../components/Providers/UserContext';
+import { AuthContext } from '../../components/Providers/AuthContextProvider';
+import { UserContext } from '../../components/Providers/UserContextProvider';
 import InboxSubPage from './InboxPage';
 import SettingsSubPage from './SettingsPage';
 import UserHomeSubPage from './UserHomePage';

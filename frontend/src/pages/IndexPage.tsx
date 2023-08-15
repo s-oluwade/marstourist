@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../components/Providers/AuthContext';
+import { AuthContext } from '../components/Providers/AuthContextProvider';
 
 const IndexPage = () => {
     const { loadingAdmin, admin, loadingUser, user } = useContext(AuthContext);

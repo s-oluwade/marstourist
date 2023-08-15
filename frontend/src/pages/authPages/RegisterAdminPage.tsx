@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
-import { AuthContext } from '../../components/Providers/AuthContext';
+import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { Admin } from '../../models/admin';
 
 export interface AdminRegisterCredentials {

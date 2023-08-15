@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../components/Providers/GlobalContext';
-import { UserContext } from '../components/Providers/UserContext';
+import { GlobalContext } from '../components/Providers/GlobalContextProvider';
+import { UserContext } from '../components/Providers/UserContextProvider';
 import { Cart } from '../models/cart';
 import { ProductWithId } from '../models/product';
 
