@@ -41,7 +41,7 @@ const SignUpUserPage = () => {
     return (
         <div className='mx-auto flex flex-col'>
             <div className='mt-4 flex grow items-center justify-around'>
-                <div className='mb-24 rounded-2xl border bg-base-100 p-8 shadow-2xl dark:bg-gray-800'>
+                <div className='rounded-2xl border bg-base-100 p-8 shadow-2xl dark:bg-gray-800'>
                     <h1 className='text-center text-2xl font-medium text-accent'>CREATE ACCOUNT</h1>
                     <form className='mx-auto mt-4 max-w-sm' onSubmit={handleSubmit(onSubmit)}>
                         <input
