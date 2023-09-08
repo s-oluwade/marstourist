@@ -52,7 +52,7 @@ const LoginAdminPage = () => {
                     <form className='mx-auto mt-4 max-w-sm' onSubmit={handleSubmit(onSubmit)}>
                         <input
                             type='text'
-                            className='input-neutral input-bordered input w-full'
+                            className='input-neutral input-bordered input w-full text-base-content'
                             id='admin_name'
                             aria-invalid={errors.name ? 'true' : 'false'}
                             {...register('name', { required: true })}
@@ -65,7 +65,7 @@ const LoginAdminPage = () => {
                         )}
                         <input
                             type='password'
-                            className='input-neutral input-bordered input w-full'
+                            className='input-neutral input-bordered input w-full text-base-content'
                             id='password'
                             aria-invalid={errors.password ? 'true' : 'false'}
                             {...register('password', { required: true })}

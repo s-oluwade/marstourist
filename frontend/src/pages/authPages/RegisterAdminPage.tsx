@@ -53,7 +53,7 @@ const RegisterAdminPage = () => {
                         <input
                             type='text'
                             id='admin-name'
-                            className='input-neutral input-bordered input w-full'
+                            className='input-neutral input-bordered input w-full text-base-content'
                             value={adminName}
                             {...register('name', { required: false })}
                             onChange={(e) => setAdminName(e.target.value)}
@@ -62,7 +62,7 @@ const RegisterAdminPage = () => {
                         <input
                             type='email'
                             id='email'
-                            className='input-neutral input-bordered input w-full'
+                            className='input-neutral input-bordered input w-full text-base-content'
                             value={email}
                             aria-invalid={errors.email ? 'true' : 'false'}
                             {...register('email', { required: true })}
@@ -77,7 +77,7 @@ const RegisterAdminPage = () => {
                         <input
                             type='password'
                             id='password'
-                            className='input-neutral input-bordered input w-full'
+                            className='input-neutral input-bordered input w-full text-base-content'
                             value={password}
                             aria-invalid={errors.password ? 'true' : 'false'}
                             {...register('password', { required: true })}
