@@ -84,7 +84,7 @@ const Header = () => {
 
     return (
         <>
-            <div className='navbar relative z-10 w-full border border-b-2 border-b-accent bg-base-100'>
+            <div className={`navbar relative z-10 w-full border border-b-2 border-b-accent bg-base-100 ${admin? '':'dark:bg-gray-900 dark:text-base-100'}`}>
                 <div className='flex-none md:hidden'>
                     <div className='indicator'>
                         {cart && cart.products['total'] && cart.products['total'].count > 0 && (
