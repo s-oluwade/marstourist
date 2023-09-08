@@ -12,9 +12,6 @@ export interface AdminRegisterCredentials {
 }
 
 const RegisterAdminPage = () => {
-    const [adminName, setAdminName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
     const { setAdmin } = useContext(AuthContext);
 
@@ -54,19 +51,15 @@ const RegisterAdminPage = () => {
                             type='text'
                             id='admin-name'
                             className='input-neutral input-bordered input w-full text-base-content'
-                            value={adminName}
                             {...register('name', { required: false })}
-                            onChange={(e) => setAdminName(e.target.value)}
                             placeholder='johndoe'
                         />
                         <input
                             type='email'
                             id='email'
                             className='input-neutral input-bordered input w-full text-base-content'
-                            value={email}
                             aria-invalid={errors.email ? 'true' : 'false'}
                             {...register('email', { required: true })}
-                            onChange={(e) => setEmail(e.target.value)}
                             placeholder='your@email.com'
                         />
                         {!!errors.email && (
@@ -78,10 +71,8 @@ const RegisterAdminPage = () => {
                             type='password'
                             id='password'
                             className='input-neutral input-bordered input w-full text-base-content'
-                            value={password}
                             aria-invalid={errors.password ? 'true' : 'false'}
                             {...register('password', { required: true })}
-                            onChange={(e) => setPassword(e.target.value)}
                             placeholder='Password'
                         />
                         {!!errors.password && (
