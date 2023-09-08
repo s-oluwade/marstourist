@@ -88,13 +88,13 @@ const Layout = () => {
 
     return (
         <>
-            {!loadingUser && (
+            {!loadingUser && !loadingAdmin && (
                 <>
                     <div className='drawer'>
                         <input id='my-drawer-3' type='checkbox' className='drawer-toggle' />
                         <div className='drawer-content flex min-h-screen flex-col font-rubik font-light'>
                             <Header />
-                            <div className={`flex grow bg-base-300 ${user ? 'dark:bg-neutral dark:text-neutral-content': ''}`}>
+                            <div className={`flex grow bg-base-300 ${admin ? '': 'dark:bg-neutral dark:text-neutral-content'}`}>
                                 <Outlet />
                             </div>
                         </div>
