@@ -182,6 +182,7 @@ const Header = () => {
                     }
                     {admin &&
                         <>
+                        <div className="text-base-100">
                             <ul className="flex flex-nowrap gap-6 text-sm px-4">
                                 <li><Link className="uppercase" to="/forum">Forum</Link></li>
                                 <li><Link className="uppercase" to="/store">Shop</Link></li>
@@ -197,6 +198,7 @@ const Header = () => {
                                     <li><Link to="/dashboard">Dashboard</Link></li>
                                     <li><a onClick={() => { setLogout(true) }}>Logout</a></li>
                                 </ul>
+                            </div>
                             </div>
                         </>
                     }

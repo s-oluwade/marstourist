@@ -50,7 +50,6 @@ const ForumPage = () => {
 
     }, []);
 
-
     function getWhen(userPost: ReceivedPost) {
         const then = new Date(userPost.createdAt);
         const now = new Date();
