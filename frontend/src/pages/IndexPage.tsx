@@ -1,10 +1,51 @@
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../components/Providers/AuthContextProvider';
+import ImageSliderModal from '../components/ImageSliderModal';
+
+const previewImages = [
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist1.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist2.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist3.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist4.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist5.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist6.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist7.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist8.png',
+    },
+    {
+        title: '',
+        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist9.png',
+    },
+];
 
 const IndexPage = () => {
     const { loadingAdmin, admin, loadingUser, user } = useContext(AuthContext);
     const [showLogin, setShowLogin] = useState(false);
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
     const navigate = useNavigate();
 
     function reviewPermissions() {
@@ -15,6 +56,10 @@ const IndexPage = () => {
         }
     }
 
+    function handlePreviewModal(show: boolean) {
+        setShowPreviewModal(show);
+    }
+
     function showToolTip() {
         const adminLoginLink = document.getElementById('admin-login-link');
         adminLoginLink?.setAttribute('data-tip', 'Access Denied');
@@ -22,7 +67,20 @@ const IndexPage = () => {
 
     return (
         <section className="w-full bg-gray-700 bg-[url('https://images.unsplash.com/photo-1573588028698-f4759befb09a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80')] bg-cover bg-center bg-blend-multiply">
-            <div className='mx-auto -mt-12 flex h-full max-w-screen-xl flex-col justify-center px-4 py-24 text-center md:py-56'>
+            <ImageSliderModal
+                images={previewImages}
+                isOpen={showPreviewModal}
+                onClose={handlePreviewModal}
+            />
+            <div className='mx-auto -mt-16 flex h-full max-w-screen-xl flex-col justify-center px-4 py-24 text-center md:py-56'>
+                <div className='mb-12 w-full text-center'>
+                    <button
+                        className='btn-info btn-wide btn'
+                        onClick={() => setShowPreviewModal(true)}
+                    >
+                        Click here to Quick Preview
+                    </button>
+                </div>
                 <h1 className='text-4xl font-bold leading-none tracking-tight text-accent md:text-5xl lg:text-6xl'>
                     Welcome to Mars!
                 </h1>
