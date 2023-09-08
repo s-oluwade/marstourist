@@ -43,7 +43,7 @@ const LoginUserPage = () => {
                         <input
                             type='email'
                             {...register('email', { required: true })}
-                            className='input-bordered input-accent input w-full'
+                            className='input-bordered input-accent input w-full text-base-content'
                             id='email'
                             aria-invalid={!!errors.email}
                             placeholder='your@email.com'
@@ -56,7 +56,7 @@ const LoginUserPage = () => {
                         <input
                             type='password'
                             {...register('password', { required: true })}
-                            className='input-bordered input-accent input w-full'
+                            className='input-bordered input-accent input w-full text-base-content'
                             id='password'
                             aria-invalid={!!errors.password}
                             placeholder='Password'

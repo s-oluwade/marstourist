@@ -48,7 +48,7 @@ const SignUpUserPage = () => {
                             type='text'
                             {...register('fullname', { required: true })}
                             id='fullname'
-                            className='input-bordered input-accent input w-full'
+                            className='input-bordered input-accent input w-full text-base-content'
                             aria-invalid={!!errors.fullname}
                             placeholder='John Doe'
                         />
@@ -61,14 +61,14 @@ const SignUpUserPage = () => {
                             type='text'
                             {...register('username', { required: false })}
                             id='username'
-                            className='input-bordered input-accent input w-full'
+                            className='input-bordered input-accent input w-full text-base-content'
                             placeholder='username (optional)'
                         />
                         <input
                             type='email'
                             {...register('email', { required: true })}
                             id='email'
-                            className='input-bordered input-accent input w-full'
+                            className='input-bordered input-accent input w-full text-base-content'
                             aria-invalid={!!errors.email}
                             placeholder='your@email.com'
                         />
@@ -81,7 +81,7 @@ const SignUpUserPage = () => {
                             type='password'
                             {...register('password', { required: true })}
                             id='password'
-                            className='input-bordered input-accent input w-full'
+                            className='input-bordered input-accent input w-full text-base-content'
                             aria-invalid={!!errors.password}
                             placeholder='Password'
                         />
