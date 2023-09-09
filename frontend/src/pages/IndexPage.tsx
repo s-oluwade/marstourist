@@ -6,10 +6,6 @@ import ImageSliderModal from '../components/ImageSliderModal';
 const previewImages = [
     {
         title: '',
-        url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist1.png',
-    },
-    {
-        title: '',
         url: 'https://storage.googleapis.com/neat-tempo-393404.appspot.com/marstourist-preview-images/marstourist2.png',
     },
     {

@@ -12,9 +12,6 @@ const Header = () => {
     const { cart, userAvatar, userNotifications } = useContext(UserContext);
     const [logout, setLogout] = useState(false);
     const [darkMode, setDarkMode] = useState(browserIsDarkMode);
-    const [userPreferedMode, setUserPreferedMode] = useState<string | null>(null);
-
-    const [visitorInfo, setVisitorInfo] = useState<any>(null);
 
     useEffect(() => {
         if (logout) {
@@ -44,47 +41,45 @@ const Header = () => {
             }
         }
 
-        // fetch("https://ipapi.co/json/")
-        //     .then(response => response.json())
-        //     .then((responseJson => {
-        //         if (JSON.stringify(responseJson) !== JSON.stringify(visitorInfo)){
-        //             setVisitorInfo(responseJson);
-        //         }
-        //     }));
+        // update darkMode based on localstorage
+        const preferedMode = localStorage.getItem('userPreferedModeStorage')
 
-        // will use local storage to remember user's preference in future
-        if (userPreferedMode) {
+        // Theme is currently disabled for admin users
+        if (admin) {
+            document.documentElement.setAttribute('data-theme', 'luxury');
+        }
+        else if (preferedMode) {
             // remove mode class
+            document.documentElement.setAttribute('data-theme', preferedMode);
             document.documentElement.classList.remove('light');
             document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add(preferedMode);
 
-            document.documentElement.classList.add(userPreferedMode);
+            if (preferedMode === 'dark') {
+                setDarkMode(true);
+            }
+            else {
+                setDarkMode(false);
+            }
         } else {
             if (browserIsDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
                 document.documentElement.classList.add('dark');
             } else {
+                document.documentElement.setAttribute('data-theme', 'light');
                 document.documentElement.classList.add('light');
             }
         }
-    }, [admin, logout, userPreferedMode]);
 
-    useEffect(() => {
-        if (visitorInfo) {
-            axios
-                .post(
-                    '/visitor',
-                    { visitor: visitorInfo },
-                    { headers: { 'Content-Type': 'application/json' } }
-                )
-                .then(() => {
-                    setVisitorInfo(null);
-                });
-        }
-    }, [visitorInfo]);
+    }, [admin, logout, darkMode, browserIsDarkMode]);
+
+    function setUserPreferredMode(mode: 'dark'| 'light') {
+        localStorage.setItem('userPreferedModeStorage', mode)
+    }
 
     return (
         <>
-            <div className={`navbar relative z-10 w-full border border-b-2 border-b-accent bg-base-100 ${admin? '':'dark:bg-gray-900 dark:text-base-100'}`}>
+            <div className={`navbar relative z-10 w-full border border-b-2 border-b-accent bg-base-100 ${admin? '':'dark:bg-gray-900 dark:text-neutral-content'}`}>
                 <div className='flex-none md:hidden'>
                     <div className='indicator'>
                         {cart && cart.products['total'] && cart.products['total'].count > 0 && (
@@ -133,9 +128,9 @@ const Header = () => {
                         onChange={() => {
                             const mode = !darkMode; // toggle dark mode
                             if (mode) {
-                                setUserPreferedMode('dark');
+                                setUserPreferredMode('dark');
                             } else {
-                                setUserPreferedMode('light');
+                                setUserPreferredMode('light');
                             }
                             setDarkMode(mode);
                         }}

@@ -26,7 +26,6 @@ const Layout = () => {
     const { user, loadingUser, admin, loadingAdmin } = useContext(AuthContext);
     const { userAvatar, userNotifications, cart } = useContext(UserContext);
     const currentPath = window.location.pathname;
-    const DEFAULT_THEME = 'light';
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,12 +42,6 @@ const Layout = () => {
                 ],
             },
         });
-
-        if (admin) {
-            document.documentElement.setAttribute('data-theme', 'luxury');
-        } else {
-            document.documentElement.setAttribute('data-theme', DEFAULT_THEME);
-        }
 
         const userSignedOut = !loadingUser && !user;
         const adminSignedOut = !loadingAdmin && !admin;
