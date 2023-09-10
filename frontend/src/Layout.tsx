@@ -48,7 +48,7 @@ const Layout = () => {
         const signOutAddresses = [
             '/',
             '/login',
-            '/login',
+            '/login/',
             '/register',
             '/register/',
             '/login/user',

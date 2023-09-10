@@ -1,11 +1,8 @@
 import bcrypt from "bcrypt";
 import { CookieOptions, RequestHandler } from "express";
 import createHttpError from "http-errors";
-import ProfileNames from "../models/profileNames";
-import ProfilePictures from "../models/profilePictures";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
-import mongoose from "mongoose";
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
@@ -107,11 +104,8 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
             username: username,
             email: email,
             password: passwordHashed,
-            credit: 100,
+            credit: 10000,
         });
-
-        await ProfileNames.create({ owner: newUser._id, name: newUser.fullname });
-        await ProfilePictures.create({ owner: newUser._id, picture: newUser.photo });
 
         jwt.sign({
             email: newUser.email,
@@ -152,11 +146,6 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
                 for (let i = 0; i < values.length; i++) {
                     const { path, originalname, mimetype } = values[i];
 
-                    // fs.renameSync(path, newPath);
-                    // uploadedFiles.push(newPath.replace('uploads/', ''));
-
-                    // uploadedFiles.push(await uploadToS3(path, originalname, mimetype));
-
                     uploadedFiles.push(await uploadToGCloudStorage(path, originalname));
                 }
 
@@ -166,13 +155,6 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
 
                 if (uploadedFiles[0]) {
                     user.set('photo', uploadedFiles[0]);
-
-                    const usersPictures = await ProfilePictures.findOne({ owner: decodedUser.id });
-                    if (usersPictures) {
-                        usersPictures.set("picture", uploadedFiles[0]);
-                        usersPictures.save();
-                    }
-
                     res.json(await user.save());
                 }
                 else {
@@ -204,30 +186,6 @@ async function uploadToGCloudStorage(path: any, originalFileName: any) {
     const res = await storage.bucket(bucket).upload(path, options);
 
     return `https://storage.cloud.google.com/${bucket}/${newFileName}`;
-}
-
-async function uploadToS3(path: any, originalFileName: any, mimetype: any) {
-    const bucket = 'martiantourist-bucket';
-    const client = new S3Client({
-        region: 'us-east-2',
-        credentials: {
-            accessKeyId: env.S3_ACCESS_KEY,
-            secretAccessKey: env.S3_SECRET_ACCESS_KEY,
-        }
-    })
-
-    const parts = originalFileName.split('.');
-    const ext = parts[parts.length - 1];
-    const newFilename = Date.now() + '.' + ext;
-    await client.send(new PutObjectCommand({
-        Bucket: bucket,
-        Body: fs.readFileSync(path),
-        Key: newFilename,
-        ContentType: mimetype,
-        ACL: 'public-read',
-    }));
-
-    return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
 }
 
 interface UserCredBody {
@@ -406,5 +364,4 @@ export const deleteAccount: RequestHandler = async (req, res, next) => {
         console.log("User token not found");
         res.status(401);
     }
-
 }

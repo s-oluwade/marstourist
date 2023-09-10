@@ -45,28 +45,6 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         // If no logged in state
         if (!user && !admin) {
-            // REMOVE ADMIN AUTHENTICATION FOR NOW
-            // // grab admin if authenticated
-            // axios.get<Admin>("/admin", {
-            //     headers: {
-            //         'Cache-Control': 'no-cache',
-            //         'Pragma': 'no-cache',
-            //         'Expires': '0',
-            //     },
-            // }).then(res => {
-            //     logoutUser();
-            //     setAdmin(res.data);
-            //     // unauthenticate/logout user
-            // }).catch(() => {
-            //     setLoadingAdmin(false);
-            //     // else grab user if authenticated
-            //     axios.get<User>("/user").then(res => {
-            //         setUser(res.data);
-            //     }).finally(() => {
-            //         setLoadingUser(false);
-            //     })
-            // })
-
             // USE ONLY USER AUTHENTICATION FOR NOW
             setLoadingAdmin(false);
             // else grab user if authenticated
@@ -83,15 +61,6 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
             setLoadingAdmin(false);
         }
     }, [user, admin]);
-
-    // async function logoutUser() {
-    //     try {
-    //         await axios.post('/user/logout');
-    //         setUser(null);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     return (
         <AuthContext.Provider
