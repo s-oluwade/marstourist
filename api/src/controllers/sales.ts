@@ -66,6 +66,7 @@ export const addToCart: RequestHandler<unknown, unknown, { item: string }, unkno
             // res.status(200).json(await cart.save());
 
             // USE PRISMA CLIENT TO ADD TO CART
+            
         })
     }
     else {

@@ -28,7 +28,7 @@ const under_construction = import.meta.env.VITE_UNDER_CONSTRUCTION;
 
 function App() {
     if (under_construction === 'true') {
-        return <div>Site is under construction.</div>;
+        return <div>Site is under maintenance. Should be up and running in a few hours.</div>;
     }
 
     return (
