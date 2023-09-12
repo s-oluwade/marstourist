@@ -87,9 +87,9 @@ const StorePage = () => {
         }
     }
 
-    if (import.meta.env.ENVIRONMENT === 'production') {
-        return <div>Page is currently under maintenance.</div>;
-    }
+    // if (import.meta.env.VITE_ENVIRONMENT === 'production') {
+    //     return <div>Page is currently under maintenance.</div>;
+    // }
 
     return (
         <div className='mt-2 flex w-full flex-col items-center gap-5'>

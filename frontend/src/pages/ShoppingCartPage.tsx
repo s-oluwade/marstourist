@@ -214,9 +214,9 @@ const ShoppingCartPage = () => {
         );
     }
 
-    if (import.meta.env.ENVIRONMENT === 'production') {
-        return <div>Page is currently under maintenance.</div>;
-    }
+    // if (import.meta.env.VITE_ENVIRONMENT === 'production') {
+    //     return <div>Page is currently under maintenance.</div>;
+    // }
 
     return (
         <div className='mx-auto my-auto w-full'>
@@ -299,7 +299,7 @@ const ShoppingCartPage = () => {
                                                     </svg>
                                                 </a>
                                                 <input
-                                                    className='mx-2 w-8 border text-center dark:text-neutral'
+                                                    className='mx-2 w-8 border text-center'
                                                     type='text'
                                                     readOnly
                                                     value={cart.products[productId].count}

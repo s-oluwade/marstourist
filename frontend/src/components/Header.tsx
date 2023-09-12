@@ -207,7 +207,7 @@ const Header = () => {
                                 </div>
                                 <ul
                                     tabIndex={0}
-                                    className='dropdown-content menu menu-sm z-[1] mt-3 w-36 gap-1 rounded bg-base-100 p-2 text-neutral shadow'
+                                    className='dropdown-content menu menu-sm z-[1] mt-3 w-36 gap-1 rounded bg-base-100 p-2 shadow'
                                 >
                                     <li>
                                         <Link to='/profile' className='flex justify-between'>
