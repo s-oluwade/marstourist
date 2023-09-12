@@ -1,7 +1,5 @@
 import { RequestHandler } from "express";
 import Product from "../models/product";
-import mongoose from "mongoose";
-import env from "../util/validateEnv";
 
 export const getProducts: RequestHandler = async (req, res, next) => {
 

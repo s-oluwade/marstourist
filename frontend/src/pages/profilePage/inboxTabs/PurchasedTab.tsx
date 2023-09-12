@@ -30,6 +30,10 @@ const PurchasedTab = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [setUserNotifications, user]);
 
+    if (import.meta.env.ENVIRONMENT === 'production') {
+        return <div>Page is currently under maintenance.</div>;
+    }
+
     return (
         <div className='grid grid-cols-2 gap-4 px-10 md:grid-cols-3'>
             {purchased &&

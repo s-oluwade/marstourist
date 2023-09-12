@@ -23,6 +23,7 @@ const settingspaths = [
 ];
 
 const Layout = () => {
+
     const { user, loadingUser, admin, loadingAdmin } = useContext(AuthContext);
     const { userAvatar, userNotifications, cart } = useContext(UserContext);
     const currentPath = window.location.pathname;

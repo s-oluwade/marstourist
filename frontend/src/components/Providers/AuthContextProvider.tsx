@@ -51,6 +51,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
             axios
                 .get<User>('/user')
                 .then((res) => {
+                    console.log(res.data);
                     setUser(res.data);
                 })
                 .finally(() => {

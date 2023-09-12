@@ -214,6 +214,10 @@ const ShoppingCartPage = () => {
         );
     }
 
+    if (import.meta.env.ENVIRONMENT === 'production') {
+        return <div>Page is currently under maintenance.</div>;
+    }
+
     return (
         <div className='mx-auto my-auto w-full'>
             <div className='mx-auto my-10 flex min-w-max max-w-7xl flex-col shadow-md md:flex-row'>
