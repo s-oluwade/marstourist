@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
-import { UserContext } from '../../components/Providers/UserContextProvider';
 
 const PurchasedSubPage = () => {
     const [purchased, setPurchased] = useState<Purchased[] | null>(null);
-    const { setUserNotifications } = useContext(UserContext);
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -14,21 +12,8 @@ const PurchasedSubPage = () => {
             setPurchased(data);
         })();
 
-        async function removeNotification(id: string) {
-            axios
-                .put('/notifications/remove/' + id, ['purchase'], {
-                    headers: { 'Content-Type': 'application/json' },
-                })
-                .then((response) => {
-                    if (response.data) setUserNotifications(response.data);
-                });
-        }
-        if (user) {
-            removeNotification(user._id);
-        }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setUserNotifications, user]);
+    }, [user]);
 
     if (import.meta.env.ENVIRONMENT === 'production') {
         return <div>Page is currently under maintenance.</div>;
