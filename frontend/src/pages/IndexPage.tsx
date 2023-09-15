@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../components/Providers/AuthContextProvider';
 import ImageSliderModal from '../components/ImageSliderModal';
+import FooterSignature from '../components/FooterSignature';
 
 const previewImages = [
     {
@@ -252,38 +253,7 @@ const IndexPage = () => {
                     </div>
                 )}
             </div>
-            <footer className='w-full bg-transparent'>
-                <div className='w-full pl-6 md:flex md:items-center md:justify-end md:gap-6'>
-                    <span className='text-xs text-neutral-content/50 sm:text-center'>
-                        © 2023 Samuel Oluwade
-                    </span>
-                    <ul className='flex flex-wrap items-center text-xs font-medium text-neutral-content/40 sm:mt-0'>
-                        <li>
-                            <a
-                                target='_blank'
-                                href='https://github.com/s-oluwade'
-                                className='mr-4 flex items-center hover:underline md:mr-6'
-                            >
-                                Github
-                                <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    fill='none'
-                                    viewBox='0 0 24 24'
-                                    strokeWidth={1.5}
-                                    stroke='currentColor'
-                                    className='h-4 w-4'
-                                >
-                                    <path
-                                        strokeLinecap='round'
-                                        strokeLinejoin='round'
-                                        d='M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25'
-                                    />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </footer>
+            <FooterSignature/>
         </section>
     );
 };

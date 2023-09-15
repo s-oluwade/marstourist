@@ -16,11 +16,7 @@ const initialState = {
     userAvatar: '',
     setUserAvatar: () => {
         return '';
-    },
-    userNotifications: [],
-    setUserNotifications: () => {
-        return [];
-    },
+    }
 };
 
 interface IContext {
@@ -30,8 +26,6 @@ interface IContext {
     setCart: React.Dispatch<React.SetStateAction<Cart | null>>;
     userAvatar: string;
     setUserAvatar: React.Dispatch<React.SetStateAction<string>>;
-    userNotifications: string[];
-    setUserNotifications: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const UserContext = createContext<IContext>(initialState);
@@ -44,7 +38,6 @@ export default function UserContextProvider({ children }: { children: React.Reac
     const [cart, setCart] = useState<Cart | null>(null);
     const [userAvatar, setUserAvatar] = useState<string>(defaultPhotoURL);
     const { user } = useContext(AuthContext);
-    const [userNotifications, setUserNotifications] = useState<string[]>([]);
 
     useEffect(() => {
         if (user) {
@@ -58,11 +51,6 @@ export default function UserContextProvider({ children }: { children: React.Reac
             const photo = user.photo;
             if (photo) setUserAvatar(photo);
             else setUserAvatar(defaultPhotoURL);
-
-            // get notifications
-            axios.get('/notifications').then((response) => {
-                if (response.data) setUserNotifications(response.data);
-            });
         } else {
             setUserAvatar(defaultPhotoURL);
         }
@@ -72,8 +60,6 @@ export default function UserContextProvider({ children }: { children: React.Reac
     return (
         <UserContext.Provider
             value={{
-                userNotifications,
-                setUserNotifications,
                 userAvatar,
                 setUserAvatar,
                 userPosts,

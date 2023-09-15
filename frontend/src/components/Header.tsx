@@ -9,7 +9,7 @@ const Header = () => {
         window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     const { user, admin } = useContext(AuthContext);
-    const { cart, userAvatar, userNotifications } = useContext(UserContext);
+    const { cart, userAvatar } = useContext(UserContext);
     const [logout, setLogout] = useState(false);
     const [darkMode, setDarkMode] = useState(browserIsDarkMode);
 
@@ -42,13 +42,12 @@ const Header = () => {
         }
 
         // update darkMode based on localstorage
-        const preferedMode = localStorage.getItem('userPreferedModeStorage')
+        const preferedMode = localStorage.getItem('userPreferedModeStorage');
 
         // Theme is currently disabled for admin users
         if (admin) {
             document.documentElement.setAttribute('data-theme', 'luxury');
-        }
-        else if (preferedMode) {
+        } else if (preferedMode) {
             // remove mode class
             document.documentElement.setAttribute('data-theme', preferedMode);
             document.documentElement.classList.remove('light');
@@ -57,8 +56,7 @@ const Header = () => {
 
             if (preferedMode === 'dark') {
                 setDarkMode(true);
-            }
-            else {
+            } else {
                 setDarkMode(false);
             }
         } else {
@@ -70,16 +68,19 @@ const Header = () => {
                 document.documentElement.classList.add('light');
             }
         }
-
     }, [admin, logout, darkMode, browserIsDarkMode]);
 
-    function setUserPreferredMode(mode: 'dark'| 'light') {
-        localStorage.setItem('userPreferedModeStorage', mode)
+    function setUserPreferredMode(mode: 'dark' | 'light') {
+        localStorage.setItem('userPreferedModeStorage', mode);
     }
 
     return (
         <>
-            <div className={`navbar relative z-10 w-full border border-b-2 border-b-accent bg-base-100 ${admin? '':'dark:bg-gray-900 dark:text-neutral-content'}`}>
+            <div
+                className={`navbar relative z-10 w-full border border-b-2 border-b-accent bg-base-100 ${
+                    admin ? '' : 'dark:bg-gray-900 dark:text-neutral-content'
+                }`}
+            >
                 <div className='flex-none md:hidden'>
                     <div className='indicator'>
                         {cart && cart.products['total'] && cart.products['total'].count > 0 && (
@@ -187,24 +188,20 @@ const Header = () => {
                                             />
                                         </svg>
                                         <span className='badge badge-sm indicator-item font-medium'>
-                                            {cart &&
-                                                cart.products['total'] &&
-                                                cart.products['total'].count}
+                                            {cart
+                                                ? cart.products['total'] &&
+                                                  cart.products['total'].count
+                                                : 0}
                                         </span>
                                     </div>
                                 </label>
                             </Link>
                             <div className='dropdown-end dropdown'>
-                                <div className='indicator'>
-                                    {userNotifications.length > 0 && (
-                                        <span className='badge badge-secondary badge-sm indicator-item right-2 top-2'></span>
-                                    )}
-                                    <label tabIndex={0} className='btn-circle avatar btn'>
-                                        <div className='w-10 rounded-full ring ring-neutral ring-offset-2 ring-offset-base-100'>
-                                            <img src={userAvatar} />
-                                        </div>
-                                    </label>
-                                </div>
+                                <label tabIndex={0} className='btn-circle avatar btn'>
+                                    <div className='w-10 rounded-full ring ring-neutral ring-offset-2 ring-offset-base-100'>
+                                        <img src={userAvatar} />
+                                    </div>
+                                </label>
                                 <ul
                                     tabIndex={0}
                                     className='dropdown-content menu menu-sm z-[1] mt-3 w-36 gap-1 rounded bg-base-100 p-2 shadow'
@@ -296,7 +293,7 @@ const Header = () => {
                                     </li>
                                 </ul>
                             </div>
-                            </div>
+                        </div>
                     )}
                     {!user && !admin && (
                         <ul className='flex flex-nowrap gap-6 px-4 text-sm'>

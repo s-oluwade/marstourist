@@ -20,7 +20,7 @@ interface CartItem {
 }
 
 const ShoppingCartPage = () => {
-    const { cart, setCart, setUserNotifications } = useContext(UserContext);
+    const { cart, setCart } = useContext(UserContext);
     const [totalCost, setTotalCost] = useState(0);
     const { modalResponse, setModalResponse, setShowConfirmationModal, products, setProducts } =
         useContext(GlobalContext);
@@ -89,9 +89,6 @@ const ShoppingCartPage = () => {
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
                         setCart(null);
                         setUser(response.data[0]);
-                        if (response.data[1]) {
-                            setUserNotifications(response.data[1]);
-                        }
                     })
                     .catch((error) => {
                         console.log(error);

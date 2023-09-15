@@ -1,16 +1,64 @@
 import { RequestHandler } from 'express';
 import PostModel from '../models/post';
 import env from "../util/validateEnv";
+import ProfileNamesModel from '../models/profileNames';
+import ProfilePicturesModel from '../models/profilePictures';
 import mongoose from 'mongoose';
 const jwt = require("jsonwebtoken");
 
 export const getPosts: RequestHandler = async (req, res, next) => {
     
     const userId = req.params.userId;
-    
-    
 
-    // USE PRISMA CLIENT TO GET POST
+    if (userId) {
+        try {
+            const post = await PostModel.find({ owner: new mongoose.Types.ObjectId(userId) }).exec();
+            res.json(post);
+        } catch (error) {
+            res.json(null);
+        }
+    }
+    else {
+        try {
+            const posts = await PostModel.find({}).exec();
+            res.json(posts);
+        } catch (error) {
+            res.json(null);
+        }
+    }
+}
+
+export const getNames: RequestHandler = async (req, res, next) => {
+
+    try {
+        const data = await ProfileNamesModel.find({}).exec();
+        const map = {} as {[key: string]:string};
+
+        for (const each of data) {
+            map[each.owner.toString()] = each.name;
+        }
+
+        res.json(map);
+    } catch (error) {
+        res.json(null);
+    }
+}
+
+export const getPictures: RequestHandler = async (req, res, next) => {
+
+    try {
+        const data = await ProfilePicturesModel.find({}).exec();
+
+        const map = {} as {[key: string]:string};
+
+        for (const each of data) {
+            map[each.owner.toString()] = each.picture || '';
+        }
+
+        res.json(map);
+    } catch (error) {
+        res.json(null);
+    }
 }
 
 interface PostBody {

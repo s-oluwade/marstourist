@@ -48,7 +48,8 @@ function App() {
                             <Route path='forum' element={<ForumPage />} />
                             <Route path='profile' element={<ProfilePage />} />
                             <Route path='profile/home' element={<ProfilePage />} />
-                            <Route path='profile/inbox' element={<ProfilePage />} />
+                            <Route path='profile/friends' element={<ProfilePage />} />
+                            <Route path='profile/purchased' element={<ProfilePage />} />
                             <Route path='profile/settings' element={<ProfilePage />} />
                             <Route path='profile/settings/:subpage?' element={<ProfilePage />} />
                             <Route path='dashboard' element={<Dashboard />} />

@@ -7,25 +7,9 @@ import { UserContext } from './components/Providers/UserContextProvider';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const homepaths = ['/profile/home', '/profile/home/', '/profile', '/profile/'];
-const inboxpaths = ['/profile/inbox', '/profile/inbox/'];
-const settingspaths = [
-    '/profile/settings',
-    '/profile/settings/',
-    '/profile/settings/general',
-    '/profile/settings/general/',
-    '/profile/settings/edit-profile',
-    '/profile/settings/edit-profile/',
-    '/profile/settings/password',
-    '/profile/settings/password/',
-    '/profile/settings/account',
-    '/profile/settings/account/',
-];
-
 const Layout = () => {
-
     const { user, loadingUser, admin, loadingAdmin } = useContext(AuthContext);
-    const { userAvatar, userNotifications, cart } = useContext(UserContext);
+    const { userAvatar, cart } = useContext(UserContext);
     const currentPath = window.location.pathname;
     const navigate = useNavigate();
 
@@ -44,30 +28,13 @@ const Layout = () => {
             },
         });
 
-        const userSignedOut = !loadingUser && !user;
-        const adminSignedOut = !loadingAdmin && !admin;
-        const signOutAddresses = [
-            '/',
-            '/login',
-            '/login/',
-            '/register',
-            '/register/',
-            '/login/user',
-            '/login/user/',
-            '/login/admin',
-            '/login/admin/',
-            '/register/user',
-            '/register/user/',
-            '/register/admin',
-            '/register/admin/',
-            '/forum',
-            '/forum/',
-        ];
-
         // if not signed in, redirect to home page
-        if (userSignedOut && adminSignedOut && !signOutAddresses.includes(currentPath)) {
-            navigate('/');
+        if (!currentPath.includes('login') && !currentPath.includes('register') && !currentPath.includes('forum')) {
+            if (!loadingUser && !user && !loadingAdmin && !admin) {
+                navigate('/');
+            }
         }
+
     }, [admin, currentPath, loadingAdmin, loadingUser, navigate, user]);
 
     async function userLogout() {
@@ -88,7 +55,13 @@ const Layout = () => {
                         <input id='my-drawer-3' type='checkbox' className='drawer-toggle' />
                         <div className='drawer-content flex min-h-screen flex-col font-rubik font-light'>
                             <Header />
-                            <div className={`flex grow bg-base-300 ${admin ? '': 'dark:bg-neutral dark:text-neutral-content'}`}>
+                            <div
+                                className={`flex grow ${
+                                    admin
+                                        ? ''
+                                        : 'bg-base-300 dark:bg-neutral dark:text-neutral-content'
+                                }`}
+                            >
                                 <Outlet />
                             </div>
                         </div>
@@ -118,10 +91,10 @@ const Layout = () => {
                                                 <li>
                                                     <Link
                                                         className={`${
-                                                            homepaths.includes(currentPath)
+                                                            !currentPath.includes('inbox') && !currentPath.includes('settings')
                                                                 ? 'active'
                                                                 : ''
-                                                        } group hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
+                                                        } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
                                                         to={'/profile/home'}
                                                     >
                                                         <svg
@@ -130,7 +103,7 @@ const Layout = () => {
                                                             viewBox='0 0 24 24'
                                                             strokeWidth={1.5}
                                                             stroke='currentColor'
-                                                            className='h-5 w-5 dark:group-hover:text-neutral-content'
+                                                            className='h-4 w-4'
                                                         >
                                                             <path
                                                                 strokeLinecap='round'
@@ -138,19 +111,17 @@ const Layout = () => {
                                                                 d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
                                                             />
                                                         </svg>
-                                                        <span className='dark:group-hover:text-neutral-content'>
-                                                            Home
-                                                        </span>
+                                                        Home
                                                     </Link>
                                                 </li>
                                                 <li>
                                                     <Link
                                                         className={`${
-                                                            inboxpaths.includes(currentPath)
+                                                            currentPath.includes('friends')
                                                                 ? 'active'
                                                                 : ''
-                                                        } group hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
-                                                        to={'/profile/inbox'}
+                                                        } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
+                                                        to={'/profile/friends'}
                                                     >
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
@@ -158,7 +129,33 @@ const Layout = () => {
                                                             viewBox='0 0 24 24'
                                                             strokeWidth={1.5}
                                                             stroke='currentColor'
-                                                            className='h-5 w-5 dark:group-hover:text-neutral-content'
+                                                            className='h-4 w-4'
+                                                        >
+                                                            <path
+                                                                strokeLinecap='round'
+                                                                strokeLinejoin='round'
+                                                                d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
+                                                            />
+                                                        </svg>
+                                                        Friends
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link
+                                                        className={`${
+                                                            currentPath.includes('purchased')
+                                                                ? 'active'
+                                                                : ''
+                                                        } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
+                                                        to={'/profile/purchased'}
+                                                    >
+                                                        <svg
+                                                            xmlns='http://www.w3.org/2000/svg'
+                                                            fill='none'
+                                                            viewBox='0 0 24 24'
+                                                            strokeWidth={1.5}
+                                                            stroke='currentColor'
+                                                            className='h-4 w-4'
                                                         >
                                                             <path
                                                                 strokeLinecap='round'
@@ -166,33 +163,16 @@ const Layout = () => {
                                                                 d='M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z'
                                                             />
                                                         </svg>
-                                                        <div className='indicator'>
-                                                            {(userNotifications.includes(
-                                                                'purchase'
-                                                            ) ||
-                                                                userNotifications.includes(
-                                                                    'message'
-                                                                ) ||
-                                                                userNotifications.includes(
-                                                                    'update'
-                                                                )) && (
-                                                                <span className='badge badge-outline indicator-item -right-10 top-2'>
-                                                                    new
-                                                                </span>
-                                                            )}
-                                                            <span className='dark:group-hover:text-neutral-content'>
-                                                                Inbox
-                                                            </span>
-                                                        </div>
+                                                        Purchased
                                                     </Link>
                                                 </li>
                                                 <li>
                                                     <Link
                                                         className={`${
-                                                            settingspaths.includes(currentPath)
+                                                            currentPath.includes('settings')
                                                                 ? 'active'
                                                                 : ''
-                                                        } group hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
+                                                        } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
                                                         to={'/profile/settings'}
                                                     >
                                                         <svg
@@ -201,7 +181,7 @@ const Layout = () => {
                                                             viewBox='0 0 24 24'
                                                             strokeWidth={1.5}
                                                             stroke='currentColor'
-                                                            className='h-5 w-5 dark:group-hover:text-neutral-content'
+                                                            className='h-4 w-4'
                                                         >
                                                             <path
                                                                 strokeLinecap='round'
@@ -214,9 +194,7 @@ const Layout = () => {
                                                                 d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
                                                             />
                                                         </svg>
-                                                        <span className='dark:group-hover:text-neutral-content'>
-                                                            Settings
-                                                        </span>
+                                                        Settings
                                                     </Link>
                                                 </li>
                                             </ul>
@@ -227,17 +205,14 @@ const Layout = () => {
                                         {user && (
                                             <>
                                                 <li>
-                                                    <Link
-                                                        to={'/profile'}
-                                                        className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
-                                                    >
+                                                    <Link to={'/profile'}>
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
                                                             fill='none'
                                                             viewBox='0 0 24 24'
                                                             strokeWidth={1.5}
                                                             stroke='currentColor'
-                                                            className='h-6 w-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
+                                                            className='h-4 w-4'
                                                         >
                                                             <path
                                                                 strokeLinecap='round'
@@ -245,23 +220,18 @@ const Layout = () => {
                                                                 d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z'
                                                             />
                                                         </svg>
-                                                        <span className='ml-3 flex-1 whitespace-nowrap dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'>
-                                                            Profile
-                                                        </span>
+                                                        Profile
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link
-                                                        to={'/cart'}
-                                                        className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
-                                                    >
+                                                    <Link to={'/cart'}>
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
                                                             fill='none'
                                                             viewBox='0 0 24 24'
                                                             strokeWidth={1.5}
                                                             stroke='currentColor'
-                                                            className='h-6 w-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
+                                                            className='h-4 w-4'
                                                         >
                                                             <path
                                                                 strokeLinecap='round'
@@ -270,29 +240,26 @@ const Layout = () => {
                                                             />
                                                         </svg>
                                                         <div className='indicator'>
-                                                            <span className='badge badge-outline indicator-item -right-10 top-3'>
-                                                                {cart &&
-                                                                    cart.products['total'] &&
-                                                                    cart.products['total'].count}
-                                                            </span>
-                                                            <span className='ml-3 flex-1 whitespace-nowrap dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'>
-                                                                Cart
+                                                            <span className='flex-1 whitespace-nowrap '>
+                                                                Cart (
+                                                                {cart
+                                                                    ? cart.products['total'] &&
+                                                                      cart.products['total'].count
+                                                                    : 0}
+                                                                )
                                                             </span>
                                                         </div>
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link
-                                                        to={'/store'}
-                                                        className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
-                                                    >
+                                                    <Link to={'/store'}>
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
                                                             fill='none'
                                                             viewBox='0 0 24 24'
                                                             strokeWidth={1.5}
                                                             stroke='currentColor'
-                                                            className='h-6 w-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
+                                                            className='h-4 w-4'
                                                         >
                                                             <path
                                                                 strokeLinecap='round'
@@ -300,25 +267,20 @@ const Layout = () => {
                                                                 d='M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
                                                             />
                                                         </svg>
-                                                        <span className='ml-3 flex-1 whitespace-nowrap dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'>
-                                                            Shop
-                                                        </span>
+                                                        Shop
                                                     </Link>
                                                 </li>
                                             </>
                                         )}
                                         <li>
-                                            <Link
-                                                to={'/forum'}
-                                                className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
-                                            >
+                                            <Link to={'/forum'}>
                                                 <svg
                                                     xmlns='http://www.w3.org/2000/svg'
                                                     fill='none'
                                                     viewBox='0 0 24 24'
                                                     strokeWidth={1.5}
                                                     stroke='currentColor'
-                                                    className='h-6 w-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
+                                                    className='h-4 w-4'
                                                 >
                                                     <path
                                                         strokeLinecap='round'
@@ -326,9 +288,7 @@ const Layout = () => {
                                                         d='M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z'
                                                     />
                                                 </svg>
-                                                <span className='ml-3 flex-1 whitespace-nowrap dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'>
-                                                    Forum
-                                                </span>
+                                                Forum
                                             </Link>
                                         </li>
                                         {!user && (
@@ -343,7 +303,7 @@ const Layout = () => {
                                                         viewBox='0 0 24 24'
                                                         strokeWidth={1.5}
                                                         stroke='currentColor'
-                                                        className='h-6 w-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
+                                                        className='h-5 w-5 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
                                                     >
                                                         <path
                                                             strokeLinecap='round'
@@ -369,7 +329,7 @@ const Layout = () => {
                                                         viewBox='0 0 24 24'
                                                         strokeWidth={1.5}
                                                         stroke='currentColor'
-                                                        className='h-6 w-6 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
+                                                        className='h-5 w-5 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:group-active:text-gray-200'
                                                     >
                                                         <path
                                                             strokeLinecap='round'

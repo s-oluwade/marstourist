@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { User } from '../../models/user';
+import FooterSignature from '../../components/FooterSignature';
 
 interface RegisterCredentials {
     fullname: string;
@@ -14,6 +15,7 @@ interface RegisterCredentials {
 
 const SignUpUserPage = () => {
     const [redirect, setRedirect] = useState(false);
+    const [statusCode, setStatusCode] = useState(200);
     const { setUser } = useContext(AuthContext);
     const {
         register,
@@ -29,7 +31,11 @@ const SignUpUserPage = () => {
             setUser(response.data);
             setRedirect(true);
         } catch (error) {
-            alert('Registration failed');
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 409) {
+                    setStatusCode(409);
+                }
+            }
             console.error(error);
         }
     }
@@ -41,7 +47,7 @@ const SignUpUserPage = () => {
     return (
         <div className='mx-auto flex flex-col'>
             <div className='mt-4 flex grow items-center justify-around'>
-                <div className='rounded-2xl border bg-base-100 p-8 shadow-2xl dark:bg-gray-800'>
+                <div className='rounded-2xl bg-base-100 p-8 drop-shadow dark:bg-gray-800'>
                     <h1 className='text-center text-2xl font-medium text-accent'>CREATE ACCOUNT</h1>
                     <form className='mx-auto mt-4 max-w-sm' onSubmit={handleSubmit(onSubmit)}>
                         <input
@@ -53,9 +59,7 @@ const SignUpUserPage = () => {
                             placeholder='John Doe'
                         />
                         {!!errors.fullname && (
-                            <p role='alert' className='alert text-xs italic text-red-500'>
-                                Please fill out this field.
-                            </p>
+                            <div className='text-xs text-error'>Please provide a name.</div>
                         )}
                         <input
                             type='text'
@@ -73,9 +77,7 @@ const SignUpUserPage = () => {
                             placeholder='your@email.com'
                         />
                         {!!errors.email && (
-                            <p role='alert' className='alert text-xs italic text-red-500'>
-                                Please fill out this field.
-                            </p>
+                            <div className='text-xs text-error'>Please provide an email.</div>
                         )}
                         <input
                             type='password'
@@ -86,9 +88,7 @@ const SignUpUserPage = () => {
                             placeholder='Password'
                         />
                         {!!errors.password && (
-                            <p role='alert' className='alert text-xs italic text-red-500'>
-                                Please choose a password.
-                            </p>
+                            <div className='text-xs text-error'>Please provide a password.</div>
                         )}
                         <button className='btn-accent btn-block btn'>CREATE ACCOUNT</button>
                         <div className='pt-4 text-center'>
@@ -99,41 +99,17 @@ const SignUpUserPage = () => {
                                 Sign In
                             </Link>
                         </div>
+                        <div
+                            className={`mt-2 text-center text-sm text-error ${
+                                statusCode === 409 ? 'visible' : 'invisible'
+                            }`}
+                        >
+                            An account already exists with that email/username.
+                        </div>
                     </form>
                 </div>
             </div>
-            <footer className='my-4 w-full bg-transparent'>
-                <div className='mx-auto w-full p-4 md:flex md:items-center md:justify-end md:gap-6'>
-                    <span className='text-xs text-neutral/90 sm:text-center'>
-                        © 2023 Samuel Oluwade
-                    </span>
-                    <ul className='mt-3 flex flex-wrap items-center text-xs font-medium text-neutral/50 sm:mt-0'>
-                        <li>
-                            <a
-                                target='_blank'
-                                href='https://github.com/s-oluwade'
-                                className='mr-4 flex items-center hover:underline md:mr-6'
-                            >
-                                Github
-                                <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    fill='none'
-                                    viewBox='0 0 24 24'
-                                    strokeWidth={1.5}
-                                    stroke='currentColor'
-                                    className='h-4 w-4'
-                                >
-                                    <path
-                                        strokeLinecap='round'
-                                        strokeLinejoin='round'
-                                        d='M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25'
-                                    />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </footer>
+            <FooterSignature />
         </div>
     );
 };

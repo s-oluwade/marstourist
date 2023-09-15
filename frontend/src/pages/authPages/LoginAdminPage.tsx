@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { Admin } from '../../models/admin';
+import FooterSignature from '../../components/FooterSignature';
 
 const adminAccessDenied = import.meta.env.VITE_ADMIN_ACCESS_DENIED;
 
@@ -45,7 +46,7 @@ const LoginAdminPage = () => {
     return (
         <div className='mx-auto flex flex-col'>
             <div className='mt-4 flex grow items-center justify-around'>
-                <div className='rounded-2xl border bg-base-100 p-8 shadow-2xl dark:bg-gray-800'>
+                <div className='rounded-2xl bg-base-100 p-8 drop-shadow dark:bg-gray-800'>
                     <h1 className='text-center text-2xl font-medium text-neutral dark:text-neutral-content'>
                         ADMIN SIGN IN
                     </h1>
@@ -88,38 +89,7 @@ const LoginAdminPage = () => {
                     </form>
                 </div>
             </div>
-            <footer className='my-4 w-full bg-transparent'>
-                <div className='mx-auto w-full p-4 md:flex md:items-center md:justify-end md:gap-6'>
-                    <span className='text-xs text-neutral/90 sm:text-center'>
-                        © 2023 Samuel Oluwade
-                    </span>
-                    <ul className='mt-3 flex flex-wrap items-center text-xs font-medium text-neutral/50 sm:mt-0'>
-                        <li>
-                            <a
-                                target='_blank'
-                                href='https://github.com/s-oluwade'
-                                className='mr-4 flex items-center hover:underline md:mr-6'
-                            >
-                                Github
-                                <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    fill='none'
-                                    viewBox='0 0 24 24'
-                                    strokeWidth={1.5}
-                                    stroke='currentColor'
-                                    className='h-4 w-4'
-                                >
-                                    <path
-                                        strokeLinecap='round'
-                                        strokeLinejoin='round'
-                                        d='M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25'
-                                    />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </footer>
+            <FooterSignature/>
         </div>
     );
 };

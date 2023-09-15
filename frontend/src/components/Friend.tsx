@@ -29,7 +29,7 @@ const Friend = ({ id }: FriendsProps) => {
 
     return (
 
-        <div data-id={id} className="flex justify-between bg-base-100 dark:bg-gray-900 m-1 rounded-md px-4 py-2">
+        <div data-id={id} className="flex justify-between bg-base-100 dark:bg-gray-900 px-4 py-2">
             <div className="flex items-center gap-2">
                 <div className="avatar">
                     <div className="w-8 rounded-full">
@@ -45,7 +45,7 @@ const Friend = ({ id }: FriendsProps) => {
                 </div>
             </div>
             <div className="flex items-center">
-                <div className="tooltip tooltip-close" data-tip={user?.friends.includes(id) ? "Remove Friend" : "Add Friend"}>
+                <div title={user?.friends.includes(id) ? "Remove Friend" : "Add Friend"}>
                     <label className=" rounded-full swap bg-base-300 dark:bg-neutral p-1">
                         {/* this hidden checkbox controls the state */}
                         <input type="checkbox"

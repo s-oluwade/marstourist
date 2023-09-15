@@ -3,28 +3,17 @@ import { Link } from 'react-router-dom';
 import Friend from '../../components/Friend';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { UserContext } from '../../components/Providers/UserContextProvider';
-import InboxSubPage from './InboxPage';
+import PurchasedSubPage from './PurchasedPage';
 import SettingsSubPage from './SettingsPage';
-import UserHomeSubPage from './UserHomePage';
+import PostSubPage from './PostPage';
+import FriendsPage from './FriendsPage';
+import FooterSignature from '../../components/FooterSignature';
 
 const homepaths = ['/profile/home', '/profile/home/', '/profile', '/profile/'];
-const inboxpaths = ['/profile/inbox', '/profile/inbox/'];
-const settingspaths = [
-    '/profile/settings',
-    '/profile/settings/',
-    '/profile/settings/general',
-    '/profile/settings/general/',
-    '/profile/settings/edit-profile',
-    '/profile/settings/edit-profile/',
-    '/profile/settings/password',
-    '/profile/settings/password/',
-    '/profile/settings/account',
-    '/profile/settings/account/',
-];
 
 const ProfilePage = () => {
     const { user } = useContext(AuthContext);
-    const { userAvatar, userNotifications } = useContext(UserContext);
+    const { userAvatar } = useContext(UserContext);
     const currentPath = window.location.pathname;
 
     if (!user) {
@@ -32,7 +21,7 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className='mx-auto mt-4 md:w-[50rem] lg:w-[70rem]'>
+        <div className='mx-auto mt-4 w-full max-w-5xl'>
             <div className='flex w-full max-w-screen-xl overflow-x-hidden'>
                 <div className='hidden md:block md:basis-1/4'>
                     <div
@@ -69,17 +58,24 @@ const ProfilePage = () => {
                                 </li>
                                 <li className='w-full px-4 pt-6 dark:border-b-gray-700'>
                                     <p className=''>
-                                        Credits: {user.credit ? user.credit.toFixed(3) : 0} MARS
+                                        Credits:{' '}
+                                        {user.credit ? (user.credit / 100).toFixed(2) : 0.0}
                                     </p>
                                 </li>
                             </ul>
                         </div>
                         <div id='user_menu' className='flex flex-col gap-2 pt-4'>
                             <h3 className='pl-6 text-xs'>MENU</h3>
-                            <ul className='menu rounded'>
-                                <li className='group dark:hover:bg-neutral'>
+                            <ul className='menu gap-1 rounded'>
+                                <li>
                                     <Link
-                                        className={homepaths.includes(currentPath) ? 'active' : ''}
+                                        className={
+                                            !currentPath.includes('friends') &&
+                                            !currentPath.includes('purchased') &&
+                                            !currentPath.includes('settings')
+                                                ? 'active'
+                                                : ''
+                                        }
                                         to={'/profile/home'}
                                     >
                                         <svg
@@ -88,7 +84,7 @@ const ProfilePage = () => {
                                             viewBox='0 0 24 24'
                                             strokeWidth={1.5}
                                             stroke='currentColor'
-                                            className='h-5 w-5 group-hover:dark:text-neutral-content'
+                                            className='h-4 w-4'
                                         >
                                             <path
                                                 strokeLinecap='round'
@@ -96,15 +92,17 @@ const ProfilePage = () => {
                                                 d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
                                             />
                                         </svg>
-                                        <span className='group-hover:dark:text-neutral-content'>
-                                            Home
-                                        </span>
+                                        Home
                                     </Link>
                                 </li>
-                                <li className='group dark:hover:bg-neutral'>
+                                <li>
                                     <Link
-                                        className={inboxpaths.includes(currentPath) ? 'active' : ''}
-                                        to={'/profile/inbox'}
+                                        className={
+                                            currentPath.includes('friends')
+                                                ? 'active hover:bg-neutral'
+                                                : ''
+                                        }
+                                        to={'/profile/friends'}
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -112,7 +110,31 @@ const ProfilePage = () => {
                                             viewBox='0 0 24 24'
                                             strokeWidth={1.5}
                                             stroke='currentColor'
-                                            className='h-5 w-5 group-hover:dark:text-neutral-content'
+                                            className='h-4 w-4'
+                                        >
+                                            <path
+                                                strokeLinecap='round'
+                                                strokeLinejoin='round'
+                                                d='M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z'
+                                            />
+                                        </svg>
+                                        Friends
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        className={
+                                            currentPath.includes('purchased') ? 'active' : ''
+                                        }
+                                        to={'/profile/purchased'}
+                                    >
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            fill='none'
+                                            viewBox='0 0 24 24'
+                                            strokeWidth={1.5}
+                                            stroke='currentColor'
+                                            className='h-4 w-4 group-hover:dark:text-neutral-content'
                                         >
                                             <path
                                                 strokeLinecap='round'
@@ -120,24 +142,13 @@ const ProfilePage = () => {
                                                 d='M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z'
                                             />
                                         </svg>
-                                        <div className='indicator'>
-                                            {(userNotifications.includes('purchase') ||
-                                                userNotifications.includes('message') ||
-                                                userNotifications.includes('update')) && (
-                                                <span className='badge badge-outline indicator-item -right-10 top-2'>
-                                                    new
-                                                </span>
-                                            )}
-                                            <span className='group-hover:dark:text-neutral-content'>
-                                                Inbox
-                                            </span>
-                                        </div>
+                                        Purchased
                                     </Link>
                                 </li>
-                                <li className='group dark:hover:bg-neutral'>
+                                <li>
                                     <Link
                                         className={
-                                            settingspaths.includes(currentPath)
+                                            currentPath.includes('settings')
                                                 ? 'active hover:bg-neutral'
                                                 : ''
                                         }
@@ -149,7 +160,7 @@ const ProfilePage = () => {
                                             viewBox='0 0 24 24'
                                             strokeWidth={1.5}
                                             stroke='currentColor'
-                                            className='h-5 w-5 group-hover:dark:text-neutral-content'
+                                            className='h-4 w-4'
                                         >
                                             <path
                                                 strokeLinecap='round'
@@ -162,14 +173,12 @@ const ProfilePage = () => {
                                                 d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
                                             />
                                         </svg>
-                                        <span className='group-hover:dark:text-neutral-content'>
-                                            Settings
-                                        </span>
+                                        Settings
                                     </Link>
                                 </li>
                             </ul>
                         </div>
-                        <div className='m-4 rounded bg-base-300 lg:hidden'>
+                        <div className='m-4 rounded lg:hidden'>
                             <h3 className='rounded-t-md p-4 text-sm font-normal'>
                                 Friends ({user.friends ? user.friends.length : 0})
                             </h3>
@@ -180,28 +189,18 @@ const ProfilePage = () => {
                     </div>
                 </div>
                 <div className='w-full md:basis-3/4'>
-                    {homepaths.includes(currentPath) && <UserHomeSubPage />}
-                    {settingspaths.includes(currentPath) && <SettingsSubPage />}
-                    {inboxpaths.includes(currentPath) && <InboxSubPage />}
+                    {currentPath.includes('settings') ? (
+                        <SettingsSubPage />
+                    ) : currentPath.includes('purchased') ? (
+                        <PurchasedSubPage />
+                    ) : currentPath.includes('friends') ? (
+                        <FriendsPage />
+                    ) : (
+                        <PostSubPage />
+                    )}
                 </div>
             </div>
-            <footer className='mb-4 mt-6 w-full bg-transparent'>
-                <div className='w-full gap-6 pl-6 md:flex md:items-center md:justify-end'>
-                    <span className='text-xs text-neutral/80 dark:text-neutral-content/90 sm:text-center'>
-                        © 2023 Samuel Oluwade
-                    </span>
-                    <ul className='mt-3 flex flex-wrap items-center text-xs font-medium text-neutral/50 dark:text-neutral-content/90 sm:mt-0'>
-                        <li>
-                            <a
-                                href='https://github.com/s-oluwade'
-                                className='mr-4 hover:underline md:mr-6 '
-                            >
-                                Github
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </footer>
+            <FooterSignature/>
         </div>
     );
 };
