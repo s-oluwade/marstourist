@@ -28,7 +28,7 @@ export default function SettingsSubPage() {
     return (
         <div className='py-8'>
             <div className='flex items-center justify-center pt-8'>
-                <h1 className='flex h-full w-full items-center justify-center gap-4 text-3xl'>
+                <h1 className='flex h-full w-full items-center justify-center gap-4 text-2xl'>
                     <span>Settings</span>|<span className='underline'>{subtitle}</span>
                 </h1>
             </div>
@@ -36,7 +36,7 @@ export default function SettingsSubPage() {
             <div className='flex flex-col items-center justify-center gap-10'>
                 <div id='profile-submenu' className='tabs'>
                     <Link
-                        className={`tab-bordered tab tab-lg ${
+                        className={`tab-bordered tab ${
                             subpage === 'general' ? 'tab-active' : ''
                         }`}
                         to='/profile/settings/general'
@@ -44,7 +44,7 @@ export default function SettingsSubPage() {
                         General
                     </Link>
                     <Link
-                        className={`tab-bordered tab tab-lg ${
+                        className={`tab-bordered tab ${
                             ['edit-profile', undefined].includes(subpage) ? 'tab-active' : ''
                         }`}
                         to='/profile/settings/edit-profile'
@@ -52,7 +52,7 @@ export default function SettingsSubPage() {
                         Edit Profile
                     </Link>
                     <Link
-                        className={`tab-bordered tab tab-lg ${
+                        className={`tab-bordered tab ${
                             subpage === 'password' ? 'tab-active' : ''
                         }`}
                         to='/profile/settings/password'
@@ -60,7 +60,7 @@ export default function SettingsSubPage() {
                         Password
                     </Link>
                     <Link
-                        className={`tab-bordered tab tab-lg ${
+                        className={`tab-bordered tab ${
                             subpage === 'account' ? 'tab-active' : ''
                         }`}
                         to='/profile/settings/account'
