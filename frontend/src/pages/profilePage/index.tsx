@@ -9,8 +9,6 @@ import PostSubPage from './PostPage';
 import FriendsPage from './FriendsPage';
 import FooterSignature from '../../components/FooterSignature';
 
-const homepaths = ['/profile/home', '/profile/home/', '/profile', '/profile/'];
-
 const ProfilePage = () => {
     const { user } = useContext(AuthContext);
     const { userAvatar } = useContext(UserContext);
