@@ -91,7 +91,7 @@ const Layout = () => {
                                                 <li>
                                                     <Link
                                                         className={`${
-                                                            !currentPath.includes('inbox') && !currentPath.includes('settings')
+                                                            !currentPath.includes('friends') && !currentPath.includes('settings') && !currentPath.includes('purchased')
                                                                 ? 'active'
                                                                 : ''
                                                         } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
