@@ -77,7 +77,7 @@ const Header = () => {
     return (
         <>
             <div
-                className={`navbar relative z-10 w-full border border-b-2 border-b-accent bg-base-100 ${
+                className={`navbar relative z-10 w-full border border-b-2 drop-shadow dark:border-b-accent bg-base-100 ${
                     admin ? '' : 'dark:bg-gray-900 dark:text-neutral-content'
                 }`}
             >

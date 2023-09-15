@@ -122,26 +122,18 @@ const UserHomeSubPage = () => {
                 difference = difference * 60;
                 if (Math.trunc(difference) < 1) {
                     difference = difference * 60;
-
-                    if (Math.trunc(difference) < 10) {
-                        return 'Just now';
-                    }
-
-                    return Math.trunc(difference) + ' seconds ago';
+                    return 'Just now';
                 } else if (Math.trunc(difference) === 1) {
                     return Math.trunc(difference) + ' minute ago';
                 }
-
                 return Math.trunc(difference) + ' minutes ago';
             } else if (Math.trunc(difference) === 1) {
                 return Math.trunc(difference) + ' hour ago';
             }
-
             return Math.trunc(difference) + ' hours ago';
         } else if (Math.trunc(difference) === 1) {
             return Math.trunc(difference) + ' day ago';
         }
-
         return Math.trunc(difference) + ' days ago';
     }
 
@@ -371,15 +363,15 @@ const UserHomeSubPage = () => {
                 <dialog id='delete_modal' className='modal modal-bottom sm:modal-middle'>
                     <form
                         method='dialog'
-                        className='modal-box flex flex-col items-center gap-2 bg-base-300 py-8 dark:bg-gray-700'
+                        className='modal-box flex flex-col items-center md:ml-52 gap-2 bg-base-300 py-8'
                     >
                         <button
                             onClick={() => setIdOfPostToDelete('')}
-                            className='btn-ghost btn-sm btn-circle btn absolute right-2 top-2 text-lg dark:text-neutral-content'
+                            className='btn-neutral btn-sm btn-square btn absolute right-2 top-2 text-2xl dark:text-neutral-content'
                         >
                             ✕
                         </button>
-                        <h3 className='text-lg font-bold dark:text-neutral-content'>
+                        <h3 className='text-xl font-bold dark:text-neutral-content'>
                             Are you sure?
                         </h3>
                         <div className='modal-action justify-center'>
@@ -388,7 +380,7 @@ const UserHomeSubPage = () => {
                             </button>
                             <button
                                 onClick={() => setIdOfPostToDelete('')}
-                                className='btn-ghost btn-block btn dark:text-neutral-content'
+                                className='btn-outline btn-block btn'
                             >
                                 Cancel
                             </button>
