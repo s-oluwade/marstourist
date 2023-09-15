@@ -36,41 +36,33 @@ export default function SettingsSubPage() {
             <div className='flex flex-col items-center justify-center gap-10'>
                 <div id='profile-submenu' className='tabs'>
                     <Link
-                        className={
-                            subpage === 'general'
-                                ? 'tab-bordered tab tab-active'
-                                : 'tab-bordered tab'
-                        }
+                        className={`tab-bordered tab tab-lg ${
+                            subpage === 'general' ? 'tab-active' : ''
+                        }`}
                         to='/profile/settings/general'
                     >
                         General
                     </Link>
                     <Link
-                        className={
-                            ['edit-profile', undefined].includes(subpage)
-                                ? 'tab-bordered tab tab-active'
-                                : 'tab-bordered tab'
-                        }
+                        className={`tab-bordered tab tab-lg ${
+                            ['edit-profile', undefined].includes(subpage) ? 'tab-active' : ''
+                        }`}
                         to='/profile/settings/edit-profile'
                     >
                         Edit Profile
                     </Link>
                     <Link
-                        className={
-                            subpage === 'password'
-                                ? 'tab-bordered tab tab-active'
-                                : 'tab-bordered tab'
-                        }
+                        className={`tab-bordered tab tab-lg ${
+                            subpage === 'password' ? 'tab-active' : ''
+                        }`}
                         to='/profile/settings/password'
                     >
                         Password
                     </Link>
                     <Link
-                        className={
-                            subpage === 'account'
-                                ? 'tab-bordered tab tab-active'
-                                : 'tab-bordered tab'
-                        }
+                        className={`tab-bordered tab tab-lg ${
+                            subpage === 'account' ? 'tab-active' : ''
+                        }`}
                         to='/profile/settings/account'
                     >
                         Account
