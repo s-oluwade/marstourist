@@ -87,7 +87,7 @@ export default function EditProfileSubPage() {
                             rows={4}
                             className='block w-full rounded-lg bg-base-100 p-2.5 text-sm text-base-content focus:border-neutral focus:outline-none dark:bg-gray-800 dark:text-neutral-content'
                             placeholder='Write your thoughts here...'
-                            value={user?.bio}
+                            defaultValue={user?.bio}
                         />
                     </div>
                     <button className='btn-neutral btn-block btn-sm btn dark:btn-accent'>
