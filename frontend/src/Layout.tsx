@@ -229,7 +229,7 @@ const Layout = () => {
                                                 <li>
                                                     <Link
                                                         to={'/profile'}
-                                                        className='group flex items-center rounded-lg p-2 text-neutral hover:bg-gray-100 dark:text-base-300'
+                                                        className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
                                                     >
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
@@ -253,7 +253,7 @@ const Layout = () => {
                                                 <li>
                                                     <Link
                                                         to={'/cart'}
-                                                        className='group flex items-center rounded-lg p-2 text-neutral hover:bg-gray-100 dark:text-base-300'
+                                                        className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
                                                     >
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
@@ -284,7 +284,7 @@ const Layout = () => {
                                                 <li>
                                                     <Link
                                                         to={'/store'}
-                                                        className='group flex items-center rounded-lg p-2 text-neutral hover:bg-gray-100 dark:text-base-300'
+                                                        className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
                                                     >
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
@@ -310,7 +310,7 @@ const Layout = () => {
                                         <li>
                                             <Link
                                                 to={'/forum'}
-                                                className='group flex items-center rounded-lg p-2 text-neutral hover:bg-gray-100 dark:text-base-300'
+                                                className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
                                             >
                                                 <svg
                                                     xmlns='http://www.w3.org/2000/svg'
@@ -335,7 +335,7 @@ const Layout = () => {
                                             <li className='grow justify-end'>
                                                 <Link
                                                     to={'/login/user'}
-                                                    className='group flex items-center rounded-lg p-2 text-neutral hover:bg-gray-100 dark:text-base-300'
+                                                    className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
                                                 >
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
@@ -361,7 +361,7 @@ const Layout = () => {
                                             <li className='grow justify-end'>
                                                 <a
                                                     onClick={userLogout}
-                                                    className='group flex items-center rounded-lg p-2 text-neutral hover:bg-gray-100 dark:text-base-300'
+                                                    className='group flex items-center rounded-lg p-2 hover:bg-gray-100'
                                                 >
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
