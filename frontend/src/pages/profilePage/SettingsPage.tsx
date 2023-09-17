@@ -28,13 +28,13 @@ export default function SettingsSubPage() {
     return (
         <div className='py-8'>
             <div className='flex items-center justify-center pt-8'>
-                <h1 className='flex h-full w-full items-center justify-center gap-4 text-2xl'>
+                <h1 className='flex h-full w-full items-center justify-center gap-4 text-2xl py-4'>
                     <span>Settings</span>|<span className='underline'>{subtitle}</span>
                 </h1>
             </div>
             <hr className='my-8 h-px border-0 bg-neutral/50 dark:bg-gray-700' />
             <div className='flex flex-col items-center justify-center gap-10'>
-                <div id='profile-submenu' className='tabs'>
+                <div id='profile-submenu' className='tabs font-bold'>
                     <Link
                         className={`tab-bordered tab ${
                             subpage === 'general' ? 'tab-active' : ''

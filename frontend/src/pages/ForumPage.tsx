@@ -5,11 +5,9 @@ import axios from 'axios';
 import { ReceivedPost } from '../models/post';
 import { UserContext } from '../components/Providers/UserContextProvider';
 import { User } from '../models/user';
-import FooterSignature from '../components/FooterSignature';
 
 const ForumPage = () => {
-    const { postNames, setPostNames, postAvatars, setPostAvatars, allPosts, setAllPosts } =
-        useContext(GlobalContext);
+    const { allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts } = useContext(UserContext);
     const { user, setUser } = useContext(AuthContext);
 
@@ -31,28 +29,7 @@ const ForumPage = () => {
                 setAllPosts([]);
                 console.log(error);
             });
-        axios
-            .get('/posts/profile-names')
-            .then((response) => {
-                const names = response.data;
-                if (names) setPostNames(names);
-                else setPostNames(null);
-            })
-            .catch((error) => {
-                setPostNames(null);
-                console.log(error);
-            });
-        axios
-            .get('/posts/profile-pictures')
-            .then((response) => {
-                const pictures = response.data;
-                if (pictures) setPostAvatars(pictures);
-            })
-            .catch((error) => {
-                setPostAvatars(null);
-                console.log(error);
-            });
-    }, []);
+    }, [setAllPosts]);
 
     function getWhen(userPost: ReceivedPost) {
         const then = new Date(userPost.createdAt);
@@ -89,22 +66,6 @@ const ForumPage = () => {
         return Math.trunc(difference) + ' days ago';
     }
 
-    function getName(id: string) {
-        if (postNames) {
-            return postNames[id];
-        }
-
-        return '';
-    }
-
-    function getPicture(id: string) {
-        if (postAvatars) {
-            return postAvatars[id];
-        }
-
-        return '';
-    }
-
     async function likePost(id: string) {
         const { data } = await axios.put<ReceivedPost | null>('/posts/like/' + id);
 
@@ -119,7 +80,7 @@ const ForumPage = () => {
                     : 0
             );
 
-            if (data.owner === user?._id) {
+            if (data.userId === user?._id) {
                 const userPostsUpdate = userPosts.filter((each) => each._id !== data._id);
                 userPostsUpdate.push(data);
                 userPostsUpdate.sort((a, b) =>
@@ -138,7 +99,7 @@ const ForumPage = () => {
 
     function isLikedPost(post: ReceivedPost) {
         if (user) {
-            return post.likes.includes(user._id);
+            return post.likes.map((like) => like.userId).includes(user._id);
         }
         return false;
     }
@@ -161,27 +122,27 @@ const ForumPage = () => {
     }
 
     return (
-        <div className='flex grow flex-col'>
+        <div className='mt-2 flex grow flex-col'>
             <div className='mx-auto'>
                 <div
                     id='posts'
-                    className='flex min-h-full grow flex-col items-center bg-base-200 p-6 shadow-sm dark:bg-gray-800'
+                    className='flex min-h-full grow flex-col items-center rounded bg-base-200 p-6 shadow-sm'
                 >
                     <h1 className='mb-4 text-lg uppercase'>ALL POSTS</h1>
                     {allPosts.map((post, index) => (
                         <div
                             key={index}
-                            className='w-full my-4 mb-4 rounded-lg border bg-base-100 px-5 py-3 shadow-md dark:border-neutral dark:bg-gray-700'
+                            className='my-4 mb-4 w-full min-w-[350px] rounded-lg border bg-base-100 px-5 py-3 shadow-md dark:border-neutral dark:bg-gray-800'
                         >
                             <div className='flex w-full items-center justify-between pb-2'>
                                 <div className='flex items-center space-x-3'>
                                     <div className='avatar'>
                                         <div className='w-8 rounded-full'>
-                                            <img src={getPicture(post.owner)} />
+                                            <img src={post.thumbnail} />
                                         </div>
                                     </div>
                                     <div className='text-sm font-light capitalize text-neutral dark:text-neutral-content'>
-                                        {getName(post.owner)}
+                                        {post.owner}
                                     </div>
                                 </div>
                                 <div className='flex items-center space-x-3'>
@@ -193,10 +154,10 @@ const ForumPage = () => {
                                     <div className='text-xs text-base-content/70 dark:text-neutral-content/70'>
                                         {getWhen(post)}
                                     </div>
-                                    {user && user?._id !== post.owner && (
+                                    {user && user?._id !== post.userId && (
                                         <div
                                             title={
-                                                user?.friends.includes(post.owner)
+                                                user?.friends.includes(post.userId)
                                                     ? 'Remove Friend'
                                                     : 'Add Friend'
                                             }
@@ -205,11 +166,11 @@ const ForumPage = () => {
                                                 {/* this hidden checkbox controls the state */}
                                                 <input
                                                     type='checkbox'
-                                                    checked={user?.friends.includes(post.owner)}
+                                                    checked={user?.friends.includes(post.userId)}
                                                     onChange={(e) => {
                                                         e.currentTarget.checked =
                                                             !e.currentTarget.checked;
-                                                        updateFriendship(post.owner);
+                                                        updateFriendship(post.userId);
                                                     }}
                                                 />
                                                 <svg
@@ -251,14 +212,12 @@ const ForumPage = () => {
                                 <div className='pl-2 text-base text-base-content dark:text-neutral-content'>
                                     <p>{post.content}</p>
                                 </div>
-                                {user && postNames && (
+                                {user && (
                                     <div
                                         className={`${
                                             post.likes.length > 0 ? 'tooltip' : ''
                                         } tooltip-close tooltip-left md:tooltip-top`}
-                                        data-tip={post.likes
-                                            .map((like) => postNames[like])
-                                            .join(', ')}
+                                        data-tip={post.likes.map((like) => like.name).join(', ')}
                                     >
                                         <div
                                             onClick={(e) => {
@@ -295,7 +254,6 @@ const ForumPage = () => {
                     ))}
                 </div>
             </div>
-            <FooterSignature/>
         </div>
     );
 };

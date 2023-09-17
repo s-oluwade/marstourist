@@ -1,6 +1,6 @@
 const FooterSignature = () => {
     return (
-        <footer className='absolute left-0 bottom-0 my-2 w-full bg-transparent'>
+        <footer className='absolute left-0 bottom-0 w-full bg-base-100 dark:bg-gray-900'>
             <div className='flex w-full items-center justify-start p-4 gap-6'>
                 <span className='text-xs'>© 2023 Samuel Oluwade</span>
                 <ul className='flex flex-wrap text-xs font-medium mt-0'>

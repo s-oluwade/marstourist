@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../components/Providers/AuthContextProvider';
 import ImageSliderModal from '../components/ImageSliderModal';
-import FooterSignature from '../components/FooterSignature';
 
 const previewImages = [
     {
@@ -253,7 +252,6 @@ const IndexPage = () => {
                     </div>
                 )}
             </div>
-            <FooterSignature/>
         </section>
     );
 };

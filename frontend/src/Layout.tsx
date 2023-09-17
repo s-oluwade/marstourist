@@ -6,6 +6,7 @@ import { AuthContext } from './components/Providers/AuthContextProvider';
 import { UserContext } from './components/Providers/UserContextProvider';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import FooterSignature from './components/FooterSignature';
 
 const Layout = () => {
     const { user, loadingUser, admin, loadingAdmin } = useContext(AuthContext);
@@ -50,8 +51,7 @@ const Layout = () => {
     return (
         <>
             {!loadingUser && !loadingAdmin && (
-                <>
-                    <div className='drawer'>
+                    <div className='drawer main bg-base-300 dark:bg-neutral'>
                         <input id='my-drawer-3' type='checkbox' className='drawer-toggle' />
                         <div className='drawer-content flex min-h-screen flex-col font-rubik font-light'>
                             <Header />
@@ -59,7 +59,7 @@ const Layout = () => {
                                 className={`flex grow ${
                                     admin
                                         ? ''
-                                        : 'bg-base-300 dark:bg-neutral dark:text-neutral-content'
+                                        : 'dark:text-neutral-content mb-6 mt-20'
                                 }`}
                             >
                                 <Outlet />
@@ -91,7 +91,7 @@ const Layout = () => {
                                                 <li>
                                                     <Link
                                                         className={`${
-                                                            !currentPath.includes('friends') && !currentPath.includes('settings') && !currentPath.includes('purchased')
+                                                            !currentPath.includes('friends') && !currentPath.includes('settings') && !currentPath.includes('purchase')
                                                                 ? 'active'
                                                                 : ''
                                                         } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
@@ -143,11 +143,11 @@ const Layout = () => {
                                                 <li>
                                                     <Link
                                                         className={`${
-                                                            currentPath.includes('purchased')
+                                                            currentPath.includes('purchase')
                                                                 ? 'active'
                                                                 : ''
                                                         } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
-                                                        to={'/profile/purchased'}
+                                                        to={'/profile/purchase'}
                                                     >
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
@@ -163,7 +163,7 @@ const Layout = () => {
                                                                 d='M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z'
                                                             />
                                                         </svg>
-                                                        Purchased
+                                                        Purchase
                                                     </Link>
                                                 </li>
                                                 <li>
@@ -347,8 +347,8 @@ const Layout = () => {
                                 </div>
                             </ul>
                         </div>
+                        <FooterSignature />
                     </div>
-                </>
             )}
         </>
     );

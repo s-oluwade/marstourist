@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { Admin } from '../../models/admin';
-import FooterSignature from '../../components/FooterSignature';
 
 const adminAccessDenied = import.meta.env.VITE_ADMIN_ACCESS_DENIED;
 
@@ -89,7 +88,6 @@ const LoginAdminPage = () => {
                     </form>
                 </div>
             </div>
-            <FooterSignature/>
         </div>
     );
 };

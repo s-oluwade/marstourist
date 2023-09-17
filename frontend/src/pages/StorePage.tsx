@@ -4,7 +4,6 @@ import { GlobalContext } from '../components/Providers/GlobalContextProvider';
 import { UserContext } from '../components/Providers/UserContextProvider';
 import { Cart } from '../models/cart';
 import { ProductWithId } from '../models/product';
-import FooterSignature from '../components/FooterSignature';
 
 const StorePage = () => {
     const [filteredProducts, setFilteredProducts] = useState<ProductWithId[]>([]);
@@ -206,7 +205,6 @@ const StorePage = () => {
                     </div>
                 </div>
             </div>
-            <FooterSignature/>
         </div>
     );
 };

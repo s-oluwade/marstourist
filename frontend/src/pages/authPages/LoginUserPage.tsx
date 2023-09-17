@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { User } from '../../models/user';
-import FooterSignature from '../../components/FooterSignature';
 
 interface LoginCredentials {
     email: string;
     password: string;
+    userType: 'user' | 'admin';
 }
 
 const LoginUserPage = () => {
@@ -63,6 +63,12 @@ const LoginUserPage = () => {
                         {!!errors.password && (
                             <div className='text-xs text-error'>Please provide a password.</div>
                         )}
+                        <input
+                            type='hidden'
+                            {...register('userType', { required: true })}
+                            id='userType'
+                            value='user'
+                        />
                         <button className='btn-accent btn-block btn'>Sign In</button>
                         <div className='pt-4 text-center'>
                             <span className='text-sm text-neutral/80 dark:text-neutral-content/80'>
@@ -75,7 +81,6 @@ const LoginUserPage = () => {
                     </form>
                 </div>
             </div>
-            <FooterSignature />
         </div>
     );
 };

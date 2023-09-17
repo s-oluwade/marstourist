@@ -1,7 +1,7 @@
 import { InferSchemaType, model, Schema } from "mongoose";
 
 const cartSchema = new Schema({
-    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     products: {
         type: Map,
         of: {

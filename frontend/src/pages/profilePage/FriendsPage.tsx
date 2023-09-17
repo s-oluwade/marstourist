@@ -6,7 +6,7 @@ const FriendsPage = () => {
     const { user } = useContext(AuthContext);
     
     return (
-    <div className='m-4 min-w-[12.5rem] overflow-y-auto overflow-x-hidden bg-base-100 p-4 rounded dark:bg-gray-900'>
+    <div className='m-4 min-w-[12.5rem] bg-base-100 rounded dark:bg-gray-900'>
         <h3 className='text-md p-4 font-normal'>
             Friends ({user?.friends ? user.friends.length : 0})
         </h3>
@@ -16,5 +16,5 @@ const FriendsPage = () => {
     </div>
     );
 }
- 
+
 export default FriendsPage;

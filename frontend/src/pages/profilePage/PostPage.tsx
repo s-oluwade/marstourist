@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
@@ -7,19 +6,30 @@ import { UserContext } from '../../components/Providers/UserContextProvider';
 import { ReceivedPost } from '../../models/post';
 import EmojiPicker from '../../components/EmojiPicker';
 
-const UserHomeSubPage = () => {
+const locations = [
+    'olympus mons',
+    'jezero',
+    'gale',
+    'gusev',
+    'meridiani',
+    'capri chasma',
+    'coloe',
+    'shalbatana',
+    'valles marineris',
+    'cavi angusti',
+    'medusae fossae',
+    'nicholson',
+    'zunil',
+    'milankovic',
+    'terra sirenum',
+    'eberswalde',
+];
+
+const PostPage = () => {
     const [content, setContent] = useState('');
     const [topic, setTopic] = useState('mars');
     const [idOfPostToDelete, setIdOfPostToDelete] = useState('');
-    const {
-        locations,
-        setLocations,
-        allPosts,
-        setAllPosts,
-        postNames,
-        setPostNames,
-        setPostAvatars,
-    } = useContext(GlobalContext);
+    const { allPosts, setAllPosts } = useContext(GlobalContext);
     const { userPosts, setUserPosts, userAvatar } = useContext(UserContext);
     const { user } = useContext(AuthContext);
 
@@ -46,47 +56,6 @@ const UserHomeSubPage = () => {
                 setUserPosts([]);
                 console.log(error);
             });
-        axios
-            .get<ReceivedPost[]>('/posts')
-            .then((response) => {
-                const data = response.data;
-                data.sort((a, b) =>
-                    new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
-                        ? 1
-                        : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
-                        ? -1
-                        : 0
-                );
-                setAllPosts(data);
-            })
-            .catch((error) => {
-                setAllPosts([]);
-                console.log(error);
-            });
-        axios
-            .get('/posts/profile-names')
-            .then((response) => {
-                const names = response.data;
-                if (names) setPostNames(names);
-                else setPostNames(null);
-            })
-            .catch((error) => {
-                setPostNames(null);
-                console.log(error);
-            });
-        axios
-            .get('/posts/profile-pictures')
-            .then((response) => {
-                const pictures = response.data;
-                if (pictures) setPostAvatars(pictures);
-            })
-            .catch((error) => {
-                setPostAvatars(null);
-                console.log(error);
-            });
-        axios.get('/data/site-data').then((response) => {
-            setLocations(response.data.regions);
-        });
     }, []);
 
     async function deletePost() {
@@ -173,7 +142,7 @@ const UserHomeSubPage = () => {
 
     function isLikedPost(post: ReceivedPost) {
         if (user) {
-            return post.likes.includes(user._id);
+            return post.likes.map((like) => like.userId).includes(user._id);
         }
         return false;
     }
@@ -190,7 +159,7 @@ const UserHomeSubPage = () => {
         <div className='flex'>
             <div
                 id='user_post'
-                className='grow items-center p-6 shadow-sm md:max-h-[48.75rem] md:overflow-y-auto md:overflow-x-hidden'
+                className='grow items-center p-6 shadow-sm'
             >
                 <div id='user_poster' className='rounded-lg'>
                     <form>
@@ -228,7 +197,7 @@ const UserHomeSubPage = () => {
                                         ))}
                                     </select>
                                     {/* EMOJI PICKER GOES HERE */}
-                                    <EmojiPicker onChange={chooseEmoji}/>
+                                    <EmojiPicker onChange={chooseEmoji} />
                                 </div>
                                 <button
                                     onClick={submitPost}
@@ -317,45 +286,41 @@ const UserHomeSubPage = () => {
                                 <div className='pl-2 text-base text-base-content dark:text-neutral-content'>
                                     <p>{post.content}</p>
                                 </div>
-                                {postNames && (
+                                <div
+                                    className={`${
+                                        post.likes.length > 0 ? 'tooltip' : ''
+                                    } tooltip-close tooltip-left md:tooltip-top`}
+                                    data-tip={post.likes.map((like) => like.name).join(', ')}
+                                >
                                     <div
-                                        className={`${
-                                            post.likes.length > 0 ? 'tooltip' : ''
-                                        } tooltip-close tooltip-left md:tooltip-top`}
-                                        data-tip={post.likes
-                                            .map((like) => postNames[like])
-                                            .join(', ')}
+                                        onClick={(e) => {
+                                            e.currentTarget.classList.toggle('text-neutral');
+                                            e.currentTarget.classList.toggle('text-accent');
+                                            likePost(post._id);
+                                        }}
+                                        className={`flex cursor-pointer select-none items-center gap-1 transition ${
+                                            isLikedPost(post)
+                                                ? 'text-accent'
+                                                : 'text-neutral dark:text-neutral-content/70'
+                                        }`}
                                     >
-                                        <div
-                                            onClick={(e) => {
-                                                e.currentTarget.classList.toggle('text-neutral');
-                                                e.currentTarget.classList.toggle('text-accent');
-                                                likePost(post._id);
-                                            }}
-                                            className={`flex cursor-pointer select-none items-center gap-1 transition ${
-                                                isLikedPost(post)
-                                                    ? 'text-accent'
-                                                    : 'text-neutral dark:text-neutral-content/70'
-                                            }`}
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            fill='none'
+                                            viewBox='0 0 24 24'
+                                            strokeWidth={1.5}
+                                            stroke='currentColor'
+                                            className='h-5 w-5'
                                         >
-                                            <svg
-                                                xmlns='http://www.w3.org/2000/svg'
-                                                fill='none'
-                                                viewBox='0 0 24 24'
-                                                strokeWidth={1.5}
-                                                stroke='currentColor'
-                                                className='h-5 w-5'
-                                            >
-                                                <path
-                                                    strokeLinecap='round'
-                                                    strokeLinejoin='round'
-                                                    d='M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z'
-                                                />
-                                            </svg>
-                                            <span>{post.likes.length}</span>
-                                        </div>
+                                            <path
+                                                strokeLinecap='round'
+                                                strokeLinejoin='round'
+                                                d='M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z'
+                                            />
+                                        </svg>
+                                        <span>{post.likes.length}</span>
                                     </div>
-                                )}
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -363,11 +328,11 @@ const UserHomeSubPage = () => {
                 <dialog id='delete_modal' className='modal modal-bottom sm:modal-middle'>
                     <form
                         method='dialog'
-                        className='modal-box flex flex-col items-center md:ml-52 gap-2 bg-base-300 py-8'
+                        className='modal-box flex flex-col items-center gap-2 bg-base-300 py-8 md:ml-52'
                     >
                         <button
                             onClick={() => setIdOfPostToDelete('')}
-                            className='btn-neutral btn-sm btn-square btn absolute right-2 top-2 text-2xl dark:text-neutral-content'
+                            className='btn-neutral btn-square btn-sm btn absolute right-2 top-2 text-2xl dark:text-neutral-content'
                         >
                             ✕
                         </button>
@@ -392,4 +357,4 @@ const UserHomeSubPage = () => {
     );
 };
 
-export default UserHomeSubPage;
+export default PostPage;

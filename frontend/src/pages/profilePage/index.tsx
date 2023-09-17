@@ -2,12 +2,11 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Friend from '../../components/Friend';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
-import { UserContext } from '../../components/Providers/UserContextProvider';
-import PurchasedSubPage from './PurchasedPage';
+import PurchaseSubPage from './PurchasePage';
 import SettingsSubPage from './SettingsPage';
-import PostSubPage from './PostPage';
+import PostPage from './PostPage';
 import FriendsPage from './FriendsPage';
-import FooterSignature from '../../components/FooterSignature';
+import { UserContext } from '../../components/Providers/UserContextProvider';
 
 const ProfilePage = () => {
     const { user } = useContext(AuthContext);
@@ -19,12 +18,12 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className='mx-auto mt-4 w-full max-w-5xl'>
-            <div className='flex w-full max-w-screen-xl overflow-x-hidden'>
-                <div className='hidden md:block md:basis-1/4'>
+        <div className='mx-auto w-full max-w-5xl'>
+            <div className='flex w-full max-w-screen-xl justify-center'>
+                <div className='hidden md:basis-1/3 md:block'>
                     <div
                         id='side-nav'
-                        className='m-4 min-h-[48.75rem] min-w-[12rem] rounded-md border-2 border-accent bg-base-100 shadow-md dark:bg-gray-800'
+                        className='fixed z-20 m-4 min-h-[50rem] min-w-[14rem] rounded-md bg-base-100 shadow-md dark:bg-gray-800'
                     >
                         <div
                             id='user_detail'
@@ -34,11 +33,11 @@ const ProfilePage = () => {
                                 id='user_brief'
                                 className='flex w-full flex-col items-center justify-center gap-2'
                             >
-                                <div className='avatar'>
-                                    <div className='mask mask-hexagon w-32'>
+                                <Link to={user.photo} className='avatar'>
+                                    <div className='w-32 rounded-full ring ring-accent ring-offset-4 ring-offset-base-100'>
                                         <img src={userAvatar} />
                                     </div>
-                                </div>
+                                </Link>
                                 <div className='flex flex-col items-center gap-1 text-sm font-light'>
                                     <div>{user?.fullname}</div>
                                     {user?.username && <div className=''>{user?.username}</div>}
@@ -69,7 +68,7 @@ const ProfilePage = () => {
                                     <Link
                                         className={
                                             !currentPath.includes('friends') &&
-                                            !currentPath.includes('purchased') &&
+                                            !currentPath.includes('purchase') &&
                                             !currentPath.includes('settings')
                                                 ? 'active'
                                                 : ''
@@ -121,10 +120,8 @@ const ProfilePage = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        className={
-                                            currentPath.includes('purchased') ? 'active' : ''
-                                        }
-                                        to={'/profile/purchased'}
+                                        className={currentPath.includes('purchase') ? 'active' : ''}
+                                        to={'/profile/purchase'}
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -140,7 +137,7 @@ const ProfilePage = () => {
                                                 d='M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z'
                                             />
                                         </svg>
-                                        Purchased
+                                        Purchase
                                     </Link>
                                 </li>
                                 <li>
@@ -186,19 +183,18 @@ const ProfilePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className='w-full md:basis-3/4'>
+                <div className='w-full md:basis-2/3'>
                     {currentPath.includes('settings') ? (
                         <SettingsSubPage />
-                    ) : currentPath.includes('purchased') ? (
-                        <PurchasedSubPage />
+                    ) : currentPath.includes('purchase') ? (
+                        <PurchaseSubPage />
                     ) : currentPath.includes('friends') ? (
                         <FriendsPage />
                     ) : (
-                        <PostSubPage />
+                        <PostPage />
                     )}
                 </div>
             </div>
-            <FooterSignature/>
         </div>
     );
 };

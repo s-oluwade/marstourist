@@ -4,13 +4,12 @@ import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { User } from '../../models/user';
-import FooterSignature from '../../components/FooterSignature';
 
 interface RegisterCredentials {
     fullname: string;
-    username: string;
     email: string;
     password: string;
+    userType: 'user' | 'admin';
 }
 
 const SignUpUserPage = () => {
@@ -62,13 +61,6 @@ const SignUpUserPage = () => {
                             <div className='text-xs text-error'>Please provide a name.</div>
                         )}
                         <input
-                            type='text'
-                            {...register('username', { required: false })}
-                            id='username'
-                            className='input-bordered input-accent input w-full text-base-content'
-                            placeholder='username (optional)'
-                        />
-                        <input
                             type='email'
                             {...register('email', { required: true })}
                             id='email'
@@ -90,6 +82,12 @@ const SignUpUserPage = () => {
                         {!!errors.password && (
                             <div className='text-xs text-error'>Please provide a password.</div>
                         )}
+                        <input
+                            type='hidden'
+                            {...register('userType', { required: true })}
+                            id='userType'
+                            value='user'
+                        />
                         <button className='btn-accent btn-block btn'>CREATE ACCOUNT</button>
                         <div className='pt-4 text-center'>
                             <span className='text-sm text-neutral/80 dark:text-neutral-content/80'>
@@ -109,7 +107,6 @@ const SignUpUserPage = () => {
                     </form>
                 </div>
             </div>
-            <FooterSignature />
         </div>
     );
 };

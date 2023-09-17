@@ -2,7 +2,6 @@ import axios from 'axios';
 import { Route, Routes } from 'react-router';
 import './App.css';
 import Layout from './Layout';
-import BlogPage from './pages/BlogPage';
 import AuthContextProvider from './components/Providers/AuthContextProvider';
 import GlobalContextProvider from './components/Providers/GlobalContextProvider';
 import UserContextProvider from './components/Providers/UserContextProvider';
@@ -49,11 +48,10 @@ function App() {
                             <Route path='profile' element={<ProfilePage />} />
                             <Route path='profile/home' element={<ProfilePage />} />
                             <Route path='profile/friends' element={<ProfilePage />} />
-                            <Route path='profile/purchased' element={<ProfilePage />} />
+                            <Route path='profile/purchase' element={<ProfilePage />} />
                             <Route path='profile/settings' element={<ProfilePage />} />
                             <Route path='profile/settings/:subpage?' element={<ProfilePage />} />
                             <Route path='dashboard' element={<Dashboard />} />
-                            <Route path='blog/:title?' element={<BlogPage />} />
                             <Route path='store' element={<StorePage />} />
                             <Route path='payment' element={<PaymentPage />} />
                             <Route path='notfound' element={<NotFoundPage />} />

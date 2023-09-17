@@ -38,10 +38,10 @@ export default function ConfirmationModal({ title, message }: ConfirmationModalP
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl leading-6 bg-base-100 p-4 align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl leading-6 bg-gray-100 dark:bg-gray-700 p-4 align-middle shadow-xl transition-all">
                                     <Dialog.Title
                                         as="h3"
-                                        className="py-4 text-xl font-medium text-gray-900"
+                                        className="py-4 text-xl font-medium"
                                     >
                                         {title}
                                     </Dialog.Title>
@@ -51,14 +51,14 @@ export default function ConfirmationModal({ title, message }: ConfirmationModalP
                                     <div className="py-4 flex justify-center gap-2">
                                         <button
                                             type="button"
-                                            className="btn sm:btn-sm md:btn-md btn-secondary"
+                                            className="btn sm:btn-sm md:btn-md w-24 btn-accent"
                                             onClick={() => { setModalResponse(title); setShowConfirmationModal(false) }}
                                         >
                                             Yes
                                         </button>
                                         <button
                                             type="button"
-                                            className="btn sm:btn-sm md:btn-md btn-neutral btn-outline"
+                                            className="btn sm:btn-sm md:btn-md btn-ghost"
                                             onClick={() => { setModalResponse("dismiss"); setShowConfirmationModal(false) }}
                                         >
                                             Cancel

@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import CartModel from "../models/cart";
-import PurchasedModel from "../models/purchased";
-import NotificationsModel from "../models/notifications";
+import PurchaseModel from "../models/purchase";
 import UserModel from "../models/user";
 import env from "../util/validateEnv";
 const jwt = require("jsonwebtoken");
@@ -14,9 +13,9 @@ export const getCart: RequestHandler = async (req, res, next) => {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
 
-            let cart = await CartModel.findOne({ owner: decodedUser.id }).exec();
+            let cart = await CartModel.findOne({ userId: decodedUser.id }).exec();
             if (!cart) {
-                cart = await CartModel.create({ owner: decodedUser.id, productIds: [] });
+                cart = await CartModel.create({ userId: decodedUser.id, productIds: [] });
                 res.status(200).json(cart);
             }
             else {
@@ -44,7 +43,7 @@ export const addToCart: RequestHandler<unknown, unknown, { item: string }, unkno
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
 
-            const cart = (await CartModel.find({ owner: decodedUser.id }).exec())[0];
+            const cart = (await CartModel.find({ userId: decodedUser.id }).exec())[0];
             const cartItem = cart.products.get(itemToAdd);
 
             if (cartItem) {
@@ -86,7 +85,7 @@ export const removeFromCart: RequestHandler<unknown, unknown, [string, number], 
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
 
-            const cart = (await CartModel.find({ owner: decodedUser.id }).exec())[0];
+            const cart = (await CartModel.find({ userId: decodedUser.id }).exec())[0];
 
             const itemToRemove = toRemove[0];
             const howManyItems = toRemove[1];
@@ -138,24 +137,24 @@ export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number],
             if (err) throw err;
 
             try {
-                // store items purchased
+                // store items purchase
                 for (const item of cartitems) {
-                    const purchasedItem = await PurchasedModel.findOne({ owner: decodedUser.id, productId: item.productId }).exec();
-                    if (purchasedItem) {
+                    const purchaseItem = await PurchaseModel.findOne({ userId: decodedUser.id, productId: item.productId }).exec();
+                    if (purchaseItem) {
                         // product.quantity += item.quantity;  // should work but i'm not sure
-                        purchasedItem.set({
-                            quantity: purchasedItem.quantity + item.quantity,
+                        purchaseItem.set({
+                            quantity: purchaseItem.quantity + item.quantity,
                         })
-                        await purchasedItem.save();
+                        await purchaseItem.save();
                     }
                     else {
-                        await PurchasedModel.create({
-                            owner: decodedUser.id,
+                        await PurchaseModel.create({
+                            userId: decodedUser.id,
                             ...item,
                         });
                     }
                 }
-                const cart = await CartModel.findOne({owner: decodedUser.id});
+                const cart = await CartModel.findOne({userId: decodedUser.id});
                 if (cart) {
                     cart.products = new Map<string, { count: number; timestamp: number; }>;
                     await cart.save();
@@ -169,15 +168,6 @@ export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number],
                 });
                 userDoc = await userDoc.save();
 
-                // update notifications
-                let userNotification = await NotificationsModel.findOne({owner: decodedUser.id}).exec();
-                if (userNotification) {
-                    userNotification.notifications.push("purchase");
-                    let result = await userNotification.save();
-                    userNotification = result;
-                }
-
-                res.json([userDoc, userNotification?.notifications]);
             } catch (error) {
                 res.json(null);
             }
@@ -193,9 +183,9 @@ export const getPurchase: RequestHandler = async (req, res, next) => {
     if (token) {
         jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: { id: any; }) => {
             if (err) throw err;
-            const purchased = await PurchasedModel.find({ owner: decodedUser.id }).exec();
+            const purchase = await PurchaseModel.find({ userId: decodedUser.id }).exec();
 
-            res.status(200).json(purchased);
+            res.status(200).json(purchase);
         })
     }
     else {

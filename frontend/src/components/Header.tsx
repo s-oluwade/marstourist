@@ -77,7 +77,7 @@ const Header = () => {
     return (
         <>
             <div
-                className={`navbar relative z-10 w-full border border-b-2 drop-shadow dark:border-b-accent bg-base-100 ${
+                className={`navbar fixed z-10 w-full border border-b-2 drop-shadow dark:border-b-accent bg-base-100 ${
                     admin ? '' : 'dark:bg-gray-900 dark:text-neutral-content'
                 }`}
             >
@@ -209,7 +209,6 @@ const Header = () => {
                                     <li>
                                         <Link to='/profile' className='flex justify-between'>
                                             Profile
-                                            {/* <div className="badge badge-sm badge-outline">new</div> */}
                                             <svg
                                                 xmlns='http://www.w3.org/2000/svg'
                                                 fill='none'
@@ -272,7 +271,7 @@ const Header = () => {
                                 Admin
                                 <label tabIndex={0} className='btn-neutral btn-circle avatar btn'>
                                     <div className='w-10 rounded-full'>
-                                        <img src={userAvatar} />
+                                        <img src={user?.thumbnail} />
                                     </div>
                                 </label>
                                 <ul

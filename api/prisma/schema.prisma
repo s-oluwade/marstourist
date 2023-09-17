@@ -46,11 +46,10 @@ model Product {
   @@map("products")
 }
 
-// now when you select a post you automatically select the related profilenames and profilepictures
 model Post {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  owner     String   @db.ObjectId
-  user      User     @relation(fields: [owner], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   topic     String
   content   String
   likes     String[]
@@ -61,22 +60,21 @@ model Post {
   @@map("posts")
 }
 
-model Purchased {
+model Purchase {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   v         Int      @map("__v")
   brand     String
   category  String
   createdAt DateTime @db.Date
   imageUrl  String
-  owner     String   @db.ObjectId
+  userId    String   @db.ObjectId
   productId String   @db.ObjectId
   quantity  Int
   title     String
   updatedAt DateTime @db.Date
   User      User?    @relation(fields: [userId], references: [id])
-  userId    String?  @db.ObjectId
 
-  @@map("purchaseds")
+  @@map("purchases")
 }
 
 model User {
@@ -94,20 +92,10 @@ model User {
   photo         String?
   race          String?
   username      String       @unique(map: "username_1")
-  notifications Notification @relation(fields: [id], references: [owner])
   Cart          Cart[]
   Post          Post[]
-  Purchased     Purchased[]
+  Purchase     Purchase[]
 
   @@map("users")
 }
 
-model Notification {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  owner         String?  @unique @db.ObjectId
-  notifications String[]
-  User          User[]
-  v             Int      @map("__v")
-
-  @@map("notifications")
-}

@@ -2,11 +2,9 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import userRoutes from "./routes/user";
 import adminRoutes from "./routes/admin";
-import dataRoutes from "./routes/data";
 import cartRoutes from "./routes/cart";
 import productRoutes from "./routes/products";
 import postRoutes from "./routes/posts";
-import notificationsRoutes from "./routes/notifications";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import session from "express-session";
@@ -49,11 +47,9 @@ app.use(session({
     }),
 }));
 
-app.use("/api/notifications", notificationsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/data", dataRoutes);
+app.use("/api/sales", cartRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/uploads", express.static(__dirname + "/../uploads"));

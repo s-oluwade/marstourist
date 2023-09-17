@@ -15,10 +15,6 @@ const initialState = {
     setShowProductQuickview: () => {
         return false;
     },
-    locations: [],
-    setLocations: () => {
-        return [];
-    },
     allPosts: [],
     setAllPosts: () => {
         return [];
@@ -44,8 +40,6 @@ interface IContext {
     setModalResponse: React.Dispatch<React.SetStateAction<string>>;
     showProductQuickview: boolean;
     setShowProductQuickview: React.Dispatch<React.SetStateAction<boolean>>;
-    locations: string[];
-    setLocations: React.Dispatch<React.SetStateAction<string[]>>;
     allPosts: ReceivedPost[];
     setAllPosts: React.Dispatch<React.SetStateAction<ReceivedPost[]>>;
     postNames: { [key: string]: string } | null;
@@ -62,7 +56,6 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     // eslint-disable-next-line prefer-const
     const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
     const [modalResponse, setModalResponse] = useState<string>('');
-    const [locations, setLocations] = useState<string[]>([]);
     const [allPosts, setAllPosts] = useState<ReceivedPost[]>([]);
     const [postNames, setPostNames] = useState<{ [key: string]: string } | null>(null);
     const [postAvatars, setPostAvatars] = useState<{ [key: string]: string } | null>(null);
@@ -80,8 +73,6 @@ export default function GlobalContextProvider({ children }: { children: React.Re
                 setPostAvatars,
                 allPosts,
                 setAllPosts,
-                locations,
-                setLocations,
                 showProductQuickview,
                 setShowProductQuickview,
                 modalResponse,

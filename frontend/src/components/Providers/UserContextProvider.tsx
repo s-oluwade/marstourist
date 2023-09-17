@@ -48,8 +48,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
             }
 
             // set user picture
-            const photo = user.photo;
-            if (photo) setUserAvatar(photo);
+            if (user.thumbnail) setUserAvatar(user.thumbnail);
             else setUserAvatar(defaultPhotoURL);
         } else {
             setUserAvatar(defaultPhotoURL);

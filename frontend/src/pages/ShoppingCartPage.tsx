@@ -8,7 +8,7 @@ import { UserContext } from '../components/Providers/UserContextProvider';
 import { Cart } from '../models/cart';
 import { ProductWithId } from '../models/product';
 
-const purchaseConfirmationTitle = 'Purchase with credit';
+const purchaseConfirmationTitle = 'Place Order';
 
 interface CartItem {
     productId: string;
@@ -85,7 +85,6 @@ const ShoppingCartPage = () => {
                         headers: { 'Content-Type': 'application/json' },
                     })
                     .then((response) => {
-                        console.log(response.data);
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
                         setCart(null);
                         setUser(response.data[0]);
@@ -147,7 +146,7 @@ const ShoppingCartPage = () => {
                         d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
                     />
                 </svg>
-                <span>Purchased complete. Check your Inbox.</span>
+                <span>Purchase complete. Check your Inbox.</span>
                 <button
                     onClick={() => setPurchaseAlerts([])}
                     className='btn-outline btn-xs btn-circle btn'
@@ -210,10 +209,6 @@ const ShoppingCartPage = () => {
             </div>
         );
     }
-
-    // if (import.meta.env.VITE_ENVIRONMENT === 'production') {
-    //     return <div>Page is currently under maintenance.</div>;
-    // }
 
     return (
         <div className='mx-auto my-auto w-full'>
@@ -347,7 +342,7 @@ const ShoppingCartPage = () => {
 
                 <div
                     id='summary'
-                    className='rounded-r bg-base-200 px-8 py-5 dark:bg-gray-700 md:w-1/4'
+                    className='relative rounded-r bg-base-200 px-8 py-5 dark:bg-gray-700 md:w-1/4'
                 >
                     <div className='flex flex-col'>
                         <h1 className='hidden border-b pb-8 text-2xl font-normal md:block'>
@@ -358,16 +353,17 @@ const ShoppingCartPage = () => {
                                 Items{' '}
                                 {cart && cart.products['total'] && cart.products['total'].count}
                             </span>
-                            <span className='text-sm font-medium'>{totalCost}$</span>
+                            <span className='text-sm font-medium'>{totalCost.toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                            })}</span>
                         </div>
                         <div className='flex grow flex-col justify-center gap-2'>
-                            <p>Pay with mars credit</p>
-                            <p>1 mars credit = $1,000</p>
                             <button
                                 onClick={() => setShowConfirmationModal(true)}
                                 className='btn-accent btn-block btn-sm btn mt-8'
                             >
-                                Pay with {totalCost > 0 ? (totalCost / 1000).toFixed(3) : 0} Mars
+                                Pay with {totalCost > 0 ? (totalCost / 1000).toFixed(3) : 0.0} Mars
                                 credit
                             </button>
                         </div>
@@ -376,14 +372,15 @@ const ShoppingCartPage = () => {
                         </div>
                         <ConfirmationModal
                             message={`Buy ${numberOfItems} items with ${
-                                totalCost > 0 ? (totalCost / 1000).toFixed(3) : 0
-                            } mrs?`}
+                                totalCost > 0 ? (totalCost / 1000).toFixed(3) : 0.0
+                            } credits?`}
                             title={purchaseConfirmationTitle}
                         />
                     </div>
                     <div className='pt-2 text-center'>
-                        Balance: {user?.credit ? user.credit.toFixed(3) : 0} MARS
+                        <div>Balance: {user?.credit ? (user.credit / 100).toFixed(2) : 0.0}</div>
                     </div>
+                    <div className='absolute bottom-0 left-0 text-center w-full'>1 Mars credit = $1,000</div>
                 </div>
             </div>
         </div>

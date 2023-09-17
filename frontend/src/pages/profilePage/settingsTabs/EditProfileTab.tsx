@@ -1,12 +1,29 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../components/Providers/AuthContextProvider';
-import { GlobalContext } from '../../../components/Providers/GlobalContextProvider';
 import { User } from '../../../models/user';
+
+const locations = [
+    'olympus mons',
+    'jezero',
+    'gale',
+    'gusev',
+    'meridiani',
+    'capri chasma',
+    'coloe',
+    'shalbatana',
+    'valles marineris',
+    'cavi angusti',
+    'medusae fossae',
+    'nicholson',
+    'zunil',
+    'milankovic',
+    'terra sirenum',
+    'eberswalde',
+];
 
 export default function EditProfileSubPage() {
     const { user, setUser } = useContext(AuthContext);
-    const { locations, setLocations } = useContext(GlobalContext);
     const [location, setLocation] = useState<string>('anon');
     const [bio, setBio] = useState<string>('');
 
@@ -15,11 +32,7 @@ export default function EditProfileSubPage() {
             setLocation(user.location);
             setBio(user.bio);
         }
-
-        axios.get('/data/site-data').then((response) => {
-            setLocations(response.data.regions);
-        });
-    }, [setLocations, user]);
+    }, [user]);
 
     async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
         ev.preventDefault();

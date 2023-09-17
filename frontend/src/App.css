@@ -2,7 +2,17 @@ html,
 body,
 :root,
 #root {
-    @apply dark:bg-neutral;
+    min-height: 100vh;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+html {
+    overflow-y: scroll;
+}
+.main {
+    height: auto;
+    /* box-sizing: border-box; */
 }
 
 input[type='text'],
@@ -88,9 +98,7 @@ textarea {
     font-size: 1.25rem;
     padding-top: 15px;
 }
-html {
-    overflow-y: scroll;
-}
+
 ::selection {
     color: hsl(var(--ac));
     background: hsl(var(--a));
