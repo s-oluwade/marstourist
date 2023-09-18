@@ -3,7 +3,6 @@ import {CookieOptions, RequestHandler} from 'express';
 import createHttpError from 'http-errors';
 import UserModel from '../models/user';
 import env from '../util/validateEnv';
-// import fetch from 'node-fetch';
 const {S3Client, PutObjectCommand} = require('@aws-sdk/client-s3');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');

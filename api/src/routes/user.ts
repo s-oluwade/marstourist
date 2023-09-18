@@ -6,7 +6,7 @@ import env from '../util/validateEnv';
 const multerGoogleStorage = new MulterGoogleCloudStorage({
     bucket: env.GCLOUD_STORAGE_BUCKET,
     projectId: env.GOOGLE_CLOUD_PROJECT,
-    destination: 'tempImageFiles/',
+    destination: 'userImageFiles/',
     filename: (req: any, file: any, cb: any) => {
         cb(null, `${Date.now()}_${file.originalname}`)
     }

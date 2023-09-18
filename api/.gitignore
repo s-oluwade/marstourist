@@ -152,3 +152,4 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 app.yaml
+package-lock.json

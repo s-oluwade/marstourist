@@ -47,13 +47,12 @@ app.use(session({
     }),
 }));
 
+app.use("/", express.static("public"));
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/sales", cartRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/uploads", express.static(__dirname + "/../uploads"));
-app.use("/images", express.static(__dirname + "/img"));
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));

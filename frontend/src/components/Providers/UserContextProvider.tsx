@@ -31,7 +31,7 @@ interface IContext {
 export const UserContext = createContext<IContext>(initialState);
 
 const rootURL = import.meta.env.VITE_API_ROOT_URL;
-const defaultPhotoURL = `${rootURL}/uploads/73-730154_open-default-profile-picture-png.png`;
+const defaultPhotoURL = `${rootURL}/avatar_placeholder.png`;
 
 export default function UserContextProvider({ children }: { children: React.ReactNode }) {
     const [userPosts, setUserPosts] = useState<ReceivedPost[]>([]);

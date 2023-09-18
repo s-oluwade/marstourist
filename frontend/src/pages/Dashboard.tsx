@@ -4,7 +4,7 @@ import axios from 'axios';
 import { User } from '../models/user';
 
 const rootURL = import.meta.env.VITE_API_ROOT_URL;
-const defaultPhotoURL = `${rootURL}/uploads/73-730154_open-default-profile-picture-png.png`;
+const defaultPhotoURL = `${rootURL}/avatar_placeholder.png`;
 
 const Dashboard = () => {
 
