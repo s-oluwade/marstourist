@@ -3,6 +3,7 @@ import {CookieOptions, RequestHandler} from 'express';
 import createHttpError from 'http-errors';
 import UserModel from '../models/user';
 import env from '../util/validateEnv';
+// import fetch from 'node-fetch';
 const {S3Client, PutObjectCommand} = require('@aws-sdk/client-s3');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
@@ -107,12 +108,12 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
       email: email.trim(),
       password: passwordHashed,
       credit: 10000,
-      userType: userType.trim()
+      userType: userType.trim(),
     });
 
     let newUser = await UserModel.findById(createdUser._id).select('-password').exec();
     if (!newUser) throw createHttpError(417, 'Unexpected Error, Investigation required');
-    
+
     jwt.sign(
       {
         email: newUser.email,
@@ -142,38 +143,30 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
     jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: {id: any}) => {
       if (err) throw createHttpError(401, 'Could not verify token.');
 
-      let picturePath = null;
       if (typeof req.files === 'object') {
         let values = Object.values(req.files);
         const user = await UserModel.findById(decodedUser.id);
         if (!user) throw new Error();
 
-        const {path, originalname} = values[0];
-        const sharp = require('sharp');
-        const thumbnailLocalPath = './uploads/' + Date.now() + '.jpg';
-        let thumbnailPath = '';
+        const {path, originalname, linkUrl} = values[0];
+        const image = await fetch(linkUrl);
+        const imageBuffer = await image.arrayBuffer();
 
-        sharp(path)
+        const sharp = require('sharp');
+        sharp(imageBuffer)
           .resize(150)
           .jpeg()
-          .toFile(thumbnailLocalPath, async (err: Error, info: any) => {
-            if (err) throw err;
+          .toBuffer()
+          .then(async (data: any) => {
 
-            //   upload thumbnail to gcloud
-            thumbnailPath = await uploadToGCloudStorage(thumbnailLocalPath, originalname);
+            const thumbnailPath = await uploadBufferToGCloudStorage(data, 'thumbnail', originalname);
             user.set('thumbnail', thumbnailPath);
+            user.set('photo', linkUrl);
+            res.json(await user.save());
+          })
+          .catch((error: any) => {
+            res.json(null)
           });
-
-        //   upload photo to gcloud
-        picturePath = await uploadToGCloudStorage(path, originalname);
-
-        if (picturePath) {
-          user.set('photo', picturePath);
-
-          res.json(await user.save());
-        } else {
-          res.json(null);
-        }
       }
     });
   }
@@ -181,51 +174,33 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
 
 // Need to login first using the command below
 // gcloud auth application-default login
-async function uploadToGCloudStorage(path: any, originalFileName: any) {
+async function uploadBufferToGCloudStorage(buffer: any, identifier: string, originalFileName: string) {
   // Creates a client
   const storage = new Storage();
   const bucket = env.GCLOUD_STORAGE_BUCKET;
 
+  // rename file
   const parts = originalFileName.split('.');
   const ext = parts[parts.length - 1];
-  const newFileName = Date.now() + '.' + ext;
+  const newFileName = identifier + Date.now() + '.' + ext;
 
-  const generationMatchPrecondition = 0;
+  // const options = {
+  //   destination: newFileName,
+  //   preconditionOpts: {ifGenerationMatch: 0},
+  // };
 
-  const options = {
-    destination: newFileName,
-    preconditionOpts: {ifGenerationMatch: generationMatchPrecondition},
-  };
+  const file = storage.bucket(bucket).file(newFileName);
 
-  const res = await storage.bucket(bucket).upload(path, options);
-
-  return `https://storage.cloud.google.com/${bucket}/${newFileName}`;
-}
-
-async function uploadToS3(path: any, originalFileName: any, mimetype: any) {
-  const bucket = 'martiantourist-bucket';
-  const client = new S3Client({
-    region: 'us-east-2',
-    credentials: {
-      accessKeyId: env.S3_ACCESS_KEY,
-      secretAccessKey: env.S3_SECRET_ACCESS_KEY,
-    },
+  file.save(buffer, function(err: any) {
+    if (!err) {
+      // File written successfully.
+      console.log('File uploaded successfully');
+    }
   });
 
-  const parts = originalFileName.split('.');
-  const ext = parts[parts.length - 1];
-  const newFilename = Date.now() + '.' + ext;
-  await client.send(
-    new PutObjectCommand({
-      Bucket: bucket,
-      Body: fs.readFileSync(path),
-      Key: newFilename,
-      ContentType: mimetype,
-      ACL: 'public-read',
-    })
-  );
+  // const res = await storage.bucket(bucket).upload(path, options);
 
-  return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
+  return `https://storage.cloud.google.com/${env.GCLOUD_STORAGE_BUCKET}/${newFileName}`;
 }
 
 interface UserCredBody {
@@ -376,7 +351,7 @@ export const updateFriendship: RequestHandler<unknown, unknown, {friendId: strin
       if (!friendDoc) throw new Error();
 
       // remove friendship if already existing
-      if (userDoc.friends.filter(f => f.userId === friendDoc._id)) {
+      if (userDoc.friends.filter((f) => f.userId === friendDoc._id)) {
         userDoc.friends = userDoc.friends.filter((friend) => friend.toString() !== friendDoc._id.toString());
         friendDoc.friends = friendDoc.friends.filter((friend) => friend.toString() !== userDoc._id.toString());
       }

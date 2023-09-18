@@ -1,9 +1,22 @@
 import express from "express";
 import * as UserController from "../controllers/user";
-import { requiresAdminAuth } from "../middleware/adminAuth";
-const multer = require("multer");
-const photosMiddleware = multer({dest:'uploads'});
+import MulterGoogleCloudStorage from 'multer-cloud-storage';
+import env from '../util/validateEnv';
 
+const multerGoogleStorage = new MulterGoogleCloudStorage({
+    bucket: env.GCLOUD_STORAGE_BUCKET,
+    projectId: env.GOOGLE_CLOUD_PROJECT,
+    destination: 'tempImageFiles/',
+    filename: (req: any, file: any, cb: any) => {
+        cb(null, `${Date.now()}_${file.originalname}`)
+    }
+})
+
+const multer = require("multer");
+const photosMiddleware = multer({
+    storage: multerGoogleStorage
+});
+// {dest:'uploads'}
 const router = express.Router();
 
 router.get("/", UserController.getUser);
@@ -27,6 +40,6 @@ router.post("/delete-account", UserController.deleteAccount);
 // not in use
 // router.post("/uploadPhotoByLink", UserController.uploadPhotoByLink);
 
-router.put("/uploadPhoto", photosMiddleware.array('photos', 100), UserController.uploadPhoto);
+router.put("/uploadPhoto", photosMiddleware.any(), UserController.uploadPhoto);
 
 export default router;

@@ -85,6 +85,8 @@ const ShoppingCartPage = () => {
                         headers: { 'Content-Type': 'application/json' },
                     })
                     .then((response) => {
+                        console.log('Cart purchase')
+                        console.log(response.data);
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
                         setCart(null);
                         setUser(response.data[0]);

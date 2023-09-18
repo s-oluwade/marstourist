@@ -167,6 +167,7 @@ export const buyProducts: RequestHandler<unknown, unknown, [CartItem[], number],
                     credit: cost > userDoc.credit ? 0 : userDoc.credit - cost,
                 });
                 userDoc = await userDoc.save();
+                res.json(userDoc);
 
             } catch (error) {
                 res.json(null);
