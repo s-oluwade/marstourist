@@ -18,6 +18,9 @@ export default {
                 'montserrat': 'Montserrat',
                 'rubik': 'Rubik',
             },
+            screens: {
+                'tall': { 'raw': '(min-height: 200px)' }
+            }
         },
     },
     plugins: [

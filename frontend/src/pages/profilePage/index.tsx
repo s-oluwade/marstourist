@@ -19,11 +19,11 @@ const ProfilePage = () => {
 
     return (
         <div className='mx-auto w-full max-w-5xl'>
-            <div className='flex w-full max-w-screen-xl justify-center'>
+            <div className='flex w-full max-w-screen-xl justify-center mb-6'>
                 <div className='hidden md:basis-1/3 md:block'>
                     <div
                         id='side-nav'
-                        className='fixed z-20 m-4 min-h-[50rem] min-w-[14rem] rounded-md bg-base-100 shadow-md dark:bg-gray-800'
+                        className='z-20 m-4 min-h-[50rem] min-w-[14rem] rounded-md bg-base-100 shadow-md dark:bg-gray-800'
                     >
                         <div
                             id='user_detail'
