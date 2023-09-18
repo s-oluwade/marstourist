@@ -67,7 +67,7 @@ const Layout = () => {
                         </div>
                         <div className='drawer-side z-20'>
                             <label htmlFor='my-drawer-3' className='drawer-overlay'></label>
-                            <ul className='menu h-full bg-base-200 p-4 dark:bg-neutral'>
+                            <ul className='menu h-full bg-base-200 p-4 dark:bg-neutral w-72'>
                                 {/* Sidebar content here */}
                                 <div className='flex h-full w-full flex-col items-center justify-center gap-6'>
                                     {user && (
