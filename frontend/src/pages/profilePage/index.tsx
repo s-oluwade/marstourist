@@ -31,17 +31,17 @@ const ProfilePage = () => {
                         >
                             <div
                                 id='user_brief'
-                                className='flex w-full flex-col items-center justify-center gap-2'
+                                className='flex w-full flex-col items-center justify-center gap-6'
                             >
                                 <Link to={user.photo} className='avatar'>
                                     <div className='w-32 rounded-full ring ring-accent ring-offset-4 ring-offset-base-100'>
                                         <img src={userAvatar} />
                                     </div>
                                 </Link>
-                                <div className='flex flex-col items-center gap-1 text-sm font-light'>
-                                    <div>{user?.fullname}</div>
-                                    {user?.username && <div className=''>{user?.username}</div>}
-                                    <div className=''>{user?.email}</div>
+                                <div className='flex flex-col gap-1 text-sm font-light w-full px-4'>
+                                    <div>Name: <span className='font-medium'>{user?.fullname}</span></div>
+                                    <div>Username: <span className='font-medium'>{user?.username}</span></div>
+                                    <div>Email: <span className='font-medium'>{user?.email}</span></div>
                                 </div>
                             </div>
                             <ul className='w-full py-6 text-sm'>
