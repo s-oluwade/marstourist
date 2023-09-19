@@ -257,8 +257,8 @@ const Header = () => {
                         <div className='flex items-center'>
                             <ul className='flex flex-nowrap gap-6 px-4 text-sm'>
                                 <li>
-                                    <Link className='uppercase' to='/forum'>
-                                        Forum
+                                    <Link className='uppercase' to='/activities'>
+                                        Activities
                                     </Link>
                                 </li>
                                 <li>
@@ -297,7 +297,7 @@ const Header = () => {
                     {!user && !admin && (
                         <ul className='flex flex-nowrap gap-6 px-4 text-sm'>
                             <li>
-                                <Link to='/forum'>Forum</Link>
+                                <Link to='/activities'>Activities</Link>
                             </li>
                             <li>
                                 <Link to='/login'>Sign in</Link>
