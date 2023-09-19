@@ -60,8 +60,8 @@ const PostPage = () => {
 
     async function deletePost() {
         const { data } = await axios.delete<Activity>('/activities/posts/' + idOfPostToDelete);
-        const updated = userPosts.filter((each) => each.id !== data.id);
-        const updatedAll = activities.filter((each) => each.id !== data.id);
+        const updated = userPosts.filter((each) => each._id !== data._id);
+        const updatedAll = activities.filter((each) => each._id !== data._id);
         setUserPosts(updated);
         setActivities(updatedAll);
     }
@@ -117,8 +117,8 @@ const PostPage = () => {
         const { data } = await axios.put<Activity | null>('/activities/posts/like/' + id);
 
         if (data) {
-            const postsUpdate = userPosts.filter((each) => each.id !== data.id);
-            const allPostsUpdate = activities.filter((each) => each.id !== data.id);
+            const postsUpdate = userPosts.filter((each) => each._id !== data._id);
+            const allPostsUpdate = activities.filter((each) => each._id !== data._id);
             postsUpdate.push(data);
             allPostsUpdate.push(data);
             postsUpdate.sort((a, b) =>
@@ -257,7 +257,7 @@ const PostPage = () => {
                                     <a
                                         onClick={() => {
                                             showDeleteModal();
-                                            setIdOfPostToDelete(post.id);
+                                            setIdOfPostToDelete(post._id);
                                         }}
                                         className='cursor-pointer'
                                     >
@@ -293,7 +293,7 @@ const PostPage = () => {
                                         onClick={(e) => {
                                             e.currentTarget.classList.toggle('text-neutral');
                                             e.currentTarget.classList.toggle('text-accent');
-                                            likePost(post.id);
+                                            likePost(post._id);
                                         }}
                                         className={`flex cursor-pointer select-none items-center gap-1 transition ${
                                             isLikedPost(post)
