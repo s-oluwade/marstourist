@@ -73,19 +73,39 @@ const Layout = () => {
                             {/* Sidebar content here */}
                             <div className='flex h-full w-full flex-col items-center justify-center gap-6'>
                                 {user && (
-                                    <Link to={'/profile'}>
-                                        <div className='avatar'>
-                                            <div className='w-32 rounded-full ring ring-accent ring-offset-2 ring-offset-base-100'>
-                                                <img src={userAvatar} />
+                                    <>
+                                        <Link to={'/profile'}>
+                                            <div className='avatar'>
+                                                <div className='w-32 rounded-full ring ring-accent ring-offset-2 ring-offset-base-100'>
+                                                    <img src={userAvatar} />
+                                                </div>
                                             </div>
+                                            <div className='mt-2 text-center dark:text-neutral-content'>
+                                                {user.fullname}
+                                            </div>
+                                        </Link>
+                                        <div className='w-full border-b dark:border-b-gray-700'>
+                                            <h6 className='mb-1 bg-gray-300 text-sm font-medium dark:bg-gray-700'>
+                                                Location
+                                            </h6>
+                                            <p className='capitalize'>{user?.location || '_'}</p>
                                         </div>
-                                        <div className='mt-2 text-center dark:text-neutral-content'>
-                                            {user.fullname}
+                                        <div className='w-full border-b dark:border-b-gray-700'>
+                                            <h6 className='mb-1 bg-gray-300 text-sm font-medium dark:bg-gray-700'>
+                                                Bio
+                                            </h6>
+                                            <p className='capitalize'>{user?.bio || '_'}</p>
                                         </div>
-                                    </Link>
+                                        <div className='w-full border-b dark:border-b-gray-700'>
+                                            <p>
+                                                Credits:{' '}
+                                                {user.credit ? (user.credit / 100).toFixed(2) : 0.0}
+                                            </p>
+                                        </div>
+                                    </>
                                 )}
                                 {window.location.pathname.includes('/profile') && (
-                                    <div id='user_menu' className='flex flex-col gap-2 pt-4 '>
+                                    <div id='user_menu' className='flex w-full flex-col gap-2 pt-4'>
                                         <h3 className='pl-6 text-xs dark:text-neutral-content'>
                                             MENU
                                         </h3>
