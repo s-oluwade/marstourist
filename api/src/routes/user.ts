@@ -16,7 +16,7 @@ const multer = require("multer");
 const photosMiddleware = multer({
     storage: multerGoogleStorage
 });
-// {dest:'uploads'}
+
 const router = express.Router();
 
 router.get("/", UserController.getUser);

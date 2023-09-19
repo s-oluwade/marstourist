@@ -10,7 +10,7 @@ const userSchema = new Schema({
   photo: {type: String},
   thumbnail: {type: String},
   bio: {type: String},
-  location: {type: String},
+  location: {type: String, default: 'mars'},
   friends: {
     type: [
       {
@@ -23,5 +23,9 @@ const userSchema = new Schema({
 });
 
 type User = InferSchemaType<typeof userSchema>;
+
+export interface UserWithId extends User {
+  id: string;
+}
 
 export default model<User>('User', userSchema);

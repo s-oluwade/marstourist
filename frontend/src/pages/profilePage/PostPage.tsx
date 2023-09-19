@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
 import { GlobalContext } from '../../components/Providers/GlobalContextProvider';
 import { UserContext } from '../../components/Providers/UserContextProvider';
-import { ReceivedPost } from '../../models/post';
 import EmojiPicker from '../../components/EmojiPicker';
+import { Activity } from '../../models/activity';
 
 const locations = [
     'olympus mons',
@@ -26,20 +26,20 @@ const locations = [
 ];
 
 const PostPage = () => {
-    const [content, setContent] = useState('');
-    const [topic, setTopic] = useState('mars');
-    const [idOfPostToDelete, setIdOfPostToDelete] = useState('');
-    const { allPosts, setAllPosts } = useContext(GlobalContext);
+    const { activities, setActivities } = useContext(GlobalContext);
     const { userPosts, setUserPosts, userAvatar } = useContext(UserContext);
     const { user } = useContext(AuthContext);
+    const [content, setContent] = useState('');
+    const [topic, setTopic] = useState(user?.location ?? 'mars');
+    const [idOfPostToDelete, setIdOfPostToDelete] = useState('');
 
     useEffect(() => {
         axios
-            .get<ReceivedPost[]>('/posts/' + user?._id)
+            .get<Activity[]>('/activities/posts/' + user?._id)
             .then((response) => {
-                const data = response.data;
-
+                let data = response.data;
                 if (data) {
+                    data = data.filter((activity) => activity.activityType === 'post');
                     data.sort((a, b) =>
                         new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
                             ? 1
@@ -59,25 +59,25 @@ const PostPage = () => {
     }, []);
 
     async function deletePost() {
-        const { data } = await axios.delete<ReceivedPost>('/posts/' + idOfPostToDelete);
-        const updated = userPosts.filter((each) => each._id !== data._id);
-        const updatedAll = allPosts.filter((each) => each._id !== data._id);
+        const { data } = await axios.delete<Activity>('/activities/posts/' + idOfPostToDelete);
+        const updated = userPosts.filter((each) => each.id !== data.id);
+        const updatedAll = activities.filter((each) => each.id !== data.id);
         setUserPosts(updated);
-        setAllPosts(updatedAll);
+        setActivities(updatedAll);
     }
 
     async function submitPost(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        const { data } = await axios.post<ReceivedPost>(
-            '/posts',
+        const { data } = await axios.post<Activity>(
+            '/activities/posts',
             { content, topic },
             { headers: { 'Content-Type': 'application/json' } }
         );
         userPosts.unshift(data);
-        allPosts.unshift(data);
+        activities.unshift(data);
         setContent('');
         setUserPosts([...userPosts]);
-        setAllPosts([...allPosts]);
+        setActivities([...activities]);
     }
 
     function getWhen(createdAt: string) {
@@ -91,7 +91,7 @@ const PostPage = () => {
                 difference = difference * 60;
                 if (Math.trunc(difference) < 1) {
                     difference = difference * 60;
-                    return 'Just now';
+                    return 'just now';
                 } else if (Math.trunc(difference) === 1) {
                     return Math.trunc(difference) + ' minute ago';
                 }
@@ -114,11 +114,11 @@ const PostPage = () => {
     }
 
     async function likePost(id: string) {
-        const { data } = await axios.put<ReceivedPost | null>('/posts/like/' + id);
+        const { data } = await axios.put<Activity | null>('/activities/posts/like/' + id);
 
         if (data) {
-            const postsUpdate = userPosts.filter((each) => each._id !== data._id);
-            const allPostsUpdate = allPosts.filter((each) => each._id !== data._id);
+            const postsUpdate = userPosts.filter((each) => each.id !== data.id);
+            const allPostsUpdate = activities.filter((each) => each.id !== data.id);
             postsUpdate.push(data);
             allPostsUpdate.push(data);
             postsUpdate.sort((a, b) =>
@@ -136,11 +136,11 @@ const PostPage = () => {
                     : 0
             );
             setUserPosts([...postsUpdate]);
-            setAllPosts([...allPostsUpdate]);
+            setActivities([...allPostsUpdate]);
         }
     }
 
-    function isLikedPost(post: ReceivedPost) {
+    function isLikedPost(post: Activity) {
         if (user) {
             return post.likes.map((like) => like.userId).includes(user._id);
         }
@@ -157,10 +157,7 @@ const PostPage = () => {
 
     return (
         <div className='flex'>
-            <div
-                id='user_post'
-                className='grow items-center p-6 shadow-sm'
-            >
+            <div id='user_post' className='grow items-center p-6 shadow-sm'>
                 <div id='user_poster' className='rounded-lg'>
                     <form>
                         <div className='w-full rounded-md border border-gray-200 bg-gray-50 shadow-lg dark:border-gray-600 dark:bg-gray-700'>
@@ -179,7 +176,7 @@ const PostPage = () => {
                                     placeholder='Write a comment...'
                                 />
                             </div>
-                            <div className='flex items-center justify-between border-t px-3 py-1 dark:border-gray-600'>
+                            <div className='flex items-center justify-between border-t px-3 py-1 bg-gray-300 dark:bg-gray-700 dark:border-gray-600'>
                                 <div className='flex items-center space-x-4 pl-0 sm:pl-2'>
                                     <select
                                         id='user_location_edit'
@@ -223,7 +220,7 @@ const PostPage = () => {
                                             <img src={userAvatar} />
                                         </div>
                                     </div>
-                                    <div className='text-sm font-light capitalize text-neutral dark:text-neutral-content'>
+                                    <div className='text-sm font-semibold capitalize text-neutral dark:text-neutral-content'>
                                         {user?.fullname}
                                     </div>
                                 </div>
@@ -260,7 +257,7 @@ const PostPage = () => {
                                     <a
                                         onClick={() => {
                                             showDeleteModal();
-                                            setIdOfPostToDelete(post._id);
+                                            setIdOfPostToDelete(post.id);
                                         }}
                                         className='cursor-pointer'
                                     >
@@ -296,7 +293,7 @@ const PostPage = () => {
                                         onClick={(e) => {
                                             e.currentTarget.classList.toggle('text-neutral');
                                             e.currentTarget.classList.toggle('text-accent');
-                                            likePost(post._id);
+                                            likePost(post.id);
                                         }}
                                         className={`flex cursor-pointer select-none items-center gap-1 transition ${
                                             isLikedPost(post)

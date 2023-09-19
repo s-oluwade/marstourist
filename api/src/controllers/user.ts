@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 import {CookieOptions, RequestHandler} from 'express';
 import createHttpError from 'http-errors';
-import UserModel from '../models/user';
+import UserModel, { UserWithId } from '../models/user';
 import env from '../util/validateEnv';
+import {createNewLocationActivity, createNewUserActivity} from './activities';
 const {S3Client, PutObjectCommand} = require('@aws-sdk/client-s3');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
@@ -110,8 +111,10 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
       userType: userType.trim(),
     });
 
-    let newUser = await UserModel.findById(createdUser._id).select('-password').exec();
+    let newUser = await UserModel.findById(createdUser._id).select('-password +_id').exec();
     if (!newUser) throw createHttpError(417, 'Unexpected Error, Investigation required');
+
+    createNewUserActivity(newUser as UserWithId);
 
     jwt.sign(
       {
@@ -157,14 +160,13 @@ export const uploadPhoto: RequestHandler<unknown, unknown, unknown, unknown> = a
           .jpeg()
           .toBuffer()
           .then(async (data: any) => {
-
             const thumbnailPath = await uploadBufferToGCloudStorage(data, 'thumbnail', originalname);
             user.set('thumbnail', thumbnailPath);
             user.set('photo', linkUrl);
             res.json(await user.save());
           })
           .catch((error: any) => {
-            res.json(null)
+            res.json(null);
           });
       }
     });
@@ -190,7 +192,7 @@ async function uploadBufferToGCloudStorage(buffer: any, identifier: string, orig
 
   const file = storage.bucket(bucket).file(newFileName);
 
-  file.save(buffer, function(err: any) {
+  file.save(buffer, function (err: any) {
     if (!err) {
       // File written successfully.
       console.log('File uploaded successfully');
@@ -292,11 +294,15 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
 
       const userDoc = await UserModel.findById(decodedUser.id);
       if (!userDoc) throw new Error();
-
+      
       userDoc.set({
         bio,
         location,
       });
+
+      if (location && location !== 'anon') {
+        createNewLocationActivity(userDoc as UserWithId, location);
+      }
 
       res.status(200).json(await userDoc.save());
     });

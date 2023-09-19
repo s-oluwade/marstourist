@@ -160,8 +160,8 @@ const Header = () => {
                         <>
                             <ul className='flex flex-nowrap gap-6 px-4 text-sm'>
                                 <li>
-                                    <Link className='uppercase' to='/forum'>
-                                        Forum
+                                    <Link className='uppercase' to='/activities'>
+                                        Activities
                                     </Link>
                                 </li>
                                 <li>

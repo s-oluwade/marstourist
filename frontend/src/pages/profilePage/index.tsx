@@ -23,7 +23,7 @@ const ProfilePage = () => {
                 <div className='hidden md:basis-1/3 md:block'>
                     <div
                         id='side-nav'
-                        className='z-20 m-4 min-h-[50rem] min-w-[14rem] rounded-md bg-base-100 shadow-md dark:bg-gray-800'
+                        className='z-20 m-4 min-h-[50rem] min-w-[14rem] rounded-md bg-base-300 shadow-md dark:bg-gray-800'
                     >
                         <div
                             id='user_detail'
@@ -46,15 +46,15 @@ const ProfilePage = () => {
                             </div>
                             <ul className='w-full py-6 text-sm'>
                                 <li className='w-full border-b px-4 py-2 dark:border-b-gray-700'>
-                                    <h6 className='mb-1 text-sm font-medium'>Location</h6>
+                                    <h6 className='mb-1 text-sm font-medium bg-gray-300 dark:bg-gray-700'>Location</h6>
                                     <p className='capitalize'>{user?.location || '_'}</p>
                                 </li>
                                 <li className='w-full border-b px-4 py-2 dark:border-b-gray-700'>
-                                    <h6 className='mb-1 text-sm font-medium'>Bio</h6>
+                                    <h6 className='mb-1 text-sm font-medium bg-gray-300 dark:bg-gray-700'>Bio</h6>
                                     <p>{user?.bio || '_'}</p>
                                 </li>
                                 <li className='w-full px-4 pt-6 dark:border-b-gray-700'>
-                                    <p className=''>
+                                    <p>
                                         Credits:{' '}
                                         {user.credit ? (user.credit / 100).toFixed(2) : 0.0}
                                     </p>

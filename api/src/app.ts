@@ -4,7 +4,7 @@ import userRoutes from "./routes/user";
 import adminRoutes from "./routes/admin";
 import cartRoutes from "./routes/cart";
 import productRoutes from "./routes/products";
-import postRoutes from "./routes/posts";
+import activityRoutes from "./routes/activities";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import session from "express-session";
@@ -52,7 +52,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/sales", cartRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/posts", postRoutes);
+app.use("/api/activities", activityRoutes);
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));

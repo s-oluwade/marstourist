@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
-import { ReceivedPost } from '../../models/post';
 import { ProductWithId } from '../../models/product';
+import { Activity } from '../../models/activity';
 
 const initialState = {
     showConfirmationModal: false,
@@ -17,6 +17,10 @@ const initialState = {
     },
     allPosts: [],
     setAllPosts: () => {
+        return [];
+    },
+    activities: [],
+    setActivities: () => {
         return [];
     },
     postNames: null,
@@ -40,8 +44,8 @@ interface IContext {
     setModalResponse: React.Dispatch<React.SetStateAction<string>>;
     showProductQuickview: boolean;
     setShowProductQuickview: React.Dispatch<React.SetStateAction<boolean>>;
-    allPosts: ReceivedPost[];
-    setAllPosts: React.Dispatch<React.SetStateAction<ReceivedPost[]>>;
+    activities: Activity[];
+    setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
     postNames: { [key: string]: string } | null;
     setPostNames: React.Dispatch<React.SetStateAction<{ [key: string]: string } | null>>;
     postAvatars: { [key: string]: string } | null;
@@ -56,7 +60,7 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     // eslint-disable-next-line prefer-const
     const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
     const [modalResponse, setModalResponse] = useState<string>('');
-    const [allPosts, setAllPosts] = useState<ReceivedPost[]>([]);
+    const [activities, setActivities] = useState<Activity[]>([]);
     const [postNames, setPostNames] = useState<{ [key: string]: string } | null>(null);
     const [postAvatars, setPostAvatars] = useState<{ [key: string]: string } | null>(null);
     const [products, setProducts] = useState<ProductWithId[]>([]);
@@ -65,14 +69,14 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     return (
         <GlobalContext.Provider
             value={{
+                activities,
+                setActivities,
                 products,
                 setProducts,
                 postNames,
                 setPostNames,
                 postAvatars,
                 setPostAvatars,
-                allPosts,
-                setAllPosts,
                 showProductQuickview,
                 setShowProductQuickview,
                 modalResponse,
