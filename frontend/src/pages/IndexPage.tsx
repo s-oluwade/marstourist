@@ -82,18 +82,17 @@ const IndexPage = () => {
                 </h1>
                 <div className='my-14'>
                     <p className='text-lg text-neutral-content sm:px-16 lg:px-48'>
-                        Here on the red planet you will find others visitors hailing from different
-                        parts of the Galaxy.
+                        Welcome to the Red Planet!
                     </p>
                     <p className='text-lg text-neutral-content sm:px-16 lg:px-48'>
-                        Get yourself prepared for the harsh Martian climate by grabbing items from
-                        our store, or visit the forum to connect with other Martians.
+                        Find landers hailing from all around the galaxy or Get yourself prepared for the harsh Mars climate by grabbing items from
+                        our store.
                     </p>
                     {!user && (
                         <>
                             <br />
                             <p className='text-lg text-neutral-content sm:px-16 lg:px-48'>
-                                Sign in to access full site!
+                                Sign in to access full features!
                             </p>
                         </>
                     )}
@@ -190,7 +189,7 @@ const IndexPage = () => {
                                 to={'/forum'}
                                 className='btn-glass btn text-base font-medium normal-case dark:btn-neutral'
                             >
-                                See Martian Forum
+                                Lander Activities
                                 <svg
                                     xmlns='http://www.w3.org/2000/svg'
                                     fill='none'

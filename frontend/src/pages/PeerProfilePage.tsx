@@ -1,5 +1,5 @@
 
-const PeerPage = () => {
+const PeerProfilePage = () => {
     
     // function updateFriendship(friend: string) {
     //     axios
@@ -23,4 +23,4 @@ const PeerPage = () => {
     );
 }
  
-export default PeerPage;
+export default PeerProfilePage;
