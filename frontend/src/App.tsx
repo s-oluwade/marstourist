@@ -19,6 +19,7 @@ import RegisterPage from './pages/authPages/RegisterPage';
 import LoginPage from './pages/authPages/LoginPage';
 import ShoppingCartPage from './pages/ShoppingCartPage';
 import ActivitiesPage from './pages/ActivitiesPage';
+import PeerProfilePage from './pages/PeerProfilePage';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -46,11 +47,12 @@ function App() {
                             <Route path='cart' element={<ShoppingCartPage />} />
                             <Route path='activities' element={<ActivitiesPage />} />
                             <Route path='profile' element={<ProfilePage />} />
-                            <Route path='profile/home' element={<ProfilePage />} />
-                            <Route path='profile/friends' element={<ProfilePage />} />
-                            <Route path='profile/purchase' element={<ProfilePage />} />
-                            <Route path='profile/settings' element={<ProfilePage />} />
-                            <Route path='profile/settings/:subpage?' element={<ProfilePage />} />
+                            <Route path='profile/:username' element={<ProfilePage />} />
+                            <Route path='profile/:username/friends' element={<ProfilePage />} />
+                            <Route path='profile/:username/purchase' element={<ProfilePage />} />
+                            <Route path='profile/:username/settings' element={<ProfilePage />} />
+                            <Route path='profile/:username/settings/:subpage?' element={<ProfilePage />} />
+                            <Route path='peer/:username' element={<PeerProfilePage />} />
                             <Route path='dashboard' element={<Dashboard />} />
                             <Route path='store' element={<StorePage />} />
                             <Route path='payment' element={<PaymentPage />} />

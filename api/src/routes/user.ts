@@ -19,7 +19,11 @@ const photosMiddleware = multer({
 
 const router = express.Router();
 
+router.get("/users", UserController.getUsers);
+
 router.get("/", UserController.getUser);
+
+router.get("/peer/:username", UserController.getPeer);
 
 router.post("/register", UserController.register);
 

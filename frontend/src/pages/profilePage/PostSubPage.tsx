@@ -5,6 +5,7 @@ import { GlobalContext } from '../../components/Providers/GlobalContextProvider'
 import { UserContext } from '../../components/Providers/UserContextProvider';
 import EmojiPicker from '../../components/EmojiPicker';
 import { Activity } from '../../models/activity';
+import { getWhen } from '../../utils/helpers';
 
 const locations = [
     'olympus mons',
@@ -78,32 +79,6 @@ const PostPage = () => {
         setContent('');
         setUserPosts([...userPosts]);
         setActivities([...activities]);
-    }
-
-    function getWhen(createdAt: string) {
-        const then = new Date(createdAt);
-        const now = new Date();
-        let difference = Math.abs(now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24);
-
-        if (Math.trunc(difference) < 1) {
-            difference = difference * 24;
-            if (Math.trunc(difference) < 1) {
-                difference = difference * 60;
-                if (Math.trunc(difference) < 1) {
-                    difference = difference * 60;
-                    return 'just now';
-                } else if (Math.trunc(difference) === 1) {
-                    return Math.trunc(difference) + ' minute ago';
-                }
-                return Math.trunc(difference) + ' minutes ago';
-            } else if (Math.trunc(difference) === 1) {
-                return Math.trunc(difference) + ' hour ago';
-            }
-            return Math.trunc(difference) + ' hours ago';
-        } else if (Math.trunc(difference) === 1) {
-            return Math.trunc(difference) + ' day ago';
-        }
-        return Math.trunc(difference) + ' days ago';
     }
 
     function showDeleteModal() {
@@ -252,7 +227,7 @@ const PostPage = () => {
                                     )}
 
                                     <div className='text-xs text-base-content/70 dark:text-neutral-content/70'>
-                                        {getWhen(post.createdAt)}
+                                        {getWhen(post)}
                                     </div>
                                     <a
                                         onClick={() => {

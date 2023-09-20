@@ -9,5 +9,5 @@ export interface User {
     thumbnail: string;
     bio: string;
     location: string;
-    friends: string[];
+    friends: { userId: string; name: string }[];
 }

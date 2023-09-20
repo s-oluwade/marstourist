@@ -1,38 +1,19 @@
-import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../components/Providers/GlobalContextProvider';
 import axios from 'axios';
-import { getWhen } from '../utils/helpers';
-import { Activity } from '../models/activity';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../components/Providers/AuthContextProvider';
+import { GlobalContext } from '../components/Providers/GlobalContextProvider';
 import { UserContext } from '../components/Providers/UserContextProvider';
+import { Activity } from '../models/activity';
+import { getWhen } from '../utils/helpers';
 
 const rootURL = import.meta.env.VITE_API_ROOT_URL;
 const defaultPhotoURL = `${rootURL}/avatar_placeholder.png`;
 
 const ActivitiesPage = () => {
-    const { activities, setActivities } = useContext(GlobalContext);
     const { user } = useContext(AuthContext);
     const { userPosts, setUserPosts } = useContext(UserContext);
-
-    useEffect(() => {
-        axios
-            .get<Activity[]>('/activities')
-            .then((response) => {
-                const data = response.data;
-                data.sort((a, b) =>
-                    new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
-                        ? 1
-                        : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
-                        ? -1
-                        : 0
-                );
-                setActivities(data);
-            })
-            .catch((error) => {
-                setActivities([]);
-                console.log(error);
-            });
-    }, [setActivities]);
+    const { activities, setActivities, allUsers } = useContext(GlobalContext);
 
     async function likePost(id: string) {
         const { data } = await axios.put<Activity | null>('/activities/posts/like/' + id);
@@ -103,8 +84,21 @@ const ActivitiesPage = () => {
                                                 {getWhen(activity)}
                                             </time>
                                             <div className='text-sm font-light text-gray-900 dark:text-gray-300'>
-                                                <span className='font-medium capitalize text-accent'>
-                                                    {activity.owner}
+                                                <span className='font-medium capitalize text-accent hover:link'>
+                                                    <Link
+                                                        to={`/${
+                                                            user?._id === activity.userId
+                                                                ? 'profile'
+                                                                : 'peer'
+                                                        }/${
+                                                            allUsers.filter(
+                                                                (each) =>
+                                                                    each._id === activity.userId
+                                                            )[0].username
+                                                        }`}
+                                                    >
+                                                        {activity.owner}
+                                                    </Link>
                                                 </span>{' '}
                                                 commented about{' '}
                                                 <a
@@ -202,8 +196,20 @@ const ActivitiesPage = () => {
                                             {getWhen(activity)}
                                         </time>
                                         <div className='text-sm font-light text-gray-900 dark:text-gray-300'>
-                                            <span className='font-medium capitalize text-accent'>
-                                                {activity.owner}
+                                            <span className='font-medium capitalize text-accent hover:link'>
+                                                <Link
+                                                    to={`/${
+                                                        user?._id === activity.userId
+                                                            ? 'profile'
+                                                            : 'peer'
+                                                    }/${
+                                                        allUsers.filter(
+                                                            (each) => each._id === activity.userId
+                                                        )[0].username
+                                                    }`}
+                                                >
+                                                    {activity.owner}
+                                                </Link>
                                             </span>{' '}
                                             just landed on{' '}
                                             <span className='uppercase text-gray-900 dark:text-info'>
@@ -251,8 +257,21 @@ const ActivitiesPage = () => {
                                                 {getWhen(activity)}
                                             </time>
                                             <div className='text-sm font-light text-gray-900 dark:text-gray-300'>
-                                                <span className='font-medium capitalize text-accent'>
-                                                    {activity.owner}
+                                                <span className='font-medium capitalize text-accent hover:link'>
+                                                    <Link
+                                                        to={`/${
+                                                            user?._id === activity.userId
+                                                                ? 'profile'
+                                                                : 'peer'
+                                                        }/${
+                                                            allUsers.filter(
+                                                                (each) =>
+                                                                    each._id === activity.userId
+                                                            )[0].username
+                                                        }`}
+                                                    >
+                                                        {activity.owner}
+                                                    </Link>
                                                 </span>{' '}
                                                 relocated to{' '}
                                                 <span className='capitalize text-info'>

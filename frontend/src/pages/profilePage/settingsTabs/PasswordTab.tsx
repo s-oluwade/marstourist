@@ -22,6 +22,7 @@ export default function GeneralSubPage() {
 
     return (
         <form onSubmit={handleSubmit} className='flex flex-col gap-4' action=''>
+            <div className='text-error text-sm'>Currently unfunctional</div>
             <div>
                 <label htmlFor='password' className='mb-2 block text-sm font-medium'>
                     Password

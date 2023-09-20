@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react';
 import { ProductWithId } from '../../models/product';
 import { Activity } from '../../models/activity';
+import { User } from '../../models/user';
 
 const initialState = {
     showConfirmationModal: false,
@@ -15,8 +16,8 @@ const initialState = {
     setShowProductQuickview: () => {
         return false;
     },
-    allPosts: [],
-    setAllPosts: () => {
+    allUsers: [],
+    setAllUsers: () => {
         return [];
     },
     activities: [],
@@ -44,6 +45,8 @@ interface IContext {
     setModalResponse: React.Dispatch<React.SetStateAction<string>>;
     showProductQuickview: boolean;
     setShowProductQuickview: React.Dispatch<React.SetStateAction<boolean>>;
+    allUsers: User[];
+    setAllUsers: React.Dispatch<React.SetStateAction<User[]>>;
     activities: Activity[];
     setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
     postNames: { [key: string]: string } | null;
@@ -60,6 +63,7 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     // eslint-disable-next-line prefer-const
     const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
     const [modalResponse, setModalResponse] = useState<string>('');
+    const [allUsers, setAllUsers] = useState<User[]>([]);
     const [activities, setActivities] = useState<Activity[]>([]);
     const [postNames, setPostNames] = useState<{ [key: string]: string } | null>(null);
     const [postAvatars, setPostAvatars] = useState<{ [key: string]: string } | null>(null);
@@ -69,6 +73,8 @@ export default function GlobalContextProvider({ children }: { children: React.Re
     return (
         <GlobalContext.Provider
             value={{
+                allUsers,
+                setAllUsers,
                 activities,
                 setActivities,
                 products,

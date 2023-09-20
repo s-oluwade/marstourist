@@ -207,7 +207,7 @@ const Header = () => {
                                     className='dropdown-content menu menu-sm z-[1] mt-3 w-36 gap-1 rounded bg-base-100 p-2 shadow'
                                 >
                                     <li>
-                                        <Link to='/profile' className='flex justify-between'>
+                                        <Link to={`/profile/${user.username}`} className='flex justify-between'>
                                             Profile
                                             <svg
                                                 xmlns='http://www.w3.org/2000/svg'

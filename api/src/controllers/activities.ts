@@ -25,8 +25,6 @@ export const getActivities: RequestHandler = async (req, res, next) => {
     }
   }
 
-
-
   res.json(activities);
 };
 

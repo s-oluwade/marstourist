@@ -1,18 +1,51 @@
+import axios from 'axios';
 import { useContext, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import WebFont from 'webfontloader';
+import FooterSignature from './components/FooterSignature';
 import Header from './components/Header';
 import { AuthContext } from './components/Providers/AuthContextProvider';
+import { GlobalContext } from './components/Providers/GlobalContextProvider';
 import { UserContext } from './components/Providers/UserContextProvider';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import FooterSignature from './components/FooterSignature';
+import { Activity } from './models/activity';
+import { User } from './models/user';
 
 const Layout = () => {
     const { user, loadingUser, admin, loadingAdmin } = useContext(AuthContext);
     const { userAvatar, cart } = useContext(UserContext);
     const currentPath = window.location.pathname;
     const navigate = useNavigate();
+
+    const { setActivities, setAllUsers } = useContext(GlobalContext);
+
+    useEffect(() => {
+        axios
+            .get<Activity[]>('/activities')
+            .then((response) => {
+                const data = response.data;
+                data.sort((a, b) =>
+                    new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
+                        ? 1
+                        : new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+                        ? -1
+                        : 0
+                );
+                setActivities(data);
+            })
+            .catch((error) => {
+                setActivities([]);
+                console.error(error);
+            });
+        axios
+            .get<User[]>('/user/users')
+            .then((response) => {
+                setAllUsers(response.data ?? []);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [setActivities, setAllUsers]);
 
     useEffect(() => {
         WebFont.load({
@@ -104,7 +137,7 @@ const Layout = () => {
                                         </div>
                                     </>
                                 )}
-                                {window.location.pathname.includes('/profile') && (
+                                {user && window.location.pathname.includes('/profile') && (
                                     <div id='user_menu' className='flex w-full flex-col gap-2 pt-4'>
                                         <h3 className='pl-6 text-xs dark:text-neutral-content'>
                                             MENU
@@ -119,7 +152,7 @@ const Layout = () => {
                                                             ? 'active'
                                                             : ''
                                                     } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
-                                                    to={'/profile/home'}
+                                                    to={'/profile/' + user.username}
                                                 >
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
@@ -145,7 +178,7 @@ const Layout = () => {
                                                             ? 'active'
                                                             : ''
                                                     } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
-                                                    to={'/profile/friends'}
+                                                    to={`/profile/${user.username}/friends`}
                                                 >
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
@@ -171,7 +204,7 @@ const Layout = () => {
                                                             ? 'active'
                                                             : ''
                                                     } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
-                                                    to={'/profile/purchase'}
+                                                    to={`/profile/${user.username}/purchase`}
                                                 >
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
@@ -197,7 +230,7 @@ const Layout = () => {
                                                             ? 'active'
                                                             : ''
                                                     } hover:text-neutral dark:text-neutral-content/60 dark:focus:text-neutral-content dark:active:text-neutral-content/60`}
-                                                    to={'/profile/settings'}
+                                                    to={`/profile/${user.username}/settings`}
                                                 >
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
@@ -229,7 +262,7 @@ const Layout = () => {
                                     {user && (
                                         <>
                                             <li>
-                                                <Link to={'/profile'}>
+                                                <Link to={`/profile/${user.username}`}>
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
                                                         fill='none'

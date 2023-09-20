@@ -11,7 +11,7 @@ const FriendsPage = () => {
             Friends ({user?.friends ? user.friends.length : 0})
         </h3>
         <div>
-            {user?.friends?.map((friend) => <Friend key={friend} id={friend} />)}
+            {user?.friends?.map((friend) => <Friend key={friend} user={user} />)}
         </div>
     </div>
     );

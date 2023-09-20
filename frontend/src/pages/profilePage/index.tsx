@@ -2,15 +2,17 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Friend from '../../components/Friend';
 import { AuthContext } from '../../components/Providers/AuthContextProvider';
-import PurchaseSubPage from './PurchasePage';
-import SettingsSubPage from './SettingsPage';
-import PostPage from './PostPage';
-import FriendsPage from './FriendsPage';
+import PurchaseSubPage from './PurchaseSubPage';
+import SettingsSubPage from './SettingsSubPage';
+import PostSubPage from './PostSubPage';
+import FriendsSubPage from './FriendsSubPage';
 import { UserContext } from '../../components/Providers/UserContextProvider';
+import { GlobalContext } from '../../components/Providers/GlobalContextProvider';
 
 const ProfilePage = () => {
     const { user } = useContext(AuthContext);
     const { userAvatar } = useContext(UserContext);
+    const { allUsers } = useContext(GlobalContext);
     const currentPath = window.location.pathname;
 
     if (!user) {
@@ -19,8 +21,8 @@ const ProfilePage = () => {
 
     return (
         <div className='mx-auto w-full max-w-5xl'>
-            <div className='flex w-full max-w-screen-xl justify-center mb-6'>
-                <div className='hidden md:basis-1/3 md:block'>
+            <div className='mb-6 flex w-full max-w-screen-xl justify-center'>
+                <div className='hidden md:block md:basis-1/3'>
                     <div
                         id='side-nav'
                         className='z-20 m-4 min-h-[50rem] min-w-[14rem] rounded-md bg-base-300 shadow-md dark:bg-gray-800'
@@ -38,19 +40,30 @@ const ProfilePage = () => {
                                         <img src={userAvatar} />
                                     </div>
                                 </Link>
-                                <div className='flex flex-col gap-1 text-sm font-light w-full px-4'>
-                                    <div>Name: <span className='font-medium'>{user?.fullname}</span></div>
-                                    <div>Username: <span className='font-medium'>{user?.username}</span></div>
-                                    <div>Email: <span className='font-medium'>{user?.email}</span></div>
+                                <div className='flex w-full flex-col gap-1 px-4 text-sm font-light'>
+                                    <div>
+                                        Name: <span className='font-medium'>{user?.fullname}</span>
+                                    </div>
+                                    <div>
+                                        Username:{' '}
+                                        <span className='font-medium'>{user?.username}</span>
+                                    </div>
+                                    <div>
+                                        Email: <span className='font-medium'>{user?.email}</span>
+                                    </div>
                                 </div>
                             </div>
                             <ul className='w-full py-6 text-sm'>
                                 <li className='w-full border-b px-4 py-2 dark:border-b-gray-700'>
-                                    <h6 className='mb-1 text-sm font-medium bg-gray-300 dark:bg-gray-700'>Location</h6>
+                                    <h6 className='mb-1 bg-gray-300 text-sm font-medium dark:bg-gray-700'>
+                                        Location
+                                    </h6>
                                     <p className='capitalize'>{user?.location || '_'}</p>
                                 </li>
                                 <li className='w-full border-b px-4 py-2 dark:border-b-gray-700'>
-                                    <h6 className='mb-1 text-sm font-medium bg-gray-300 dark:bg-gray-700'>Bio</h6>
+                                    <h6 className='mb-1 bg-gray-300 text-sm font-medium dark:bg-gray-700'>
+                                        Bio
+                                    </h6>
                                     <p>{user?.bio || '_'}</p>
                                 </li>
                                 <li className='w-full px-4 pt-6 dark:border-b-gray-700'>
@@ -73,7 +86,7 @@ const ProfilePage = () => {
                                                 ? 'active'
                                                 : ''
                                         }
-                                        to={'/profile/home'}
+                                        to={'/profile/' + user.username}
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -99,7 +112,7 @@ const ProfilePage = () => {
                                                 ? 'active hover:bg-neutral'
                                                 : ''
                                         }
-                                        to={'/profile/friends'}
+                                        to={`/profile/${user.username}/friends`}
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -121,7 +134,7 @@ const ProfilePage = () => {
                                 <li>
                                     <Link
                                         className={currentPath.includes('purchase') ? 'active' : ''}
-                                        to={'/profile/purchase'}
+                                        to={`/profile/${user.username}/purchase`}
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -147,7 +160,7 @@ const ProfilePage = () => {
                                                 ? 'active hover:bg-neutral'
                                                 : ''
                                         }
-                                        to={'/profile/settings'}
+                                        to={`/profile/${user.username}/settings`}
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -175,10 +188,15 @@ const ProfilePage = () => {
                         </div>
                         <div className='m-4 rounded lg:hidden'>
                             <h3 className='rounded-t-md p-4 text-sm font-normal'>
-                                Friends ({user.friends ? user.friends.length : 0})
+                                Friends ({user.friends?.length ?? 0})
                             </h3>
                             <div className='p-1'>
-                                {user.friends?.map((friend) => <Friend key={friend} id={friend} />)}
+                                {user.friends?.map((friend) => (
+                                    <Friend
+                                        key={friend.userId}
+                                        peer={allUsers.filter((each) => each._id === friend.userId)[0]}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -189,9 +207,9 @@ const ProfilePage = () => {
                     ) : currentPath.includes('purchase') ? (
                         <PurchaseSubPage />
                     ) : currentPath.includes('friends') ? (
-                        <FriendsPage />
+                        <FriendsSubPage />
                     ) : (
-                        <PostPage />
+                        <PostSubPage />
                     )}
                 </div>
             </div>

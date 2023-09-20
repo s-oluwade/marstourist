@@ -3,9 +3,12 @@ import AccountSubPage from './settingsTabs/AccountTab';
 import EditProfileSubPage from './settingsTabs/EditProfileTab';
 import GeneralSubPage from './settingsTabs/GeneralTab';
 import PasswordSubPage from './settingsTabs/PasswordTab';
+import { useContext } from 'react';
+import { AuthContext } from '../../components/Providers/AuthContextProvider';
 
 export default function SettingsSubPage() {
     const { subpage } = useParams();
+    const { user } = useContext(AuthContext);
 
     let subtitle = 'Edit Profile';
     switch (subpage) {
@@ -25,6 +28,10 @@ export default function SettingsSubPage() {
             break;
     }
 
+    if (!user) {
+        return
+    }
+
     return (
         <div className='py-8'>
             <div className='flex items-center justify-center pt-8'>
@@ -39,7 +46,7 @@ export default function SettingsSubPage() {
                         className={`tab-bordered tab ${
                             subpage === 'general' ? 'tab-active' : ''
                         }`}
-                        to='/profile/settings/general'
+                        to={`/profile/${user.username}/settings/general`}
                     >
                         General
                     </Link>
@@ -47,7 +54,7 @@ export default function SettingsSubPage() {
                         className={`tab-bordered tab ${
                             ['edit-profile', undefined].includes(subpage) ? 'tab-active' : ''
                         }`}
-                        to='/profile/settings/edit-profile'
+                        to={`/profile/${user.username}/settings/edit-profile`}
                     >
                         Edit Profile
                     </Link>
@@ -55,7 +62,7 @@ export default function SettingsSubPage() {
                         className={`tab-bordered tab ${
                             subpage === 'password' ? 'tab-active' : ''
                         }`}
-                        to='/profile/settings/password'
+                        to={`/profile/${user.username}/settings/password`}
                     >
                         Password
                     </Link>
@@ -63,7 +70,7 @@ export default function SettingsSubPage() {
                         className={`tab-bordered tab ${
                             subpage === 'account' ? 'tab-active' : ''
                         }`}
-                        to='/profile/settings/account'
+                        to={`/profile/${user.username}/settings/account`}
                     >
                         Account
                     </Link>

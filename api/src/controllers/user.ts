@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import {CookieOptions, RequestHandler} from 'express';
 import createHttpError from 'http-errors';
-import UserModel, { UserWithId } from '../models/user';
+import UserModel, {UserWithId} from '../models/user';
 import env from '../util/validateEnv';
 import {createNewLocationActivity, createNewUserActivity} from './activities';
 const {S3Client, PutObjectCommand} = require('@aws-sdk/client-s3');
@@ -14,8 +14,27 @@ const cookieSourceConfig: CookieOptions = env.CLIENT_DOMAIN.includes('http://loc
   ? {sameSite: 'lax'}
   : {sameSite: 'none', secure: true};
 
+export const getPeer: RequestHandler = async (req, res, next) => {
+  const {token} = req.cookies;
+  const username = req.params.username;
+
+  if (username) {
+    const user = await UserModel.findOne({username}).exec();
+
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json(null);
+    }
+  } else {
+    console.log('Username param missing');
+    res.status(400).json(null);
+  }
+};
+
 export const getUser: RequestHandler = async (req, res, next) => {
   const {token} = req.cookies;
+
   if (token) {
     jwt.verify(token, env.JWT_SECRET, {}, async (err: any, decodedUser: {id: any}) => {
       if (err) throw err;
@@ -26,8 +45,14 @@ export const getUser: RequestHandler = async (req, res, next) => {
     });
   } else {
     console.log('User token not found');
-    res.json(null);
+    res.status(400).json(null);
   }
+};
+
+export const getUsers: RequestHandler = async (req, res, next) => {
+  const users = await UserModel.find({});
+
+  res.status(200).json(users);
 };
 
 interface LoginBody {
@@ -111,7 +136,7 @@ export const register: RequestHandler<unknown, unknown, RegisterBody, unknown> =
       userType: userType.trim(),
     });
 
-    let newUser = await UserModel.findById(createdUser._id).select('-password +_id').exec();
+    let newUser = await UserModel.findById(createdUser._id).select('+_id').exec();
     if (!newUser) throw createHttpError(417, 'Unexpected Error, Investigation required');
 
     createNewUserActivity(newUser as UserWithId);
@@ -294,7 +319,7 @@ export const updateUserProfile: RequestHandler<unknown, unknown, UserDataBody, u
 
       const userDoc = await UserModel.findById(decodedUser.id);
       if (!userDoc) throw new Error();
-      
+
       userDoc.set({
         bio,
         location,
@@ -355,16 +380,24 @@ export const updateFriendship: RequestHandler<unknown, unknown, {friendId: strin
       const friendDoc = await UserModel.findById(req.body.friendId);
       if (!friendDoc) throw new Error();
 
+      console.log('Before');
+      
+      console.log((userDoc.friends.filter((f) => f.userId?.toString() === friendDoc._id.toString())).length)
+
       // remove friendship if already existing
-      if (userDoc.friends.filter((f) => f.userId === friendDoc._id)) {
-        userDoc.friends = userDoc.friends.filter((friend) => friend.toString() !== friendDoc._id.toString());
-        friendDoc.friends = friendDoc.friends.filter((friend) => friend.toString() !== userDoc._id.toString());
+      if ((userDoc.friends.filter((f) => f.userId?.toString() === friendDoc._id.toString())).length !== 0) {
+        console.log('removing...')
+        userDoc.friends = userDoc.friends.filter((friend) => friend.userId?.toString() !== friendDoc._id.toString());
+        friendDoc.friends = friendDoc.friends.filter((friend) => friend.userId?.toString() !== userDoc._id.toString());
       }
       // else add friendship
       else {
+        console.log('adding...')
         userDoc.friends.push({userId: friendDoc._id, name: friendDoc.fullname});
         friendDoc.friends.push({userId: userDoc._id, name: userDoc.fullname});
       }
+
+      console.log('After');
 
       await friendDoc.save();
 
