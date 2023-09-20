@@ -87,7 +87,7 @@ const ShoppingCartPage = () => {
                     .then((response) => {
                         setPurchaseAlerts([successToast(purchaseAlerts.length)]);
                         setCart(null);
-                        setUser(response.data[0]);
+                        setUser(response.data);
                     })
                     .catch((error) => {
                         console.log(error);
