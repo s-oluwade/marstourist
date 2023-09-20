@@ -69,14 +69,14 @@ const IndexPage = () => {
                 onClose={handlePreviewModal}
             />
             <div className='mx-auto -mt-16 flex h-full max-w-screen-xl flex-col justify-center px-4 py-24 text-center md:py-56'>
-                <div className='mb-12 w-full text-center'>
+                {/* <div className='mb-12 w-full text-center'>
                     <button
                         className='btn-info btn-wide btn'
                         onClick={() => setShowPreviewModal(true)}
                     >
                         Click here to Quick Preview
                     </button>
-                </div>
+                </div> */}
                 <h1 className='text-4xl font-bold leading-none tracking-tight text-accent md:text-5xl lg:text-6xl'>
                     Welcome to Mars!
                 </h1>
