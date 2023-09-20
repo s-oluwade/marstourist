@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet } from 'react-router';
 import { Link } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import FooterSignature from './components/FooterSignature';
@@ -15,7 +15,6 @@ const Layout = () => {
     const { user, loadingUser, admin, loadingAdmin } = useContext(AuthContext);
     const { userAvatar, cart } = useContext(UserContext);
     const currentPath = window.location.pathname;
-    const navigate = useNavigate();
 
     const { setActivities, setAllUsers } = useContext(GlobalContext);
 
@@ -62,17 +61,7 @@ const Layout = () => {
             },
         });
 
-        // if not signed in, redirect to home page
-        if (
-            !currentPath.includes('login') &&
-            !currentPath.includes('register') &&
-            !currentPath.includes('activities')
-        ) {
-            if (!loadingUser && !user && !loadingAdmin && !admin) {
-                navigate('/');
-            }
-        }
-    }, [admin, currentPath, loadingAdmin, loadingUser, navigate, user]);
+    }, []);
 
     async function userLogout() {
         try {

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Admin } from '../../models/admin';
 import { User } from '../../models/user';
-import { createContext } from 'react';
 
 const initialState = {
     user: null,
@@ -42,6 +42,9 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [admin, setAdmin] = useState<Admin | null>(null);
     const [loadingAdmin, setLoadingAdmin] = useState<boolean>(true);
 
+    const navigate = useNavigate();
+    const currentPath = window.location.pathname;
+
     useEffect(() => {
         // If no logged in state
         if (!user && !admin) {
@@ -61,6 +64,18 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
             setLoadingAdmin(false);
         }
     }, [user, admin]);
+
+    // if not signed in, redirect to home page
+    // if (
+    //     !currentPath.includes('login') &&
+    //     !currentPath.includes('register') &&
+    //     !currentPath.includes('activities')
+    // ) {
+    //     if (!loadingUser && !user && !loadingAdmin && !admin) {
+    //         console.log('redirecting')
+    //         navigate('/');
+    //     }
+    // }
 
     return (
         <AuthContext.Provider

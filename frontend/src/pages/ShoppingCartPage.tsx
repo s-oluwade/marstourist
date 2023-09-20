@@ -146,10 +146,10 @@ const ShoppingCartPage = () => {
                         d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
                     />
                 </svg>
-                <span>Purchase complete. Check your Inbox.</span>
+                <span>Processed! You can find the item in your profile under "Purchased Items".</span>
                 <button
                     onClick={() => setPurchaseAlerts([])}
-                    className='btn-outline btn-xs btn-circle btn'
+                    className='btn-neutral btn-circle btn'
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -189,7 +189,7 @@ const ShoppingCartPage = () => {
                 <span>Insufficient funds.</span>
                 <button
                     onClick={() => setPurchaseAlerts([])}
-                    className='btn-outline btn-xs btn-circle btn'
+                    className='btn-neutral btn-circle btn'
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -253,7 +253,7 @@ const ShoppingCartPage = () => {
                                             <div className='flex w-2/4 md:w-2/5'>
                                                 <div className='hidden w-20 md:block'>
                                                     <img
-                                                        className='h-24'
+                                                        className='h-24 object-cover'
                                                         src={item.images[0]}
                                                         alt=''
                                                     />
@@ -367,7 +367,7 @@ const ShoppingCartPage = () => {
                                 credit
                             </button>
                         </div>
-                        <div className='toast-start toast'>
+                        <div className='toast-start toast mb-10'>
                             {purchaseAlerts.map((purchaseAlert) => purchaseAlert)}
                         </div>
                         <ConfirmationModal
