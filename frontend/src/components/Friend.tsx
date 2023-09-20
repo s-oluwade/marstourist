@@ -1,7 +1,6 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { User } from '../models/user';
-import AddFriend from './AddFriend';
-import { useContext } from 'react';
 import { AuthContext } from './Providers/AuthContextProvider';
 
 interface FriendsProps {
