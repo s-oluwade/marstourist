@@ -66,16 +66,17 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     }, [user, admin]);
 
     // if not signed in, redirect to home page
-    // if (
-    //     !currentPath.includes('login') &&
-    //     !currentPath.includes('register') &&
-    //     !currentPath.includes('activities')
-    // ) {
-    //     if (!loadingUser && !user && !loadingAdmin && !admin) {
-    //         console.log('redirecting')
-    //         navigate('/');
-    //     }
-    // }
+    if (
+        !currentPath.includes('/') ||
+        !currentPath.includes('login') ||
+        !currentPath.includes('register') ||
+        !currentPath.includes('activities')
+    ) {
+        if (!loadingUser && !user && !loadingAdmin && !admin) {
+            console.log('redirecting')
+            navigate('/');
+        }
+    }
 
     return (
         <AuthContext.Provider
