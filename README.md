@@ -1,4 +1,4 @@
-### A simple social app with a store and admin dashboard - 
+## A simple social app with a store and admin dashboard - 
 
 [marstourist.co](https://www.marstourist.co)
 
