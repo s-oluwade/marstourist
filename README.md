@@ -1,4 +1,4 @@
-## A simple social app with a store and admin dashboard - 
+## A social media app for mars adventurers which features a store - 
 
 [marstourist.co](https://www.marstourist.co)
 
