@@ -2,5 +2,7 @@
 
 [marstourist.co](https://www.marstourist.co)
 
-- This was my first react project finished up to deployment. The website implements account registration, social media features, and a demo store. You can add friends, make posts, and like other users' posts. There is even a separate admin section with a dashboard for managing user profiles and requests such as account deletion. 
+- The website implements account registration, social media features, and a store demo. You can add friends, make posts, and like user posts.
+- Events such as account creation, location change and posts are recorded on the activity page timeline.
+- There is a separate admin section with a dashboard for managing user requests. 
 - It was developed using React, Tailwind CSS, DaisyUI, MongoDB, Express.js, and TypeScript.
