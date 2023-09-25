@@ -1,4 +1,4 @@
-## A social media app for mars adventurers which features a store 
+## A social media app for mars adventurers, featuring a store 
 
 [marstourist.co](https://www.marstourist.co)
 
