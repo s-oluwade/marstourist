@@ -380,10 +380,6 @@ export const updateFriendship: RequestHandler<unknown, unknown, {friendId: strin
       const friendDoc = await UserModel.findById(req.body.friendId);
       if (!friendDoc) throw new Error();
 
-      console.log('Before');
-      
-      console.log((userDoc.friends.filter((f) => f.userId?.toString() === friendDoc._id.toString())).length)
-
       // remove friendship if already existing
       if ((userDoc.friends.filter((f) => f.userId?.toString() === friendDoc._id.toString())).length !== 0) {
         console.log('removing...')
@@ -392,12 +388,9 @@ export const updateFriendship: RequestHandler<unknown, unknown, {friendId: strin
       }
       // else add friendship
       else {
-        console.log('adding...')
         userDoc.friends.push({userId: friendDoc._id, name: friendDoc.fullname});
         friendDoc.friends.push({userId: userDoc._id, name: userDoc.fullname});
       }
-
-      console.log('After');
 
       await friendDoc.save();
 
